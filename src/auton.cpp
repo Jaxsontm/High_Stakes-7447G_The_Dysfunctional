@@ -1,3 +1,4 @@
+#include "device.h"
 #include "auton.h"
 #include "main.h"
 #include "pros/rtos.hpp"
