@@ -11,6 +11,7 @@ static and inline are used to be bale to set everything wihtin .h files.
 #include "pros/imu.hpp"
 #include "pros/misc.hpp"
 #include "pros/motor_group.hpp"
+#include "pros/motors.hpp"
 
 // controller
 static pros::Controller controller(pros::E_CONTROLLER_MASTER);
