@@ -1,8 +1,6 @@
 #include "device.h"
 #include "auton.h"
-#include "main.h"
 #include "pros/rtos.hpp"
-#include "../include/robodash/api.h"
 
 
 
@@ -145,19 +143,8 @@ chassis.waitUntilDone();
     chassis.waitUntilDone();
 
     intakePiston.set_value(false);
-
+    
     chassis.moveToPoint(0, -5, 1000, {.forwards = false});
  */
 
-rd::Selector selector({
-   {"Right AWP", &RightAWP},
-   {"Left AWP", &LeftAWP},
-   {"Blue SUPER SCORE", &BlueRight},
-   {"Red SUPER SCORE", &Score},
-   {"Forwards", &Forwards}, 
-   {"Skills", &Skills},
-   
-   
-}); 
 
-rd::Console console;
