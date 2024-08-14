@@ -18,14 +18,14 @@ static pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // Green Ziptie
 
-static pros::MotorGroup DTLeft({-1, 2, -3}, pros::MotorGearset::blue);
+static pros::MotorGroup DTLeft({-15, 16, -17}, pros::MotorGearset::blue);
 static pros::MotorGroup DTRight({12, -13, 14}, pros::MotorGearset::blue);
 
 static pros::Imu inertial_sensor(4);
 //
 
 // Blue Ziptie
-static pros::Motor Intake(11, pros::MotorGearset::blue);
+static pros::Motor Intake(-11, pros::MotorGearset::blue);
 
 static pros::Distance DistanceIntake(5);
 
@@ -43,6 +43,8 @@ static pros::Distance DistanceMogo(18);
 
 static pros::adi::Pneumatics Mogo('A', false);
 //
+
+//Utilites White ziptie
 
 // drivetrain settings
 static lemlib::Drivetrain drivetrain(
