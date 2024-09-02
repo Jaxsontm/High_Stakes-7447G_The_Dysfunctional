@@ -5,9 +5,11 @@ enum State {
     LOAD = 0, 
     IDLE = 1, 
     SCORE = 2, 
-    UNLOAD = 3, 
-    BRAKE = 4
-    };
+    WALL = 3,
+    UNLOAD = 4, 
+    BRAKE = 5,
+    PRIME = 6,
+};
 
 enum StateMogo {
     LOCATE = 0, 
