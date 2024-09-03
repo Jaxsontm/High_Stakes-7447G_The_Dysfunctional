@@ -108,7 +108,7 @@ inline void state_machine() {
         break;
       }
       case State::PRIME: {
-        pros::delay(100);
+        pros::delay(50);
          
         current_state = UNLOAD;
         
@@ -269,6 +269,8 @@ void opcontrol() {
             request_new_state(State::SCORE);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             request_new_state(State::UNLOAD);
+        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+            request_new_state(State::PRIME);
         } else {
             request_new_state(State::BRAKE);
         }
