@@ -5,6 +5,7 @@ static and inline are used to be bale to set everything wihtin .h files.
  */
 
 #include "lemlib/chassis/chassis.hpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
 #include "pros/imu.hpp"
@@ -32,6 +33,7 @@ static pros::adi::Pneumatics intakePiston('B', false);
 //
 
 // Yellow Ziptie
+static pros::Motor Lift(1, pros::MotorGearset::green);
 
 static pros::Distance WallDistance(10);
 //
