@@ -89,7 +89,7 @@ inline void state_machine() {
         break;
       }
       case State::WALL: {
-        if(DistanceIntake.get() < 49) current_state = State::PRIME;
+        if(DistanceIntake.get() < 31) current_state = State::PRIME;
 
         else current_state = State::SCORE;
 
@@ -270,7 +270,7 @@ void opcontrol() {
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             request_new_state(State::UNLOAD);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
-            request_new_state(State::PRIME);
+            request_new_state(State::WALL);
         } else {
             request_new_state(State::BRAKE);
         }

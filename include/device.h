@@ -29,7 +29,7 @@ static pros::Motor Intake(-11, pros::MotorGearset::blue);
 
 static pros::Distance DistanceIntake(5);
 
-static pros::adi::Pneumatics intakePiston('B', false);
+static pros::adi::Pneumatics intakePiston('B', true);
 //
 
 // Yellow Ziptie
