@@ -88,13 +88,6 @@ inline void state_machine() {
         //break out of the switch statement
         break;
       }
-      case State::WALL: {
-        if(DistanceIntake.get() < 31) current_state = State::PRIME;
-
-        else current_state = State::SCORE;
-
-        break;
-      }
       case State::UNLOAD: {
         //reverse Intake for Driver Control
         Intake.move(127);
@@ -105,13 +98,6 @@ inline void state_machine() {
         //keep the Intake from spinning
         Intake.brake();
         //break out of the switch statement
-        break;
-      }
-      case State::PRIME: {
-        pros::delay(50);
-         
-        current_state = UNLOAD;
-        
         break;
       }
     }
