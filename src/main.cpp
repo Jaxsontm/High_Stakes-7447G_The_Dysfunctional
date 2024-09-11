@@ -150,7 +150,31 @@ inline void state_machine_mogo() {
   }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// function which constantly updates the state of the mechanism
+inline void state_machine_lift() {
+  // run forever
+  while (true) {
+    // switch statement to select what to do based on the current state
+    switch (current_state3) {
+      // the Intake should be spinning
+      case StateMogo::LOWER: {
+        
+        break;
+      }
+      case StateLift::ALLIANCE:{
+        
+        break;
+      }
+      case StateLift::WALL:{
+        
+        break;
+      }
+    }
+    // delay to save resources
+    pros::delay(10);
+  }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -255,8 +279,6 @@ void opcontrol() {
             request_new_state(State::SCORE);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             request_new_state(State::UNLOAD);
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
-            request_new_state(State::WALL);
         } else {
             request_new_state(State::BRAKE);
         }

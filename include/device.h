@@ -12,6 +12,7 @@ static and inline are used to be bale to set everything wihtin .h files.
 #include "pros/misc.hpp"
 #include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
+#include "pros/rotation.hpp"
 
 // controller
 static pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -29,11 +30,13 @@ static pros::Motor Intake(-11, pros::MotorGearset::blue);
 
 static pros::Distance DistanceIntake(5);
 
-static pros::adi::Pneumatics intakePiston('B', true);
+static pros::adi::Pneumatics intakePiston('B', false);
 //
 
 // Yellow Ziptie
 static pros::Motor Lift(-1, pros::MotorGearset::green);
+
+static pros::adi::Encoder Liftsensor('H','G');
 
 static pros::Distance WallDistance(10);
 //
