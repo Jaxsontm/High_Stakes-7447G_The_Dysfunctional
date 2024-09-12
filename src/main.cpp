@@ -46,10 +46,10 @@ void screen() {
 
 
 // the current state of the mechanism
-static State current_state = BRAKE;
+State current_state = BRAKE;
 
 // function used to request a new state
- inline void request_new_state(State requested_state) {
+void request_new_state(State requested_state) {
   if (requested_state < current_state) {
     current_state = requested_state;
   }
@@ -59,7 +59,7 @@ static State current_state = BRAKE;
 }
 
 // function which constantly updates the state of the mechanism
-inline void state_machine() {
+void state_machine() {
   // run forever
   while (true) {
     // switch statement to select what to do based on the current state
@@ -109,10 +109,10 @@ inline void state_machine() {
 
 
 // the current state of the mechanism
-static StateMogo current_state2 = RELEASE;
+StateMogo current_state2 = RELEASE;
 
 // function used to request a new state
-inline void request_new_state_mogo(StateMogo requested_state_mogo) {
+void request_new_state_mogo(StateMogo requested_state_mogo) {
   if (requested_state_mogo < current_state2) {
     current_state2 = requested_state_mogo;
   }
@@ -122,7 +122,7 @@ inline void request_new_state_mogo(StateMogo requested_state_mogo) {
 }
 
 // function which constantly updates the state of the mechanism
-inline void state_machine_mogo() {
+void state_machine_mogo() {
   // run forever
   while (true) {
     // switch statement to select what to do based on the current state
@@ -151,12 +151,14 @@ inline void state_machine_mogo() {
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+static int x = 0;
+std::int32_t (x*6);
 
 // the current state of the mechanism
-static StateLift current_state3 = LOWER;
+StateLift current_state3 = LOWER;
 
 // function used to request a new state
-inline void request_new_state_lift(StateLift requested_state_lift) {
+void request_new_state_lift(StateLift requested_state_lift) {
   if (requested_state_lift < current_state3) {
     current_state3 = requested_state_lift;
   }
@@ -166,14 +168,16 @@ inline void request_new_state_lift(StateLift requested_state_lift) {
 }
 
 // function which constantly updates the state of the mechanism
-inline void state_machine_lift() {
+void state_machine_lift() {
   // run forever
   while (true) {
     // switch statement to select what to do based on the current state
     switch (current_state3) {
       // the Intake should be spinning
       case StateLift::LOWER: {
-        if (Liftsensor.get_value())
+        if (Liftsensor.get_value()) {
+
+        }
 
         break;
       }
