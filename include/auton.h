@@ -1,4 +1,5 @@
 #pragma once
+#include "auton.h"
 #include "robodash/views/selector.hpp"
 
 enum State { 
@@ -6,8 +7,8 @@ enum State {
     IDLE = 1, 
     SCORE = 2, 
     UNLOAD = 3, 
-    BRAKE = 4
-    };
+    BRAKE = 4,
+};
 
 enum StateMogo {
     LOCATE = 0, 
@@ -15,10 +16,18 @@ enum StateMogo {
     RELEASE = 2
 };
 
+enum StateLift {
+    LOWER = 0,
+    ALLIANCE = 1,
+    WALL = 2,
+};
+
 void state_machine();
 void state_machine_mogo();
+void state_machine_lift();
 void request_new_state(State new_state);
 void request_new_state_mogo(StateMogo new_state);
+void request_new_state_lift(StateLift new_state);
 
 void RightAWP();
 void LeftAWP();
