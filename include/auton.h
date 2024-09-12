@@ -1,5 +1,4 @@
 #pragma once
-#include "auton.h"
 #include "robodash/views/selector.hpp"
 
 enum State { 
