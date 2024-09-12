@@ -150,6 +150,21 @@ inline void state_machine_mogo() {
   }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// the current state of the mechanism
+static StateLift current_state3 = LOWER;
+
+// function used to request a new state
+inline void request_new_state_lift(StateLift requested_state_lift) {
+  if (requested_state_lift < current_state3) {
+    current_state3 = requested_state_lift;
+  }
+  if (requested_state_lift > current_state3) {
+    current_state3 = requested_state_lift;
+  }
+}
+
 // function which constantly updates the state of the mechanism
 inline void state_machine_lift() {
   // run forever
@@ -157,8 +172,9 @@ inline void state_machine_lift() {
     // switch statement to select what to do based on the current state
     switch (current_state3) {
       // the Intake should be spinning
-      case StateMogo::LOWER: {
-        
+      case StateLift::LOWER: {
+        if (Liftsensor.get_value())
+
         break;
       }
       case StateLift::ALLIANCE:{
@@ -188,6 +204,7 @@ void initialize() {
     console.println("Initializing robot...");
     pros::Task state_machine_task(state_machine);
     pros::Task state_machine_task_mogo(state_machine_mogo);
+    pros::Task state_machine_task_left(state_machine_lift);
     Intake.set_brake_mode(pros::MotorBrake::brake);
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);

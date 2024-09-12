@@ -122,3 +122,8 @@ static void waitUntilTankDist(
   } // slowly whittles down at inches until it is equal to 0, in which it will
     // run the next line of code in queue
 }
+
+//Lift encoder math///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+static int y = 0;
+static int x = y/6;
+//
