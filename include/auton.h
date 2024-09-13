@@ -19,6 +19,7 @@ enum StateLift {
     LOWER = 0,
     ALLIANCE = 1,
     WALL = 2,
+    STOP = 3
 };
 
 void state_machine();
