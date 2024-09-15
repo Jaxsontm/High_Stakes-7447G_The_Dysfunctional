@@ -160,6 +160,8 @@ static void liftToAngle(double targetAngle) {
     double derivative = error - previousError;
     
     double speed = kP*error + kI*integral + kD*derivative;
+
+    Lift.move(static_cast<int>(speed));
   }
 }
 

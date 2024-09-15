@@ -172,21 +172,17 @@ void state_machine_lift() {
     switch (current_state3) {
       // the Intake should be spinning
       case StateLift::LOWER: {
-<<<<<<< HEAD
-        liftToAngle();
-=======
-        
->>>>>>> 6e90854c5f1452d490a5f4309f4b582073a522d9
+        liftToAngle(-30);
 
         break;
       }
       case StateLift::ALLIANCE:{
-        
+        liftToAngle(20);
 
         break;
       }
       case StateLift::WALL:{
-        
+        liftToAngle(60);
 
         break;
       }
