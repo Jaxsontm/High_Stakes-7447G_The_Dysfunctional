@@ -5,6 +5,7 @@ static and inline are used to be bale to set everything wihtin .h files.
  */
 
 #include "lemlib/chassis/chassis.hpp"
+#include "lemlib/pid.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
@@ -123,6 +124,44 @@ static void waitUntilTankDist(
     // run the next line of code in queue
 }
 
-//Lift encoder math///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//static std::int32_t ();
+//Lift PID///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+static float kP;
+static float kI;
+static float kD;
+
+static float liftAngle = -30;
+static void convertLiftsensor(float value) {
+    liftAngle = value/6;
+}
+
+static lemlib::PID LiftPID(
+   kP = 1,
+   kI = 0,
+   kD = 0,
+   5,
+   false
+);
+
+static void liftToAngle() {
+    double targetAngle;
+    double currentAngle = liftAngle;
+  while (currentAngle != targetAngle) {  
+    double error = targetAngle - liftAngle;
+    double integral = integral + error;
+
+    if (error == 0) {
+        integral = 0;
+    }
+
+    if (std::abs(error) > 40) {
+        integral = 0;
+    }
+
+    double previousError = error;
+    double derivative = error - previousError;
+    
+    double speed = kP*error + kI*integral + kD*derivative;
+  }
+}
+
 //
