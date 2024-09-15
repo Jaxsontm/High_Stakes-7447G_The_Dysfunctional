@@ -142,8 +142,7 @@ static lemlib::PID LiftPID(
    false
 );
 
-static void liftToAngle() {
-    double targetAngle;
+static void liftToAngle(double targetAngle) {
     double currentAngle = liftAngle;
   while (currentAngle != targetAngle) {  
     double error = targetAngle - liftAngle;
@@ -164,4 +163,4 @@ static void liftToAngle() {
   }
 }
 
-//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
