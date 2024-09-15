@@ -280,7 +280,6 @@ void autonomous() {
 
 
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
     Intake.set_brake_mode(pros::MotorBrake::coast);
     Lift.set_brake_mode(pros::MotorBrake::hold);
 
