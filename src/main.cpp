@@ -151,12 +151,6 @@ void state_machine_mogo() {
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-float liftAngle = -30;
-void convertLiftsensor(float value) {
-  liftAngle = value/6;
-}
-
 // the current state of the mechanism
 StateLift current_state3 = LOWER;
 
@@ -178,19 +172,22 @@ void state_machine_lift() {
     switch (current_state3) {
       // the Intake should be spinning
       case StateLift::LOWER: {
-        liftAngle = -30;
+        
 
         break;
       }
       case StateLift::ALLIANCE:{
-        liftAngle = 15;
+        
 
         break;
       }
       case StateLift::WALL:{
-        liftAngle = 45;
+        
 
         break;
+      }
+      case StateLift::STOP: {
+        
       }
     }
     // delay to save resources
@@ -213,7 +210,6 @@ void initialize() {
     pros::Task state_machine_task_mogo(state_machine_mogo);
     pros::Task state_machine_task_left(state_machine_lift);
     Intake.set_brake_mode(pros::MotorBrake::brake);
-    convertLiftsensor(Liftsensor.get_value());
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {

@@ -37,15 +37,6 @@ chassis.waitUntilDone();
 
     chassis.moveToPoint(15, -6, 1000, {.minSpeed = 100});
 
-    chassis.turnToHeading(-160, 800);
-
-    chassis.moveToPose(24, 18, 180, 1000, {.forwards = false, .lead = 0}, false);
-pros::delay(250);
-
-      request_new_state(State::SCORE);
-pros::delay(1000);
-
-    chassis.moveToPose(20, -44, 135, 2000);
 }
 
 void LeftAWP() { //finished
@@ -96,7 +87,7 @@ void Score() {
 void Forwards() { //finished
     chassis.setPose(0,0,0);
 
-    chassis.moveToPose(0, 4, 0, 450, {.minSpeed = 127});
+    chassis.moveToPose(0, 6, 0, 450, {.minSpeed = 127});
 }
 
 void BlueRight() {
