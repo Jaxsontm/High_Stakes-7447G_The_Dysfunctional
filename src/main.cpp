@@ -186,9 +186,6 @@ void state_machine_lift() {
 
         break;
       }
-      case StateLift::STOP: {
-        
-      }
     }
     // delay to save resources
     pros::delay(10);
@@ -335,8 +332,8 @@ void opcontrol() {
           Lift.move(127);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
           Lift.move(-127);
-        } else {
-          Lift.brake();
+        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+          request_new_state_lift(StateLift::LOWER);
         }
     /////////////////////////////////////////////////////
     
