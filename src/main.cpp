@@ -213,6 +213,7 @@ static lemlib::PID LiftPID(
 
 static void liftToAngle(double targetAngle) {
     double currentAngle = liftAngle;
+    Lift.move_velocity(0);
   while (currentAngle != targetAngle) {  
     double error = targetAngle - liftAngle;
     double integral = integral + error;
@@ -235,8 +236,6 @@ static void liftToAngle(double targetAngle) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.

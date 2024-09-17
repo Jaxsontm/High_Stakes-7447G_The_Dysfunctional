@@ -5,7 +5,6 @@ static and inline are used to be bale to set everything wihtin .h files.
  */
 
 #include "lemlib/chassis/chassis.hpp"
-#include "lemlib/pid.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
