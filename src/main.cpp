@@ -149,48 +149,6 @@ void state_machine_mogo() {
     pros::delay(10);
   }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// the current state of the mechanism
-StateLift current_state3 = LOWER;
-
-// function used to request a new state
-void request_new_state_lift(StateLift requested_state_lift) {
-  if (requested_state_lift < current_state3) {
-    current_state3 = requested_state_lift;
-  }
-  if (requested_state_lift > current_state3) {
-    current_state3 = requested_state_lift;
-  }
-}
-
-// function which constantly updates the state of the mechanism
-void state_machine_lift() {
-  // run forever
-  while (true) {
-    // switch statement to select what to do based on the current state
-    switch (current_state3) {
-      // the Intake should be spinning
-      case StateLift::LOWER: {
-        liftToAngle(41);
-
-        break;
-      }
-      case StateLift::ALLIANCE:{
-        liftToAngle(-35);
-
-        break;
-      }
-      case StateLift::WALL:{
-        liftToAngle(-78);
-
-        break;
-      }
-    }
-    // delay to save resources
-    pros::delay(10);
-  }
-}
 //Lift PID///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static float kP;
 static float kI;
@@ -234,6 +192,50 @@ static void liftToAngle(double targetAngle) {
     Lift.move_velocity(speed);
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// the current state of the mechanism
+StateLift current_state3 = LOWER;
+
+// function used to request a new state
+void request_new_state_lift(StateLift requested_state_lift) {
+  if (requested_state_lift < current_state3) {
+    current_state3 = requested_state_lift;
+  }
+  if (requested_state_lift > current_state3) {
+    current_state3 = requested_state_lift;
+  }
+}
+
+// function which constantly updates the state of the mechanism
+/*void state_machine_lift() {
+  // run forever
+  while (true) {
+    // switch statement to select what to do based on the current state
+    switch (current_state3) {
+      // the Intake should be spinning
+      case StateLift::LOWER: {
+        liftToAngle(41);
+
+        break;
+      }
+      case StateLift::ALLIANCE:{
+        liftToAngle(-35);
+
+        break;
+      }
+      case StateLift::WALL:{
+        liftToAngle(-78);
+
+        break;
+      }
+    }
+    // delay to save resources
+    pros::delay(10);
+  }
+}*/
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -377,7 +379,9 @@ void opcontrol() {
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
           Lift.move(-127);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-          request_new_state_lift(StateLift::LOWER);
+          liftToAngle(41);
+        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
+          liftToAngle(-78);
         } else {
           Lift.brake();
         }
