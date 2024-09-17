@@ -172,17 +172,17 @@ void state_machine_lift() {
     switch (current_state3) {
       // the Intake should be spinning
       case StateLift::LOWER: {
-        liftToAngle(-30);
+        liftToAngle(41);
 
         break;
       }
       case StateLift::ALLIANCE:{
-        liftToAngle(20);
+        liftToAngle(-35);
 
         break;
       }
       case StateLift::WALL:{
-        liftToAngle(60);
+        liftToAngle(-78);
 
         break;
       }
@@ -334,6 +334,8 @@ void opcontrol() {
           Lift.move(-127);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
           request_new_state_lift(StateLift::LOWER);
+        } else {
+          Lift.brake();
         }
     /////////////////////////////////////////////////////
     
