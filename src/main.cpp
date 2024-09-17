@@ -191,6 +191,51 @@ void state_machine_lift() {
     pros::delay(10);
   }
 }
+//Lift PID///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+static float kP;
+static float kI;
+static float kD;
+
+static float liftAngle = -30;
+static void convertLiftsensor(float value) {
+    liftAngle = value/6;
+}
+
+static lemlib::PID LiftPID(
+   kP = 1,
+   kI = 0,
+   kD = 0,
+   5,
+   false
+);
+
+
+
+static void liftToAngle(double targetAngle) {
+    double currentAngle = liftAngle;
+  while (currentAngle != targetAngle) {  
+    double error = targetAngle - liftAngle;
+    double integral = integral + error;
+
+    if (error == 0) {
+        integral = 0;
+    }
+
+    if (std::abs(error) > 40) {
+        integral = 0;
+    }
+
+    double previousError = error;
+    double derivative = error - previousError;
+    
+    double speed = kP*error + kI*integral + kD*derivative;
+
+    Lift.move_velocity(speed);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
