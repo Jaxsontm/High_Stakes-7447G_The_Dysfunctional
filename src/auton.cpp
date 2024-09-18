@@ -1,4 +1,4 @@
-#include "main.h"
+#include "device.h"
 #include "pros/abstract_motor.hpp"
 #include "pros/rtos.hpp"
 
