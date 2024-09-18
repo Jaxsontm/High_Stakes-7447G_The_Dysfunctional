@@ -36,7 +36,7 @@ static pros::adi::Pneumatics intakePiston('B', false);
 // Yellow Ziptie
 static pros::Motor Lift(1, pros::MotorGearset::green);
 
-//static pros::adi::Encoder Liftsensor('G','H');
+static pros::adi::Encoder Liftsensor('G','H');
 
 static pros::Distance WallDistance(10);
 //

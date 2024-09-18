@@ -149,11 +149,6 @@ void state_machine_mogo() {
 static float kI;
 static float kD;
 
-static float liftAngle = -30;
-static void convertLiftsensor(float value) {
-    liftAngle = value*6;
-}
-
 static lemlib::PID LiftPID(
    kP = 4,
    kI = 0,
@@ -164,23 +159,24 @@ static lemlib::PID LiftPID(
 
 
 static void liftToAngle(double targetAngle) {
-  double currentAngle = E_MOTOR_ENCODER_DEGREES;
-  while (currentAngle != targetAngle) {  
-    double error = targetAngle - liftAngle;
+  double currentAngle = Liftsensor.get_value();
+
+  while (currentAngle not_eq targetAngle) {  
+    double error = targetAngle - currentAngle;
     double integral = integral + error;
     double previousError = error;
     double derivative = error - previousError;
 
-    if (error == 0) {
+    if ((error < 2) && (error > 2)) {
         integral = 0;
     }
     
-    //double speed = kP*error + kI*integral + kD*derivative;
+    double speed = kP*error + kI*integral + kD*derivative;
     double power = LiftPID.update(error);
 
     Lift.move(power);
 
-    if (currentAngle == targetAngle) {
+    if ((error < 2) && (error > 2)) {
       break;
     }
   
@@ -339,8 +335,10 @@ void opcontrol() {
 
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
           Lift.move(127);
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+        }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
           Lift.move(-127);
+        }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+          Lift.move_absolute(200, 127);
         }  else {
           Lift.brake();
         }
