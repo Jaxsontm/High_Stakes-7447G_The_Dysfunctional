@@ -286,7 +286,8 @@ void autonomous() {
 void opcontrol() {
   //sets the brake modes for the Intake and lift
     Intake.set_brake_mode(pros::MotorBrake::coast);
-    Lift.set_brake_mode(pros::MotorBrake::hold);
+    Lift.set_brake_mode(pros::MotorBrake::hold); 
+    Lift.set_encoder_units(pros::MotorEncoderUnits::rotations);
 
 	while (true) {
     /////////////////////////////////////////////////////////////////
@@ -338,7 +339,7 @@ void opcontrol() {
         }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
           Lift.move(-127);
         }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-          Lift.move_absolute(200, 127);
+          Lift.move_absolute(200*6, 127);
         }  else {
           Lift.brake();
         }
