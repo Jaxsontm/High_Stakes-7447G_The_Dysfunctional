@@ -211,7 +211,7 @@ void initialize() {
     pros::Task state_machine_task(state_machine);
     pros::Task state_machine_task_mogo(state_machine_mogo);
     Intake.set_brake_mode(pros::MotorBrake::brake);
-    
+    Lift.set_encoder_units(pros::MotorEncoderUnits::rotations);
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {
@@ -287,7 +287,6 @@ void opcontrol() {
   //sets the brake modes for the Intake and lift
     Intake.set_brake_mode(pros::MotorBrake::coast);
     Lift.set_brake_mode(pros::MotorBrake::hold); 
-    Lift.set_encoder_units(pros::MotorEncoderUnits::rotations);
 
 	while (true) {
     /////////////////////////////////////////////////////////////////
@@ -338,8 +337,6 @@ void opcontrol() {
           Lift.move(127);
         }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
           Lift.move(-127);
-        }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-          Lift.move_absolute(200*6, 127);
         }  else {
           Lift.brake();
         }

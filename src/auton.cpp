@@ -82,7 +82,9 @@ void Skills() {
 
 void Score() {
     chassis.setPose(0,0,0);
-
+    Lift.move(127);
+    pros::delay(50);
+    Lift.brake();
 }
 
 void Forwards() { //finished
