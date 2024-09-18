@@ -1,5 +1,4 @@
-#include "device.h"
-#include "auton.h"
+#include "main.h"
 #include "pros/abstract_motor.hpp"
 #include "pros/rtos.hpp"
 
