@@ -1,10 +1,11 @@
 #include "device.h"
 #include "auton.h"
+#include "pros/abstract_motor.hpp"
 #include "pros/rtos.hpp"
 
 
 
-void RightAWP() { //finished
+void RightAWP() { 
 
     chassis.setPose(0, 0, 0);
 
@@ -39,7 +40,7 @@ chassis.waitUntilDone();
 
 }
 
-void LeftAWP() { //finished
+void LeftAWP() { 
     chassis.setPose(0, 0, 0);
 
             request_new_state_mogo(StateMogo::LOCATE);
@@ -85,9 +86,15 @@ void Score() {
 }
 
 void Forwards() { //finished
-    chassis.setPose(0,0,0);
+    chassis.setPose(0,0,0); //sets robot position to 0 on every axes
 
-    chassis.moveToPose(0, 6, 0, 450, {.minSpeed = 127});
+    chassis.moveToPose(0, 6, 0, 450, {.forwards = false, .minSpeed = 127}); //goes reverse 6 inches at max speed
+
+    Intake.move(127); //spins the Intake to release the rubber band
+pros::delay(1500);
+    Lift.set_brake_mode(pros::MotorBrake::hold); //sets the brake mode to ho;ld the lift instead of flowing back down
+
+    Intake.brake();//stops the intake from moving
 }
 
 void BlueRight() {
@@ -137,5 +144,3 @@ chassis.waitUntilDone();
     
     chassis.moveToPoint(0, -5, 1000, {.forwards = false});
  */
-
-

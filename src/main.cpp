@@ -215,7 +215,7 @@ void initialize() {
     pros::Task state_machine_task(state_machine);
     pros::Task state_machine_task_mogo(state_machine_mogo);
     Intake.set_brake_mode(pros::MotorBrake::brake);
-    Lift.set_brake_mode(pros::MotorBrake::hold);
+    
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {
@@ -260,6 +260,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+  Lift.set_brake_mode(pros::MotorBrake::coast);
         pros::delay(500); 
     console.println("Running auton..."); //makes the auton selector properly function
 	selector.run_auton();
@@ -278,7 +279,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
- //these are booleans that allow us to have one button toggles for pistons.
+ //these are booleans that allow us to have one button toggles for pistons
  bool static yPressed = false;
  bool static yState = false;
 
@@ -287,9 +288,9 @@ void autonomous() {
 
 
 void opcontrol() {
-  //sets the brake mode for the Intake
+  //sets the brake modes for the Intake and lift
     Intake.set_brake_mode(pros::MotorBrake::coast);
-    
+    Lift.set_brake_mode(pros::MotorBrake::hold);
 
 	while (true) {
     /////////////////////////////////////////////////////////////////
