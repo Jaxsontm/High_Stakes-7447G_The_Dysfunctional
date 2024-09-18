@@ -1,6 +1,5 @@
 #include "main.h"
 #include "auton.h"
-#include "device.h"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
