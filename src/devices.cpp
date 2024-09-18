@@ -1,9 +1,3 @@
-#pragma once
-
-/**
-static and inline are used to be bale to set everything wihtin .h files.
- */
-
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
@@ -15,42 +9,42 @@ static and inline are used to be bale to set everything wihtin .h files.
 #include "pros/rotation.hpp"
 
 // controller
-static pros::Controller controller(pros::E_CONTROLLER_MASTER);
+pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // Green Ziptie
 
-static pros::MotorGroup DTLeft({-15, 16, -17}, pros::MotorGearset::blue);
-static pros::MotorGroup DTRight({12, -13, 14}, pros::MotorGearset::blue);
+pros::MotorGroup DTLeft({-15, 16, -17}, pros::MotorGearset::blue);
+pros::MotorGroup DTRight({12, -13, 14}, pros::MotorGearset::blue);
 
-static pros::Imu inertial_sensor(4);
+pros::Imu inertial_sensor(4);
 //
 
 // Blue Ziptie
-static pros::Motor Intake(-11, pros::MotorGearset::blue);
+pros::Motor Intake(-11, pros::MotorGearset::blue);
 
-static pros::Distance DistanceIntake(5);
+pros::Distance DistanceIntake(5);
 
-static pros::adi::Pneumatics intakePiston('B', false);
+pros::adi::Pneumatics intakePiston('B', false);
 //
 
 // Yellow Ziptie
-static pros::Motor Lift(1, pros::MotorGearset::green);
+pros::Motor Lift(1, pros::MotorGearset::green);
 
-static pros::adi::Encoder Liftsensor('G','H');
+pros::adi::Encoder Liftsensor('G','H');
 
-static pros::Distance WallDistance(10);
+pros::Distance WallDistance(10);
 //
 
 // Red Ziptie
-static pros::Distance DistanceMogo(18);
+pros::Distance DistanceMogo(18);
 
-static pros::adi::Pneumatics Mogo('A', false);
+pros::adi::Pneumatics Mogo('A', false);
 //
 
 //Utilites White ziptie
 
 // drivetrain settings
-static lemlib::Drivetrain drivetrain(
+lemlib::Drivetrain drivetrain(
     &DTLeft,                    // left motor group
     &DTRight,                   // right motor group
     14,                         // 10 inch track width
@@ -60,7 +54,7 @@ static lemlib::Drivetrain drivetrain(
 );
 
 // lateral motion controller
-static lemlib::ControllerSettings
+lemlib::ControllerSettings
     linearController(12,   // proportional gain (kP)
                      0,    // integral gain (kI)
                      35,   // derivative gain (kD)
@@ -73,7 +67,7 @@ static lemlib::ControllerSettings
     );
 
 // angular motion controller
-static lemlib::ControllerSettings
+lemlib::ControllerSettings
     angularController(4.05, // proportional gain (kP)
                       0,    // integral gain (kI)
                       22,   // derivative gain (kD)
@@ -86,17 +80,17 @@ static lemlib::ControllerSettings
     );
 
 //Rotation Sensors
-static pros::Rotation horizontal_sensor(6);
-static pros::Rotation vertical_sensor(7);
+pros::Rotation horizontal_sensor(6);
+pros::Rotation vertical_sensor(7);
 
-static lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
                                                 lemlib::Omniwheel::NEW_275, 2);
-static lemlib::TrackingWheel vertical_tracking_wheel(&vertical_sensor,
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_sensor,
                                               lemlib::Omniwheel::NEW_275, -1.5);
 // sensors for odometry
 // note that in this example we use internal motor encoders (IMEs), so we don't
 // pass vertical tracking wheels
-static lemlib::OdomSensors sensors(
+lemlib::OdomSensors sensors(
     &vertical_tracking_wheel, // vertical tracking wheel 1, set to null
     nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
     &horizontal_tracking_wheel, // horizontal tracking wheel 1
@@ -106,10 +100,10 @@ static lemlib::OdomSensors sensors(
 );
 
 // create the chassis
-static lemlib::Chassis chassis(drivetrain, linearController, angularController,
+lemlib::Chassis chassis(drivetrain, linearController, angularController,
                         sensors);
 
-static void waitUntilTankDist(
+void waitUntilTankDist(
     double inches) { // creates a new function with the parameter inches
   lemlib::Pose lastPose =
       chassis.getPose(); // creates a new value under the lemlib:pose class that
