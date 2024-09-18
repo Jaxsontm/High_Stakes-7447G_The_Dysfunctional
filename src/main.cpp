@@ -17,6 +17,7 @@
  * "I was pressed!" and nothing.
  */
 
+
 void on_center_button() {
   static bool pressed = false;
   pressed = !pressed;
@@ -26,8 +27,6 @@ void on_center_button() {
     pros::lcd::clear_line(2);
   }
 }
-
-
 
 void screen() {
     while (true) {
@@ -150,51 +149,54 @@ void state_machine_mogo() {
   }
 }
 //Lift PID///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static float kP;
+/**static float kP;
 static float kI;
 static float kD;
 
 static float liftAngle = -30;
 static void convertLiftsensor(float value) {
-    liftAngle = value/6;
+    liftAngle = value*6;
 }
 
 static lemlib::PID LiftPID(
-   kP = 1,
+   kP = 4,
    kI = 0,
-   kD = 0,
+   kD = 7,
    5,
    false
 );
 
 
-
 static void liftToAngle(double targetAngle) {
-    double currentAngle = liftAngle;
-    Lift.move_velocity(0);
+  double currentAngle = E_MOTOR_ENCODER_DEGREES;
   while (currentAngle != targetAngle) {  
     double error = targetAngle - liftAngle;
     double integral = integral + error;
+    double previousError = error;
+    double derivative = error - previousError;
 
     if (error == 0) {
         integral = 0;
     }
-
-    if (std::abs(error) > 40) {
-        integral = 0;
-    }
-
-    double previousError = error;
-    double derivative = error - previousError;
     
-    double speed = kP*error + kI*integral + kD*derivative;
+    //double speed = kP*error + kI*integral + kD*derivative;
+    double power = LiftPID.update(error);
 
-    Lift.move_velocity(speed);
+    Lift.move(power);
+
+    if (currentAngle == targetAngle) {
+      break;
+    }
+  
   }
-}
+}*/
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//LOWER 41
+//ALLIANCE -35
+//WALL
 
 // the current state of the mechanism
 StateLift current_state3 = LOWER;
@@ -210,7 +212,7 @@ void request_new_state_lift(StateLift requested_state_lift) {
 }
 
 // function which constantly updates the state of the mechanism
-/*void state_machine_lift() {
+void state_machine_lift() {
   // run forever
   while (true) {
     // switch statement to select what to do based on the current state
@@ -235,7 +237,7 @@ void request_new_state_lift(StateLift requested_state_lift) {
     // delay to save resources
     pros::delay(10);
   }
-}*/
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -251,7 +253,6 @@ void initialize() {
     console.println("Initializing robot...");
     pros::Task state_machine_task(state_machine);
     pros::Task state_machine_task_mogo(state_machine_mogo);
-    pros::Task state_machine_task_left(state_machine_lift);
     Intake.set_brake_mode(pros::MotorBrake::brake);
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
@@ -378,11 +379,7 @@ void opcontrol() {
           Lift.move(127);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
           Lift.move(-127);
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-          liftToAngle(41);
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
-          liftToAngle(-78);
-        } else {
+        }  else {
           Lift.brake();
         }
     /////////////////////////////////////////////////////

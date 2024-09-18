@@ -18,7 +18,7 @@ enum StateMogo {
 enum StateLift {
     LOWER = 0,
     ALLIANCE = 1,
-    WALL = 2,
+    WALL = 2
 };
 
 void state_machine();
