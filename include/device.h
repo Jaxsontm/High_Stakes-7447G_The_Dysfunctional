@@ -85,6 +85,7 @@ static lemlib::ControllerSettings
                       0     // maximum acceleration (slew)
     );
 
+//Rotation Sensors
 static pros::Rotation horizontal_sensor(6);
 static pros::Rotation vertical_sensor(7);
 
@@ -122,4 +123,3 @@ static void waitUntilTankDist(
   } // slowly whittles down at inches until it is equal to 0, in which it will
     // run the next line of code in queue
 }
-

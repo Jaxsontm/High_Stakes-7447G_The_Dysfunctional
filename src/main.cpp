@@ -39,15 +39,11 @@ void screen() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Intake State Machine
-// enum representing the possible states of the mechanism
-// states with higher priorities have lower numbers
-// additional states can be added as needed
-
 
 // the current state of the mechanism
 State current_state = BRAKE;
 
-// function used to request a new state
+// functions used to request a new state
 void request_new_state(State requested_state) {
   if (requested_state < current_state) {
     current_state = requested_state;
@@ -65,39 +61,37 @@ void state_machine() {
     switch (current_state) {
       // the Intake should be spinning
       case State::LOAD: {
-        // if the Sensor does detect something, stop the intake
-        if (DistanceIntake.get() < 1) current_state = State::IDLE;
-        // if the Sensors doesn't detect anything, keep spinning the intake
-        else Intake.move(-127);
-        // break out of the switch statement
-        break;
+        if (DistanceIntake.get() < 1) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
+       
+        else Intake.move(-127); // if the Sensors doesn't detect anything, keep spinning the intake
+       
+        break; // break out of the switch statement
       }
-      // the Intake should stop
       case State::IDLE: {
         if (DistanceMogo.get() < 49 or WallDistance.get() < 125) current_state = State::SCORE;
         //Stop the Intake from spinning
         else if (DistanceIntake.get() > 52 or WallDistance.get() > 127) current_state = State::BRAKE;
-        // make the Intake hold its position
-        else Intake.brake();
-        // break out of the switch statement
-        break;
+        
+        else Intake.brake(); // make the Intake hold its position
+
+        break; // break out of the switch statement
       }
       case State::SCORE: {
         Intake.move(-127);
-        //break out of the switch statement
-        break;
+
+        break; // break out of the switch statement
       }
       case State::UNLOAD: {
         //reverse Intake for Driver Control
         Intake.move(127);
-        //break out of the switch statement
-        break;
+
+        break; // break out of the switch statement
       }
       case State::BRAKE: {
         //keep the Intake from spinning
         Intake.brake();
-        //break out of the switch statement
-        break;
+
+        break; // break out of the switch statement
       }
     }
     // delay to save resources
@@ -126,22 +120,24 @@ void state_machine_mogo() {
   while (true) {
     // switch statement to select what to do based on the current state
     switch (current_state2) {
-      // the Intake should be spinning
+      // the MoGo Mech should be open
       case StateMogo::LOCATE: {
         // if the Sensor does detect something, stop the intake
-        if (DistanceMogo.get() < 39) current_state2 = StateMogo::GRAB;
-        // if the Sensors doesn't detect anything, keep spinning the intake
-        else Mogo.set_value(false);
-        // break out of the switch statement
-        break;
+        if (DistanceMogo.get() < 39) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
+        
+        else Mogo.set_value(false); //if the sensors doesn't detect anything, keep the mech open
+
+        break; // break out of the switch statement
       }
       case StateMogo::GRAB:{
-        Mogo.set_value(true);
-        break;
+        Mogo.set_value(true); //Extends the pistons, grabbing the goal
+
+        break; // break out of the switch statement
       }
       case StateMogo::RELEASE:{
-        Mogo.set_value(false);
-        break;
+        Mogo.set_value(false); //Retracts the pistons, allowing the goal to slip out
+
+        break; // break out of the switch statement
       }
     }
     // delay to save resources
@@ -191,55 +187,20 @@ static void liftToAngle(double targetAngle) {
   }
 }*/
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//LOWER 41
-//ALLIANCE -35
-//WALL
-
-// the current state of the mechanism
-StateLift current_state3 = LOWER;
-
-// function used to request a new state
-void request_new_state_lift(StateLift requested_state_lift) {
-  if (requested_state_lift < current_state3) {
-    current_state3 = requested_state_lift;
-  }
-  if (requested_state_lift > current_state3) {
-    current_state3 = requested_state_lift;
-  }
-}
-
-// function which constantly updates the state of the mechanism
-void state_machine_lift() {
-  // run forever
-  while (true) {
-    // switch statement to select what to do based on the current state
-    switch (current_state3) {
-      // the Intake should be spinning
-      case StateLift::LOWER: {
-        liftToAngle(41);
-
-        break;
-      }
-      case StateLift::ALLIANCE:{
-        liftToAngle(-35);
-
-        break;
-      }
-      case StateLift::WALL:{
-        liftToAngle(-78);
-
-        break;
-      }
-    }
-    // delay to save resources
-    pros::delay(10);
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* Lift Angles
+Set Zero:
+lift.move_absolute(100, 127);
+while (((Lift.get_position()) < 105) && (Lift.get_position()) > 95)) {
+ pros::delay(5);
+ }
+ Lift.tare_position();
+LOWER:
+ALLIANCE:
+WALL:
+*/
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -254,6 +215,7 @@ void initialize() {
     pros::Task state_machine_task(state_machine);
     pros::Task state_machine_task_mogo(state_machine_mogo);
     Intake.set_brake_mode(pros::MotorBrake::brake);
+    Lift.set_brake_mode(pros::MotorBrake::hold);
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {
@@ -298,8 +260,8 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-        pros::delay(500);
-    console.println("Running auton...");
+        pros::delay(500); 
+    console.println("Running auton..."); //makes the auton selector properly function
 	selector.run_auton();
 }
 /**
@@ -316,6 +278,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
+ //these are booleans that allow us to have one button toggles for pistons.
  bool static yPressed = false;
  bool static yState = false;
 
@@ -324,20 +287,13 @@ void autonomous() {
 
 
 void opcontrol() {
+  //sets the brake mode for the Intake
     Intake.set_brake_mode(pros::MotorBrake::coast);
-    Lift.set_brake_mode(pros::MotorBrake::hold);
+    
 
 	while (true) {
-
-    /** get left y and right y positions
-        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
-
-        //move the robot
-        chassis.tank(leftY, rightY);
-    */
-
     /////////////////////////////////////////////////////////////////
+    //Intake buttons
 
 		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             request_new_state(State::SCORE);
@@ -347,7 +303,8 @@ void opcontrol() {
             request_new_state(State::BRAKE);
         }
 
-    //////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
+    //MoGo Mech toggle 
 
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) && !yPressed && !yState) {
             request_new_state_mogo(StateMogo::GRAB);
@@ -361,7 +318,9 @@ void opcontrol() {
             yPressed = false;
         }
 
-    ////////////////////////////////////////////////////////////    
+    /////////////////////////////////////////////////////////////////
+    //Intake Piston toggle    
+
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && !rightState) {
             intakePiston.set_value(true);
             rightPressed = true;
@@ -374,7 +333,9 @@ void opcontrol() {
             rightPressed = false;
         }
 
-    //////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
+    //Lift buttons
+
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
           Lift.move(127);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
@@ -382,9 +343,9 @@ void opcontrol() {
         }  else {
           Lift.brake();
         }
-    /////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
+    //Drivetrain Mode
     
-
         // get left y and right x positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
@@ -394,8 +355,5 @@ void opcontrol() {
 
         // delay to save resources
         pros::delay(25);
-
-    
-
      }
 	}
