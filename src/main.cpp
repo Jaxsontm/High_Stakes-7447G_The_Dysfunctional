@@ -144,44 +144,7 @@ void state_machine_mogo() {
     pros::delay(10);
   }
 }
-//Lift PID///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**static float kP;
-static float kI;
-static float kD;
 
-static lemlib::PID LiftPID(
-   kP = 4,
-   kI = 0,
-   kD = 7,
-   5,
-   false
-);
-
-
-static void liftToAngle(double targetAngle) {
-  double currentAngle = Liftsensor.get_value();
-
-  while (currentAngle not_eq targetAngle) {  
-    double error = targetAngle - currentAngle;
-    double integral = integral + error;
-    double previousError = error;
-    double derivative = error - previousError;
-
-    if ((error < 2) && (error > 2)) {
-        integral = 0;
-    }
-    
-    double speed = kP*error + kI*integral + kD*derivative;
-    double power = LiftPID.update(error);
-
-    Lift.move(power);
-
-    if ((error < 2) && (error > 2)) {
-      break;
-    }
-  
-  }
-}*/
 
 
 
@@ -224,7 +187,45 @@ void initialize() {
             pros::delay(50); 
         }
     });
-}
+    while (true) {
+static float kP;
+static float kI;
+static float kD;
+
+static lemlib::PID LiftPID(
+   kP = 4,
+   kI = 0,
+   kD = 7,
+   5,
+   false
+);
+
+
+  double targetAngle;
+  double currentAngle = Lift .get_position();
+
+  while (currentAngle not_eq targetAngle) {  
+    double error = targetAngle - currentAngle;
+    double integral = integral + error;
+    double previousError = error;
+    double derivative = error - previousError;
+
+    if ((error < 2) && (error > 2)) {
+        integral = 0;
+    }
+    
+    double speed = kP*error + kI*integral + kD*derivative;
+    double power = LiftPID.update(error);
+
+    Lift.move(power);
+
+    if ((error < 2) && (error > 2)) {
+      break;
+    }
+  
+  }
+}}
+
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -332,6 +333,10 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
     //Lift buttons
+
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+          
+        }
 
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
           Lift.move(127);
