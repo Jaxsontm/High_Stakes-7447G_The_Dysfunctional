@@ -95,6 +95,7 @@ pros::delay(1500);
     Lift.set_brake_mode(pros::MotorBrake::hold); //sets the brake mode to ho;ld the lift instead of flowing back down
 
     Intake.brake();//stops the intake from moving
+    Lift.tare_position();
 }
 
 void BlueRight() {
