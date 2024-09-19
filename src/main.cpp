@@ -296,7 +296,6 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
     //Lift buttons
-
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
           Lift.move(127);
         }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
