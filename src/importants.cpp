@@ -247,7 +247,7 @@ void state_machine_lift() {
     // switch statement to select what to do based on the current state
     switch (current_state3) {
       // the MoGo Mech should be open
-      case StateLift::Wall: {
+      case StateLift::WALL: {
         break; // break out of the switch statement
       }
       case StateLift::lowerWALL:{
