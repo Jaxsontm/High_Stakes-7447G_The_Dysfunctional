@@ -1,4 +1,4 @@
-#include "device.h"
+#include "importants.h"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
@@ -218,6 +218,46 @@ void state_machine_mogo() {
         Mogo.set_value(false); //Retracts the pistons, allowing the goal to slip out
 
         break; // break out of the switch statement
+      }
+    }
+    // delay to save resources
+    pros::delay(10);
+  }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// the current state of the mechanism
+StateLift current_state3 = lowerWALL;
+
+// function used to request a new state
+void request_new_state_lift(StateLift requested_state_lift) {
+  if (requested_state_lift < current_state3) {
+    current_state3 = requested_state_lift;
+  }
+  if (requested_state_lift > current_state3) {
+    current_state3 = requested_state_lift;
+  }
+}
+
+// function which constantly updates the state of the mechanism
+void state_machine_lift() {
+  // run forever
+  while (true) {
+    // switch statement to select what to do based on the current state
+    switch (current_state3) {
+      // the MoGo Mech should be open
+      case StateLift::Wall: {
+        break; // break out of the switch statement
+      }
+      case StateLift::lowerWALL:{
+        break; // break out of the switch statement
+      }
+      case StateLift::ALLIANCE:{
+        break; // break out of the switch statement
+      }
+      case StateLift::lowerALLIANCE:{
+
       }
     }
     // delay to save resources

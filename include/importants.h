@@ -81,7 +81,16 @@ enum StateMogo { //Sets the name of the States in the Mogo State Machine
     RELEASE = 2
 };
 
+enum StateLift {
+    WALL = 0,
+    lowerWALL = 1,
+    ALLIANCE = 2,
+    lowerALLIANCE = 3
+};
+
 extern void state_machine();
 extern void state_machine_mogo();
+extern void state_machine_lift();
 extern void request_new_state(State new_state);
 extern void request_new_state_mogo(StateMogo new_state);
+extern void request_new_state_lift(StateLift new_state);
