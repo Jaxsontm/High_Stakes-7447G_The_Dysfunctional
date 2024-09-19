@@ -66,3 +66,22 @@ extern lemlib::OdomSensors sensors;
 extern lemlib::Chassis chassis;
 
 extern void waitUntilTankDist();
+
+enum State { //Sets the name of the States in the Intake State Machine
+    LOAD = 0, 
+    IDLE = 1, 
+    SCORE = 2, 
+    UNLOAD = 3, 
+    BRAKE = 4,
+};
+
+enum StateMogo { //Sets the name of the States in the Mogo State Machine
+    LOCATE = 0, 
+    GRAB = 1,
+    RELEASE = 2
+};
+
+extern void state_machine();
+extern void state_machine_mogo();
+extern void request_new_state(State new_state);
+extern void request_new_state_mogo(StateMogo new_state);

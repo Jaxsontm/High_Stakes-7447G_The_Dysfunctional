@@ -116,3 +116,111 @@
   } // slowly whittles down at inches until it is equal to 0, in which it will
     // run the next line of code in queue
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Intake State Machine
+
+// the current state of the mechanism
+State current_state = BRAKE;
+
+// functions used to request a new state
+void request_new_state(State requested_state) {
+  if (requested_state < current_state) {
+    current_state = requested_state;
+  }
+  if (requested_state > current_state) {
+    current_state = requested_state;
+  }
+}
+
+// function which constantly updates the state of the mechanism
+void state_machine() {
+  // run forever
+  while (true) {
+    // switch statement to select what to do based on the current state
+    switch (current_state) {
+      // the Intake should be spinning
+      case State::LOAD: {
+        if (DistanceIntake.get() < 1) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
+       
+        else Intake.move(-127); // if the Sensors doesn't detect anything, keep spinning the intake
+       
+        break; // break out of the switch statement
+      }
+      case State::IDLE: {
+        if (DistanceMogo.get() < 49 or WallDistance.get() < 125) current_state = State::SCORE;
+        //Stop the Intake from spinning
+        else if (DistanceIntake.get() > 52 or WallDistance.get() > 127) current_state = State::BRAKE;
+        
+        else Intake.brake(); // make the Intake hold its position
+
+        break; // break out of the switch statement
+      }
+      case State::SCORE: {
+        Intake.move(-127);
+
+        break; // break out of the switch statement
+      }
+      case State::UNLOAD: {
+        //reverse Intake for Driver Control
+        Intake.move(127);
+
+        break; // break out of the switch statement
+      }
+      case State::BRAKE: {
+        //keep the Intake from spinning
+        Intake.brake();
+
+        break; // break out of the switch statement
+      }
+    }
+    // delay to save resources
+    pros::delay(10);
+  }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// the current state of the mechanism
+StateMogo current_state2 = RELEASE;
+
+// function used to request a new state
+void request_new_state_mogo(StateMogo requested_state_mogo) {
+  if (requested_state_mogo < current_state2) {
+    current_state2 = requested_state_mogo;
+  }
+  if (requested_state_mogo > current_state2) {
+    current_state2 = requested_state_mogo;
+  }
+}
+
+// function which constantly updates the state of the mechanism
+void state_machine_mogo() {
+  // run forever
+  while (true) {
+    // switch statement to select what to do based on the current state
+    switch (current_state2) {
+      // the MoGo Mech should be open
+      case StateMogo::LOCATE: {
+        // if the Sensor does detect something, stop the intake
+        if (DistanceMogo.get() < 39) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
+        
+        else Mogo.set_value(false); //if the sensors doesn't detect anything, keep the mech open
+
+        break; // break out of the switch statement
+      }
+      case StateMogo::GRAB:{
+        Mogo.set_value(true); //Extends the pistons, grabbing the goal
+
+        break; // break out of the switch statement
+      }
+      case StateMogo::RELEASE:{
+        Mogo.set_value(false); //Retracts the pistons, allowing the goal to slip out
+
+        break; // break out of the switch statement
+      }
+    }
+    // delay to save resources
+    pros::delay(10);
+  }
+}

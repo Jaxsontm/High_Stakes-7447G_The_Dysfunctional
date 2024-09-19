@@ -77,9 +77,9 @@ pros::delay(1000);
 
 void Skills() {
     chassis.setPose(0,0,0);
-    
+    Lift.set_brake_mode(pros::MotorBrake::hold);
     Lift.move(127);
-    pros::delay(50);
+    pros::delay(625);
     Lift.brake();
 }
 
