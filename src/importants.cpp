@@ -225,42 +225,37 @@ void state_machine_mogo() {
   }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void LiftPID(double targetAngle){
+	double kP;
+  double kI;
+  double kD;
+  lemlib::PID LiftController(
+        kP = 0,
+        kI = 0,
+        kD = 0,
+        5,
+        false
+  );
 
+  double error;
+  double prevError = 0;
+  double integral = 0;
+while ((error < 2) && (error > -2)) {
+	error = targetAngle - Lift.get_position(); //proportional
+  integral = integral + error; //integral
 
-// the current state of the mechanism
-StateLift current_state3 = lowerWALL;
+	if (error = 0) {
+		integral = 0;
+	}
 
-// function used to request a new state
-void request_new_state_lift(StateLift requested_state_lift) {
-  if (requested_state_lift < current_state3) {
-    current_state3 = requested_state_lift;
-  }
-  if (requested_state_lift > current_state3) {
-    current_state3 = requested_state_lift;
-  }
+	if (std::abs(error) > 1000) {
+		integral = 0;
+	}
+
+	double derivative = error - prevError; //derivative
+	prevError = error;
+
+	double speed = kP*error + kI*integral + kD*derivative;
 }
 
-// function which constantly updates the state of the mechanism
-void state_machine_lift() {
-  // run forever
-  while (true) {
-    // switch statement to select what to do based on the current state
-    switch (current_state3) {
-      // the MoGo Mech should be open
-      case StateLift::WALL: {
-        break; // break out of the switch statement
-      }
-      case StateLift::lowerWALL:{
-        break; // break out of the switch statement
-      }
-      case StateLift::ALLIANCE:{
-        break; // break out of the switch statement
-      }
-      case StateLift::lowerALLIANCE:{
-
-      }
-    }
-    // delay to save resources
-    pros::delay(10);
-  }
 }
