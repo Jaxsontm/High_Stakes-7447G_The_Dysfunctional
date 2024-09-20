@@ -103,34 +103,7 @@ pros::delay(1500);
 void BlueRight() {
     chassis.setPose(0, 0, 0);
 
-        request_new_state_mogo(StateMogo::LOCATE);
-
-    chassis.moveToPoint(0, -27, 1200, {.forwards = false, .maxSpeed = 70, .minSpeed = 25, .earlyExitRange = 1});
-
-    chassis.turnToHeading(-90, 500);
-
-    chassis.moveToPose(-19, -25, -90, 1000, {.lead = 0});
-    
-      request_new_state(State::IDLE);
-      
-    chassis.turnToHeading(180, 800);
-
-    chassis.moveToPoint(-22, -40, 1000 );
-
-      request_new_state(State::SCORE);
-pros::delay(1250);
-
-    chassis.moveToPose(16, -6, 90, 10000);
-
-          intakePiston.set_value(true);
-
-chassis.waitUntilDone();
-
-      request_new_state(State::LOAD);
-
-    chassis.moveToPose(10, -6, 90, 1000, {.forwards = false});
-
-          intakePiston.set_value(false);
+        Liftcontroller(100);
 }
 
 
