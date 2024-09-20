@@ -87,3 +87,4 @@ extern void request_new_state(State new_state);
 extern void request_new_state_mogo(StateMogo new_state);
 
 extern void LiftPID ();
+extern lemlib::PID LiftController ();
