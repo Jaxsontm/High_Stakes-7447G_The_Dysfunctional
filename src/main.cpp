@@ -6,6 +6,7 @@
 #include "pros/adi.hpp"
 #include "pros/llemu.hpp"
 #include "pros/misc.h"
+#include "pros/motors.h"
 #include "pros/motors.hpp"
 #include "pros/rtos.hpp"
 
@@ -68,7 +69,7 @@ void initialize() {
     pros::Task state_machine_task(state_machine);
     pros::Task state_machine_task_mogo(state_machine_mogo);
     Intake.set_brake_mode(pros::MotorBrake::brake);
-    
+    Lift.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {
