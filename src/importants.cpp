@@ -244,7 +244,7 @@ while ((error < 2) && (error > -2)) {
 	error = targetAngle - Lift.get_position(); //proportional
   integral = integral + error; //integral
 
-	if (error = 0) {
+	if (error == 0) {
 		integral = 0;
 	}
 
@@ -256,6 +256,7 @@ while ((error < 2) && (error > -2)) {
 	prevError = error;
 
 	double speed = kP*error + kI*integral + kD*derivative;
+  Lift.move_absolute(error, speed);
 }
 
 }
