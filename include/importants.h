@@ -86,39 +86,4 @@ extern void state_machine_mogo();
 extern void request_new_state(State new_state);
 extern void request_new_state_mogo(StateMogo new_state);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static void LiftPID(double targetAngle){
-  double kP;
-  double kI;
-  double kD;
-  lemlib::PID LiftController(
-        kP = 0,
-        kI = 0,
-        kD = 0,
-        5,
-        false
-  );
-
-  double error;
-  double prevError = 0;
-  double integral = 0;
-  while ((error < 2) && (error > -2)) {
-	  error = targetAngle - Lift.get_position(); //proportional
-    integral = integral + error; //integral
-
-	  if (error == 0) {
-		  integral = 0;
-	  }
-
-	  if (std::abs(error) > 1000) {
-		  integral = 0;
-	  }
-
-	  double derivative = error - prevError; //derivative
-	  prevError = error;
-
-	  double speed = kP*error + kI*integral + kD*derivative;
-    Lift.move_absolute(error, speed);
-}
-
-}
+inline void LiftPID(double angle);
