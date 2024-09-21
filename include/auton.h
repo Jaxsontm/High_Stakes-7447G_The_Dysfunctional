@@ -22,5 +22,3 @@ static rd::Selector selector({
 }); 
 
 static rd::Console console;
-
-extern void LiftPID(double targetAngle);

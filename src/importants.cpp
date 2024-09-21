@@ -240,23 +240,23 @@ void LiftPID(double targetAngle){
   double error;
   double prevError = 0;
   double integral = 0;
-while ((error < 2) && (error > -2)) {
-	error = targetAngle - Lift.get_position(); //proportional
-  integral = integral + error; //integral
+  while ((error < 2) && (error > -2)) {
+	  error = targetAngle - Lift.get_position(); //proportional
+    integral = integral + error; //integral
 
-	if (error == 0) {
-		integral = 0;
-	}
+	  if (error == 0) {
+		  integral = 0;
+	  }
 
-	if (std::abs(error) > 1000) {
-		integral = 0;
-	}
+	  if (std::abs(error) > 1000) {
+		  integral = 0;
+	  }
 
-	double derivative = error - prevError; //derivative
-	prevError = error;
+	  double derivative = error - prevError; //derivative
+	  prevError = error;
 
-	double speed = kP*error + kI*integral + kD*derivative;
-  Lift.move_absolute(error, speed);
+	  double speed = kP*error + kI*integral + kD*derivative;
+    Lift.move_absolute(error, speed);
 }
 
 }
