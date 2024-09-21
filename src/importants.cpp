@@ -230,9 +230,9 @@ void LiftPID(double targetAngle){
   double kI;
   double kD;
   lemlib::PID LiftController(
-        kP = 0.5,
-        kI = 0.0001,
-        kD = 0.2,
+        kP = 0.4,
+        kI = 0.0003,
+        kD = 1.85,
         5,
         false
   );
@@ -240,8 +240,8 @@ void LiftPID(double targetAngle){
   double error;
   double prevError = 0;
   double integral = 0;
-  while ((error < 2) && (error > -2)) {
-	  error = targetAngle - Lift.get_position(); //proportional
+  while ((error < 1) && (error > -1)) {
+	  error = Lift.get_position() - targetAngle; //proportional
     integral = integral + error; //integral
 
 	  if (error == 0) {
@@ -255,7 +255,7 @@ void LiftPID(double targetAngle){
 	  double derivative = error - prevError; //derivative
 	  prevError = error;
 
-	  double speed = kP*error + kI*integral + kD*derivative;
+	  double speed = (kP*error + kI*integral + kD*derivative)*1.4;
     Lift.move_absolute(error, speed);
 }
 
