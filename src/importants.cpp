@@ -232,7 +232,7 @@ void LiftPID(double targetAngle){
   lemlib::PID LiftController(
         kP = 0.3,
         kI = 0.0175,
-        kD = 0.6,
+        kD = 0.75,
         5,
         false
   );
