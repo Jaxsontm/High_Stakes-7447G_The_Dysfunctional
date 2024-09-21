@@ -145,7 +145,6 @@ void opcontrol() {
   //sets the brake modes for the Intake and lift
     Intake.set_brake_mode(pros::MotorBrake::coast);
     Lift.set_brake_mode(pros::MotorBrake::hold); 
-    Lift.set_encoder_units(pros::MotorEncoderUnits::rotations);
 
 	while (true) {
     /////////////////////////////////////////////////////////////////
