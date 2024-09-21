@@ -77,10 +77,6 @@ pros::delay(1000);
 
 void Skills() {
     chassis.setPose(0,0,0);
-    Lift.set_brake_mode(pros::MotorBrake::hold);
-    Lift.move(127);
-    pros::delay(625);
-    Lift.brake();
 }
 
 void Score() {
@@ -88,22 +84,25 @@ void Score() {
 }
 
 void Forwards() { //finished
-    chassis.setPose(0,0,0); //sets robot position to 0 on every axes
-
-    chassis.moveToPose(0, 6, 0, 450, {.forwards = false, .minSpeed = 127}); //goes reverse 6 inches at max speed
-
-    Intake.move(127); //spins the Intake to release the rubber band
+    chassis.setPose(0,0,0); 
+//sets robot position to 0 on every axes
+    chassis.moveToPose(0, 6, 0, 450, {.forwards = false, .minSpeed = 127});
+//goes reverse 6 inches at max speed
+    Intake.move(127); 
+//spins the Intake to release the rubber band
 pros::delay(1500);
-    Lift.set_brake_mode(pros::MotorBrake::hold); //sets the brake mode to ho;ld the lift instead of flowing back down
-
-    Intake.brake();//stops the intake from moving
+    Lift.set_brake_mode(pros::MotorBrake::hold); 
+//sets the brake mode to hold the lift instead of flowing back down
+    Intake.brake();
+//stops the intake from moving    
     Lift.tare_position();
+//resets the lift's position
 }
 
 void BlueRight() {
     chassis.setPose(0, 0, 0);
 
-    LiftPID(1150);
+    LiftPID(660);
 }
 
 /** top ring of the double stack

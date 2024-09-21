@@ -230,8 +230,8 @@ void LiftPID(double targetAngle){
   double kI;
   double kD;
   lemlib::PID LiftController(
-        kP = 0.35,
-        kI = 0.06725,
+        kP = 0.3,
+        kI = 0.0175,
         kD = 0.6,
         5,
         false
@@ -261,5 +261,5 @@ void LiftPID(double targetAngle){
 
 }
 
-//Alliance = 600
-//Wall = 1100
+//Alliance = 660
+//Wall = 1150
