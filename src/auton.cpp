@@ -103,7 +103,7 @@ pros::delay(1500);
 void BlueRight() {
     chassis.setPose(0, 0, 0);
 
-        LiftPID(300);
+    LiftPID(300);
 }
 
 
