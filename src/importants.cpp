@@ -23,7 +23,7 @@
 // Blue Ziptie
  pros::Motor Intake(-11, pros::MotorGearset::blue);
 
- pros::Distance DistanceIntake(5);
+ pros::Distance DistanceIntake(19);
 
  pros::adi::Pneumatics intakePiston('B', false);
 //
@@ -35,7 +35,7 @@
 //
 
 // Red Ziptie
- pros::Distance DistanceMogo(18);
+ pros::Distance DistanceMogo(8);
 
  pros::adi::Pneumatics Mogo('A', false);
 //
@@ -141,7 +141,7 @@ void state_machine() {
     switch (current_state) {
       // the Intake should be spinning
       case State::LOAD: {
-        if (DistanceIntake.get() < 1) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
+        if (DistanceIntake.get() < 22) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
        
         else Intake.move(-127); // if the Sensors doesn't detect anything, keep spinning the intake
        
@@ -150,7 +150,7 @@ void state_machine() {
       case State::IDLE: {
         if (DistanceMogo.get() < 49 or WallDistance.get() < 125) current_state = State::SCORE;
         //Stop the Intake from spinning
-        else if (DistanceIntake.get() > 52 or WallDistance.get() > 127) current_state = State::BRAKE;
+        else if (DistanceIntake.get() > 80 or WallDistance.get() > 127) current_state = State::BRAKE;
         
         else Intake.brake(); // make the Intake hold its position
 
@@ -203,7 +203,7 @@ void state_machine_mogo() {
       // the MoGo Mech should be open
       case StateMogo::LOCATE: {
         // if the Sensor does detect something, stop the intake
-        if (DistanceMogo.get() < 39) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
+        if (DistanceMogo.get() < 54) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
         
         else Mogo.set_value(false); //if the sensors doesn't detect anything, keep the mech open
 
@@ -230,9 +230,9 @@ void LiftPID(double targetAngle){
   double kI;
   double kD;
   lemlib::PID LiftController(
-        kP = 0.4,
-        kI = 0.0003,
-        kD = 1.85,
+        kP = 0.35,
+        kI = 0.06725,
+        kD = 0.6,
         5,
         false
   );
@@ -241,7 +241,7 @@ void LiftPID(double targetAngle){
   double prevError = 0;
   double integral = 0;
   while ((error < 1) && (error > -1)) {
-	  error = Lift.get_position() - targetAngle; //proportional
+	  error = (Lift.get_position() - targetAngle) - 1.25; //proportional
     integral = integral + error; //integral
 
 	  if (error == 0) {
@@ -260,3 +260,6 @@ void LiftPID(double targetAngle){
 }
 
 }
+
+//Alliance = 600
+//Wall = 1100

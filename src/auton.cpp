@@ -103,9 +103,8 @@ pros::delay(1500);
 void BlueRight() {
     chassis.setPose(0, 0, 0);
 
-    LiftPID(100);
+    LiftPID(1150);
 }
-
 
 /** top ring of the double stack
     intakePiston.set_value(true);
