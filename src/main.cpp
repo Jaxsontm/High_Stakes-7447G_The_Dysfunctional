@@ -38,23 +38,7 @@ void screen() {
     }
 }
 
-
-
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/* Lift Angles
-Set Zero:
-lift.move_absolute(100, 127);
-while (((Lift.get_position()) < 105) && (Lift.get_position()) > 95)) {
- pros::delay(5);
- }
- Lift.tare_position();
-LOWER:
-ALLIANCE:
-WALL:
-*/
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -191,6 +175,10 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
     //Lift buttons
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+            LiftPID(1150);
+        }
+
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
           Lift.move(-127);
         }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){

@@ -257,6 +257,10 @@ void LiftPID(double targetAngle){
 
 	  double speed = (kP*error + kI*integral + kD*derivative)*1.4;
     Lift.move_absolute(error, speed);
+
+    if ((error < 1) && (error > -1)) {
+      break;
+    }
 }
 
 }
