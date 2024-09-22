@@ -1,4 +1,5 @@
 #pragma once
+#include "robodash/views/console.hpp"
 #include "robodash/views/selector.hpp"
 
 //These are the names of the autons we are using

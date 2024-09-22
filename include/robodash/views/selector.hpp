@@ -5,7 +5,8 @@
  */
 
 #pragma once
-#include "robodash/api.h"
+#include "liblvgl/core/lv_obj.h"
+#include "robodash/core.h"
 #include <functional>
 #include <string>
 #include <vector>
@@ -41,12 +42,16 @@ class Selector {
 
 	/// @name Selector Functions
 
-	/**
-	 * @brief Create autonomous selector
-	 * @param name Name of the autonomous selector
-	 * @param autons Vector of autonomous rotuines
-	 */
-	Selector(std::string name, std::vector<routine_t> autons);
+        Selector(const Selector &) = default;
+        Selector(Selector &&) = default;
+        Selector &operator=(const Selector &) = default;
+        Selector &operator=(Selector &&) = default;
+        /**
+         * @brief Create autonomous selector
+         * @param name Name of the autonomous selector
+         * @param autons Vector of autonomous rotuines
+         */
+        Selector(std::string name, std::vector<routine_t> autons);
 
 	/**
 	 * @brief Create autonomous selector
