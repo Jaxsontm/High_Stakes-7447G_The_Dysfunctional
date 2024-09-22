@@ -29,7 +29,7 @@
 //
 
 // Yellow Ziptie
- pros::Motor Lift(-1, pros::MotorGearset::green);
+ pros::Motor Lift(1, pros::MotorGearset::green);
 
  pros::Distance WallDistance(10);
 //
@@ -225,7 +225,7 @@ void state_machine_mogo() {
   }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void LiftPID(double targetAngle){
+int LiftPID(double targetAngle){
 	double kP;
   double kI;
   double kD;
@@ -240,9 +240,9 @@ void LiftPID(double targetAngle){
   double error;
   double prevError = 0;
   double integral = 0;
+  
   while ((error < 1) && (error > -1)) {
-
-	  error = (Lift.get_position() - (std::abs(targetAngle)) - 1.25); //proportional
+	  error = targetAngle - Lift.get_position(); //proportional
     integral = integral + error; //integral
 
 	  if (error == 0) {
@@ -259,9 +259,7 @@ void LiftPID(double targetAngle){
 	  double speed = (kP*error + kI*integral + kD*derivative)*1.4;
     Lift.move_absolute(error, speed);
 
-    if ((error < 1) && (error > -1)) {
-      break;
-    }
+    if ((error < 1) && (error > -1)) break;
 }
 
 }

@@ -104,7 +104,7 @@ void BlueRight() {
 
     LiftPID(660);
     pros::delay(1060);
-    LiftPID(-660);
+    LiftPID(0);
 }
 
 /** top ring of the double stack
