@@ -8,6 +8,7 @@
 #include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
 #include "pros/rotation.hpp"
+#include "pros/rtos.hpp"
 
 // controller
  pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -17,7 +18,7 @@
  pros::MotorGroup DTLeft({-15, 16, -17}, pros::MotorGearset::blue);
  pros::MotorGroup DTRight({12, -13, 14}, pros::MotorGearset::blue);
 
- pros::Imu inertial_sensor(4);
+ pros::Imu inertial_sensor(21);
 //
 
 // Blue Ziptie
@@ -79,8 +80,8 @@
     );
 
 //Rotation Sensors
- pros::Rotation horizontal_sensor(6);
- pros::Rotation vertical_sensor(7);
+ pros::Rotation horizontal_sensor(10);
+ pros::Rotation vertical_sensor(18);
 
  lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
                                                 lemlib::Omniwheel::NEW_275, 2);
@@ -141,7 +142,7 @@ void state_machine() {
     switch (current_state) {
       // the Intake should be spinning
       case State::LOAD: {
-        if (DistanceIntake.get() < 22) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
+        if (DistanceIntake.get() < 21 && DistanceIntake.get() > 11) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
        
         else Intake.move(-127); // if the Sensors doesn't detect anything, keep spinning the intake
        
@@ -203,13 +204,15 @@ void state_machine_mogo() {
       // the MoGo Mech should be open
       case StateMogo::LOCATE: {
         // if the Sensor does detect something, stop the intake
-        if (DistanceMogo.get() < 54) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
+        if (DistanceMogo.get() < 82) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
         
         else Mogo.set_value(false); //if the sensors doesn't detect anything, keep the mech open
 
         break; // break out of the switch statement
       }
       case StateMogo::GRAB:{
+        pros::delay(50);
+
         Mogo.set_value(true); //Extends the pistons, grabbing the goal
 
         break; // break out of the switch statement
@@ -230,7 +233,7 @@ void LiftPID(double targetAngle){
   double kI;
   double kD;
   lemlib::PID LiftController(
-        kP = 0.3,
+        kP = 0.15,
         kI = 0.0175,
         kD = 0.75,
         5,
@@ -258,7 +261,7 @@ void LiftPID(double targetAngle){
 	  double speed = (kP*error + kI*integral + kD*derivative)*1.4;
 
     if (targetAngle < 0) {
-      speed = speed * 66;
+      speed = speed * 75;
     }
 
     Lift.move_absolute(error, speed);

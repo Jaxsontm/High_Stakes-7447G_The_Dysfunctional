@@ -1,5 +1,6 @@
 #include "importants.h"
 #include "auton.h"
+#include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/rtos.hpp"
 
@@ -11,33 +12,48 @@ void RightAWP() {
 
             request_new_state_mogo(StateMogo::LOCATE);
 
-    chassis.moveToPoint(0, -30, 1200, {.forwards = false, .maxSpeed = 70, .minSpeed = 25, .earlyExitRange = 1});
-
-    chassis.turnToHeading(-90, 500);
-
-    chassis.moveToPose(-24, -25, -90, 1000, {.lead = 0});
-    
-      request_new_state(State::IDLE);
-pros::delay(2250);
-
-    chassis.moveToPose(16, -6, 90, 2500, {.lead = 0.2, .maxSpeed = 80});
-
-            request_new_state_mogo(StateMogo::RELEASE);
-      request_new_state(State::BRAKE);
-
-              intakePiston.set_value(true);
-              
-      request_new_state(State::LOAD);
-
-    chassis.moveToPoint(18, -6, 1000);
+    chassis.moveToPoint(0, -27.5, 1200, {.forwards = false, .maxSpeed = 55, .minSpeed = 25});
 chassis.waitUntilDone();
 
+        request_new_state(SCORE);
+pros::delay(950);
+
+    chassis.turnToHeading(-110, 500, {.minSpeed = 127});
+chassis.waitUntilDone();
+
+    chassis.turnToHeading(-90, 500, {.minSpeed = 127});
+
+    chassis.moveToPose(-17, -25, -90, 1000, {.lead = 0});
+chassis.waitUntilDone();
+    
+pros::delay(1250);
+
+              intakePiston.set_value(true);
+
+    chassis.moveToPose(16, -2, 90, 2500, {.lead = 0.2, .maxSpeed = 80});
+chassis.waitUntil(11);
+
+      request_new_state(State::BRAKE);
+
+            request_new_state_mogo(StateMogo::RELEASE);
+
+      request_new_state(LOAD);
+              
+    chassis.moveToPoint(18, -2, 1000);
+
               intakePiston.set_value(false);
-      request_new_state(BRAKE);
 
+      request_new_state(LOAD);
 
-    chassis.moveToPoint(15, -6, 1000, {.minSpeed = 100});
+    chassis.swingToHeading(24, lemlib::DriveSide::RIGHT, 1000);
 
+        /**request_new_state(State::UNLOAD);
+
+                    LiftPID(660);
+
+    chassis.moveToPose(24, 12, 0, 1000);
+
+                    LiftPID(-250);*/
 }
 
 void LeftAWP() { 
@@ -103,8 +119,6 @@ void BlueRight() {
     chassis.setPose(0, 0, 0);
 
     LiftPID(660);
-    pros::delay(1060);
-    LiftPID(-660);
 }
 
 /** top ring of the double stack
