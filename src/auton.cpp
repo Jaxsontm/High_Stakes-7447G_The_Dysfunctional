@@ -103,6 +103,8 @@ void BlueRight() {
     chassis.setPose(0, 0, 0);
 
     LiftPID(660);
+    pros::delay(1060);
+    LiftPID(-660);
 }
 
 /** top ring of the double stack

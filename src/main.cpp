@@ -54,7 +54,7 @@ void initialize() {
     pros::Task state_machine_task_mogo(state_machine_mogo);
     Intake.set_brake_mode(pros::MotorBrake::brake);
     Lift.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-    Lift.tare_position();
+    Lift.set_zero_position(0);
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {
@@ -175,10 +175,6 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
     //Lift buttons
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            LiftPID(1150);
-        }
-
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
           Lift.move(-127);
         }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){

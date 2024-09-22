@@ -234,21 +234,22 @@ void LiftPID(double targetAngle){
         kI = 0.0175,
         kD = 0.75,
         5,
-        false
+        true
   );
 
   double error;
   double prevError = 0;
   double integral = 0;
   while ((error < 1) && (error > -1)) {
-	  error = (Lift.get_position() - targetAngle) - 1.25; //proportional
+
+	  error = (Lift.get_position() - (std::abs(targetAngle)) - 1.25); //proportional
     integral = integral + error; //integral
 
 	  if (error == 0) {
 		  integral = 0;
 	  }
 
-	  if (std::abs(error) > 1000) {
+	  if (std::abs(error) > 1200) {
 		  integral = 0;
 	  }
 
