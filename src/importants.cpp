@@ -29,7 +29,7 @@
 //
 
 // Yellow Ziptie
- pros::Motor Lift(1, pros::MotorGearset::green);
+ pros::Motor Lift(-1, pros::MotorGearset::green);
 
  pros::Distance WallDistance(10);
 //
@@ -240,9 +240,8 @@ void LiftPID(double targetAngle){
   double error;
   double prevError = 0;
   double integral = 0;
-  
   while ((error < 1) && (error > -1)) {
-	  error = targetAngle - Lift.get_position(); //proportional
+	  error = (Lift.get_position() - targetAngle) - 1.25; //proportional
     integral = integral + error; //integral
 
 	  if (error == 0) {
@@ -257,9 +256,16 @@ void LiftPID(double targetAngle){
 	  prevError = error;
 
 	  double speed = (kP*error + kI*integral + kD*derivative)*1.4;
+
+    if (targetAngle < 0) {
+      speed = speed * 66;
+    }
+
     Lift.move_absolute(error, speed);
 
-    if ((error < 1) && (error > -1)) break;
+    if ((error < 1) && (error > -1)) {
+      break;
+    }
 }
 
 }
