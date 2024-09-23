@@ -8,10 +8,13 @@
 #include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
 #include "pros/rotation.hpp"
+#include "pros/rtos.h"
 #include "pros/rtos.hpp"
 
 // controller
- pros::Controller controller(pros::E_CONTROLLER_MASTER);
+using pros::delay;
+
+pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // Green Ziptie
 
@@ -229,7 +232,7 @@ void state_machine_mogo() {
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void LiftPID(double targetAngle){
-	double kP;
+  double kP;
   double kI;
   double kD;
   lemlib::PID LiftController(
@@ -270,7 +273,6 @@ void LiftPID(double targetAngle){
       break;
     }
 }
-
 }
 
 //Alliance = 660
