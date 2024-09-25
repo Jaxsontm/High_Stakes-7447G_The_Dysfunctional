@@ -1,7 +1,6 @@
 #include "importants.h"
 #include "auton.h"
 #include "lemlib/chassis/chassis.hpp"
-#include "pros/abstract_motor.hpp"
 #include "pros/rtos.hpp"
 
 
@@ -18,42 +17,57 @@ chassis.waitUntilDone();
         request_new_state(SCORE);
 pros::delay(950);
 
-    chassis.turnToHeading(-110, 500, {.minSpeed = 127});
-chassis.waitUntilDone();
+    chassis.turnToHeading(-90, 500, {.minSpeed = 30});
 
-    chassis.turnToHeading(-90, 500, {.minSpeed = 127});
-
-    chassis.moveToPose(-17, -25, -90, 1000, {.lead = 0});
+    chassis.moveToPose(-17, -27, -90, 1000, {.lead = 0});
 chassis.waitUntilDone();
     
 pros::delay(1250);
 
               intakePiston.set_value(true);
 
-    chassis.moveToPose(16, -2, 90, 2500, {.lead = 0.2, .maxSpeed = 80});
-chassis.waitUntil(11);
+                    LiftPID(425);
 
-      request_new_state(State::BRAKE);
+    chassis.moveToPose(14, -5, 90, 2500, {.lead = 0.2, .maxSpeed = 80});
+chassis.waitUntil(11);
 
             request_new_state_mogo(StateMogo::RELEASE);
 
       request_new_state(LOAD);
               
-    chassis.moveToPoint(18, -2, 1000);
+    chassis.moveToPoint(6, -5, 1000, {.maxSpeed = 40, .minSpeed = 30, .earlyExitRange = 1.5});
+
+                    LiftPID(-425);
+
+    chassis.moveToPose(0, -2, 90, 1000, {.forwards = false, .maxSpeed = 50});
 
               intakePiston.set_value(false);
 
-      request_new_state(LOAD);
+      request_new_state(IDLE);
 
     chassis.swingToHeading(24, lemlib::DriveSide::RIGHT, 1000);
 
-        /**request_new_state(State::UNLOAD);
+        request_new_state(State::UNLOAD);
+pros::delay(1000);
 
                     LiftPID(660);
 
-    chassis.moveToPose(24, 12, 0, 1000);
+    chassis.moveToPose(23, 14, 24, 1000);
+chassis.waitUntilDone();
 
-                    LiftPID(-250);*/
+                    LiftPID(-235);
+pros::delay(500);
+
+    chassis.moveToPose(0, -33, 24, 1000, {.forwards = false});
+
+                    LiftPID(-425);
+
+    chassis.swingToHeading(-45, lemlib::DriveSide::RIGHT, 1000);
+chassis.waitUntilDone();
+
+        request_new_state(BRAKE);
+
+    chassis.moveToPose(20, -50, -45, 1000, {.forwards = false, .maxSpeed = 30});
 }
 
 void LeftAWP() { 
@@ -106,13 +120,6 @@ void Forwards() { //finished
 //goes reverse 6 inches at max speed
     Intake.move(127); 
 //spins the Intake to release the rubber band
-pros::delay(1500);
-    Lift.set_brake_mode(pros::MotorBrake::hold); 
-//sets the brake mode to hold the lift instead of flowing back down
-    Intake.brake();
-//stops the intake from moving    
-    Lift.tare_position();
-//resets the lift's position
 }
 
 void BlueRight() {
