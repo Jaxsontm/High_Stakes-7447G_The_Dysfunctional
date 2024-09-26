@@ -145,16 +145,16 @@ void state_machine() {
     switch (current_state) {
       // the Intake should be spinning
       case State::LOAD: {
-        if (DistanceIntake.get() < 21 && DistanceIntake.get() > 11) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
+        if (DistanceIntake.get() < 27 && DistanceIntake.get() > 12) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
        
         else Intake.move(-127); // if the Sensors doesn't detect anything, keep spinning the intake
        
         break; // break out of the switch statement
       }
       case State::IDLE: {
-        if (DistanceMogo.get() < 49 or WallDistance.get() < 125) current_state = State::SCORE;
+        if (DistanceMogo.get() < 49) current_state = State::SCORE;
         //Stop the Intake from spinning
-        else if (DistanceIntake.get() > 80 or WallDistance.get() > 127) current_state = State::BRAKE;
+        else if (DistanceIntake.get() > 80) current_state = State::BRAKE;
         
         else Intake.brake(); // make the Intake hold its position
 
