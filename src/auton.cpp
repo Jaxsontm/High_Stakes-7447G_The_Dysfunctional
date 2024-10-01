@@ -131,7 +131,7 @@ chassis.waitUntilDone();
 }
 
 void Skills() {
-    chassis.setPose(0,0,0);
+    chassis.setPose(0,0,0); 
 
             request_new_state_mogo(UNLOAD);
 }
