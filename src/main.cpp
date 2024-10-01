@@ -100,7 +100,7 @@ void competition_initialize() {}
  */
 void autonomous() {
   Lift.set_brake_mode(pros::MotorBrake::coast);
-        pros::delay(500); 
+        pros::delay(250); 
     console.println("Running auton..."); //makes the auton selector properly function
 	selector.run_auton();
 }
