@@ -10,7 +10,7 @@ void RightAWP() {
 
             request_new_state_mogo(StateMogo::LOCATE);
 
-    chassis.moveToPoint(0, -27.5, 1200, {.forwards = false, .maxSpeed = 55, .minSpeed = 25});
+    chassis.moveToPoint(0, -29, 1200, {.forwards = false, .maxSpeed = 55, .minSpeed = 25});
 chassis.waitUntilDone();
 
         request_new_state(SCORE);
