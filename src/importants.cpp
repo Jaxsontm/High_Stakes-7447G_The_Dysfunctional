@@ -152,13 +152,20 @@ void state_machine() {
         break; // break out of the switch statement
       }
       case State::IDLE: {
-        if (DistanceMogo.get() < 49) current_state = State::SCORE;
+        if (DistanceIntake.get() < 27 && DistanceIntake.get() > 12) current_state = State::MECH;
         //Stop the Intake from spinning
         else if (DistanceIntake.get() > 80) current_state = State::BRAKE;
         
         else Intake.brake(); // make the Intake hold its position
 
         break; // break out of the switch statement
+      }
+      case State::MECH: {
+        if (DistanceIntake.get() < 27 && DistanceIntake.get() > 12) current_state = State::BRAKE;
+
+        else current_state = SCORE;
+
+        break;
       }
       case State::SCORE: {
         Intake.move(-127);

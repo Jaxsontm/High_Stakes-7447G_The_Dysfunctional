@@ -30,15 +30,13 @@ pros::delay(1250);
     chassis.moveToPose(14, -5, 90, 2500, {.lead = 0.2, .maxSpeed = 80});
 chassis.waitUntil(11);
 
-            request_new_state_mogo(StateMogo::RELEASE);
-
       request_new_state(LOAD);
               
     chassis.moveToPoint(20, -5, 1000, {.maxSpeed = 40, .minSpeed = 30, .earlyExitRange = 1.5});
 
+              intakePiston.set_value(false);     
+              
                     LiftPID(-425);
-
-              intakePiston.set_value(false);
 
       request_new_state(IDLE);
 

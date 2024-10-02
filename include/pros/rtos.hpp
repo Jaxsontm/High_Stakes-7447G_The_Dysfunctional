@@ -24,7 +24,7 @@
 
 #include "pros/rtos.h"
 #undef delay
-#include <chrono>
+#include "chrono"
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
