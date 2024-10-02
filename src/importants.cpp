@@ -145,25 +145,27 @@ void state_machine() {
     switch (current_state) {
       // the Intake should be spinning
       case State::LOAD: {
-        if (DistanceIntake.get() < 27 && DistanceIntake.get() > 12) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
+        if (DistanceIntake.get() < 50) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
        
         else Intake.move(-127); // if the Sensors doesn't detect anything, keep spinning the intake
        
         break; // break out of the switch statement
       }
       case State::IDLE: {
-        if (DistanceIntake.get() < 27 && DistanceIntake.get() > 12) current_state = State::MECH;
+        if (DistanceIntake.get() < 45) current_state = State::MECH;
         //Stop the Intake from spinning
-        else if (DistanceIntake.get() > 80) current_state = State::BRAKE;
         
         else Intake.brake(); // make the Intake hold its position
 
         break; // break out of the switch statement
       }
       case State::MECH: {
-        if (DistanceIntake.get() < 27 && DistanceIntake.get() > 12 && DistanceMogo.get() > 80) current_state = State::BRAKE;
+        while (DistanceIntake.get_distance() > 50) {
+          Intake.move(-100);
+          pros::delay(5);
+        }
 
-        else current_state = SCORE;
+      Intake.brake();
 
         break;
       }
@@ -214,7 +216,7 @@ void state_machine_mogo() {
       // the MoGo Mech should be open
       case StateMogo::LOCATE: {
         // if the Sensor does detect something, stop the intake
-        if (DistanceMogo.get() < 81) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
+        if (DistanceMogo.get() < 80) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
         
         else Mogo.set_value(false); //if the sensors doesn't detect anything, keep the mech open
 
@@ -224,6 +226,8 @@ void state_machine_mogo() {
         pros::delay(50);
 
         Mogo.set_value(true); //Extends the pistons, grabbing the goal
+
+        pros::delay(250);
 
         break; // break out of the switch statement
       }
