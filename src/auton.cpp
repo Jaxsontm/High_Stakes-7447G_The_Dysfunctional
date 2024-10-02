@@ -30,7 +30,7 @@ pros::delay(1250);
     chassis.moveToPose(14, -5, 90, 2500, {.lead = 0.2, .maxSpeed = 80});
 chassis.waitUntil(11);
 
-      request_new_state(LOAD);
+      request_new_state(MECH);
               
     chassis.moveToPoint(20, -5, 1000, {.maxSpeed = 40, .minSpeed = 30, .earlyExitRange = 1.5});
 
