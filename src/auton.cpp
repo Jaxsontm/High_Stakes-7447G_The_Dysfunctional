@@ -1,7 +1,6 @@
 #include "importants.h"
 #include "auton.h"
 #include "lemlib/chassis/chassis.hpp"
-#include "pros/rtos.hpp"
 
 
 
@@ -133,7 +132,7 @@ chassis.waitUntilDone();
 void Skills() {
     chassis.setPose(0,0,0); 
 
-            request_new_state_mogo(UNLOAD);
+            request_new_state_mogo(StateMogo::LOCATE);
 }
 
 void Score() {
