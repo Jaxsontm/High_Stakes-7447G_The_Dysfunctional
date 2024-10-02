@@ -161,7 +161,7 @@ void state_machine() {
         break; // break out of the switch statement
       }
       case State::MECH: {
-        if (DistanceIntake.get() < 27 && DistanceIntake.get() > 12) current_state = State::BRAKE;
+        if (DistanceIntake.get() < 27 && DistanceIntake.get() > 12 && DistanceMogo.get() > 80) current_state = State::BRAKE;
 
         else current_state = SCORE;
 
