@@ -216,7 +216,7 @@ void state_machine_mogo() {
       // the MoGo Mech should be open
       case StateMogo::LOCATE: {
         // if the Sensor does detect something, stop the intake
-        if (DistanceMogo.get() < 80) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
+        if (DistanceMogo.get() < 79) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
         
         else Mogo.set_value(false); //if the sensors doesn't detect anything, keep the mech open
 

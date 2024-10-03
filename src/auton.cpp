@@ -27,7 +27,7 @@ pros::delay(950);
 
         request_new_state(MECH);
 
-    chassis.moveToPoint(9, -26, 1000);
+    chassis.moveToPoint(7, -26, 1000, {.minSpeed = 120});
 chassis.waitUntilDone();
 
 pros::delay(750);
@@ -145,10 +145,12 @@ chassis.waitUntilDone();
 }
 
 void Skills() {
-    chassis.setPose(0,0,0); 
+    chassis.setPose(0,0,0);
+    
     request_new_state_mogo(LOCATE);
-request_new_state(MECH);
-            //request_new_state_mogo(StateMogo::LOCATE);
+    chassis.moveToPoint(0, -10, 1000, {.forwards = false});
+request_new_state(SCORE);
+  chassis.moveToPoint(0, 10, 1000, {.minSpeed = 120});           //request_new_state_mogo(StateMogo::LOCATE);
 }
 
 void Score() {
