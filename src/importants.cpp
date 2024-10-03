@@ -21,13 +21,15 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
  pros::MotorGroup DTLeft({-15, 16, -17}, pros::MotorGearset::blue);
  pros::MotorGroup DTRight({12, -13, 14}, pros::MotorGearset::blue);
 
- pros::Imu inertial_sensor(21);
+ pros::Imu inertial_sensor(9);
 //
 
 // Blue Ziptie
  pros::Motor Intake(-11, pros::MotorGearset::blue);
 
- pros::Distance DistanceIntake(19);
+ pros::Distance DistanceIntakeTop(19);
+
+ pros::Distance DistanceIntakeBottom(21);
 
  pros::adi::Pneumatics intakePiston('B', false);
 //
@@ -145,14 +147,14 @@ void state_machine() {
     switch (current_state) {
       // the Intake should be spinning
       case State::LOAD: {
-        if (DistanceIntake.get() < 20) current_state = State::MECH; // if the Sensor does detect something, stop the intake
+        if (DistanceIntakeTop.get() < 20) current_state = State::MECH; // if the Sensor does detect something, stop the intake
        
         else Intake.move(-127); // if the Sensors doesn't detect anything, keep spinning the intake
        
         break; // break out of the switch statement
       }
       case State::MECH: {
-        while (DistanceIntake.get_distance() > 15) {
+        while (DistanceIntakeTop.get_distance() > 15) {
           Intake.move(-100);
           pros::delay(5);
         }
@@ -208,7 +210,7 @@ void state_machine_mogo() {
       // the MoGo Mech should be open
       case StateMogo::LOCATE: {
         // if the Sensor does detect something, stop the intake
-        if (DistanceMogo.get() < 79) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
+        if (DistanceMogo.get() <= 79) current_state2 = StateMogo::GRAB; //if the sensor does detect a goal, it goes to the GRAB state
         
         else Mogo.set_value(false); //if the sensors doesn't detect anything, keep the mech open
 
