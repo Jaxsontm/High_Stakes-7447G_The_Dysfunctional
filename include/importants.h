@@ -22,7 +22,9 @@ extern pros::Imu inertial_sensor;
 // Blue Ziptie
 extern pros::Motor Intake;
 
-extern pros::Distance DistanceIntake;
+extern pros::Distance DistanceIntakeTop;
+
+extern pros::Distance DistanceIntakeBottom;
 
 extern pros::adi::Pneumatics intakePiston;
 //
