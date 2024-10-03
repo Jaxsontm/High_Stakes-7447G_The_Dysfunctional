@@ -145,22 +145,14 @@ void state_machine() {
     switch (current_state) {
       // the Intake should be spinning
       case State::LOAD: {
-        if (DistanceIntake.get() < 50) current_state = State::IDLE; // if the Sensor does detect something, stop the intake
+        if (DistanceIntake.get() < 20) current_state = State::MECH; // if the Sensor does detect something, stop the intake
        
         else Intake.move(-127); // if the Sensors doesn't detect anything, keep spinning the intake
        
         break; // break out of the switch statement
       }
-      case State::IDLE: {
-        if (DistanceIntake.get() < 45) current_state = State::MECH;
-        //Stop the Intake from spinning
-        
-        else Intake.brake(); // make the Intake hold its position
-
-        break; // break out of the switch statement
-      }
       case State::MECH: {
-        while (DistanceIntake.get_distance() > 50) {
+        while (DistanceIntake.get_distance() > 15) {
           Intake.move(-100);
           pros::delay(5);
         }

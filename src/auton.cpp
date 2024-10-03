@@ -15,7 +15,7 @@ void RightAWP() {
 chassis.waitUntilDone();
 
     while (Mogo.extend() == false) {
-        pros::delay(25);
+        pros::delay(5);
     }
 
 pros::delay(250);
@@ -30,7 +30,9 @@ pros::delay(950);
     chassis.moveToPoint(7, -26, 1000, {.minSpeed = 120});
 chassis.waitUntilDone();
 
-pros::delay(750);
+    while (DistanceIntake.get() > 15) {
+        pros::delay(5);
+    }
 
         request_new_state(UNLOAD);
 
@@ -117,7 +119,7 @@ chassis.waitUntil(11);
 
               intakePiston.set_value(false);
 
-      request_new_state(IDLE);
+      //request_new_state(IDLE);
 
     chassis.swingToHeading(-24, lemlib::DriveSide::RIGHT, 1000);
 
