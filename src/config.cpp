@@ -1,4 +1,4 @@
-#include "importants.h"
+#include "config.h"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
@@ -185,8 +185,8 @@ void state_machine() {
     pros::delay(10);
   }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // the current state of the mechanism
 StateMogo current_state2 = RELEASE;
@@ -235,7 +235,9 @@ void state_machine_mogo() {
     pros::delay(10);
   }
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void LiftPID(double targetAngle){
   double kP;
   double kI;
@@ -266,7 +268,7 @@ void LiftPID(double targetAngle){
 	  double derivative = error - prevError; //derivative
 	  prevError = error;
 
-	  double speed = (kP*error + kI*integral + kD*derivative)*1.4;
+	  double speed = (kP*error + kI*integral + kD*derivative) * 1.4;
 
     if (targetAngle < 0) {
       speed = speed * 75;
