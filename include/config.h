@@ -90,3 +90,28 @@ extern void request_new_state_intake(StateIntake new_state);
 extern void request_new_state_mogo(StateMogo new_state);
 
 extern void LiftPID(double targetAngle);
+struct moveToTargetParams {
+    int maxSpeed = 127;
+    int minSpeed = 0;
+};
+
+class Lift {
+    public:
+    /**
+     *Sets position of lift
+     *
+     * @brief Move the Lift to the proper angle
+     *
+     * @param targetAngle angle to be moved to
+     * @param timeout amount of time to give the lift to move
+     * @param params struct to simulate named params
+     * @param async whether the function should run asynchronously
+     *
+     * @b Example
+     * @code {.cpp}
+     * Lift.moveToTarget(720, 1000, {.maxSpeed = 120, .minSpeed = 110}, true);
+     * @endcode
+     */
+    void moveToTarget(double targetAngle, int timeout, moveToTargetParams params = {}, bool async = true);
+};
+
