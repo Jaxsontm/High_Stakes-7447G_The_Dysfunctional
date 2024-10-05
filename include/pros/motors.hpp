@@ -2388,6 +2388,24 @@ class Motor : public AbstractMotor, public Device {
 	 * The port of the motor. Negative ports indicate that the motor is reversed
 	 */
 	std::int8_t _port;
+
+    public:
+    /**
+     *Sets position of lift
+     *
+     * \brief Move the Lift to the proper angle
+     *
+     * \param targetAngle angle to be moved to
+     * \param velocity struct to simulate named params
+     * \param timeout amount of time to give the lift to move
+     * \param async whether the function should run asynchronously
+     *
+     * \b Example
+     * \code {.cpp}
+     * Lift.moveToTarget(720, 1000, {.maxSpeed = 120, .minSpeed = 110}, true);
+     * \endcode
+     */
+    std::int32_t moveToTarget(const double targetAngle, std::int32_t velocity, std::int32_t timeout, bool async = true) const;
 };
 namespace literals {
 /**
