@@ -90,3 +90,10 @@ extern void request_new_state_intake(StateIntake new_state);
 extern void request_new_state_mogo(StateMogo new_state);
 
 extern void LiftPID(double targetAngle);
+
+struct targetParams{
+
+};
+class Lift{
+
+};

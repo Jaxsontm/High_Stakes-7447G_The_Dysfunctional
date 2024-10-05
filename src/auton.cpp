@@ -198,7 +198,6 @@ void Forwards() { //finished
 
 void BlueRight() {
     chassis.setPose(0, 0, 0);
-
 }
 
 /** top ring of the double stack
