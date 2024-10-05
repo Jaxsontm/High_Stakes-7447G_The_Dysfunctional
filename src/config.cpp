@@ -125,10 +125,10 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 //Intake State Machine
 
 // the current state of the mechanism
-State current_state_intake = BRAKE;
+StateIntake current_state_intake = BRAKE;
 
 // functions used to request a new state
-void request_new_state_intake(State requested_state_intake) {
+void request_new_state_intake(StateIntake requested_state_intake) {
   if (requested_state_intake < current_state_intake) {
     current_state_intake = requested_state_intake;
   }

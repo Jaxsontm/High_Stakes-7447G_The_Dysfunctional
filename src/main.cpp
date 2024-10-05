@@ -136,11 +136,11 @@ void opcontrol() {
     //Intake buttons
 
 		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            request_new_state_intake(State::SCORE);
+            request_new_state_intake(StateIntake::SCORE);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            request_new_state_intake(State::UNLOAD);
+            request_new_state_intake(StateIntake::UNLOAD);
         } else {
-            request_new_state_intake(State::BRAKE);
+            request_new_state_intake(StateIntake::BRAKE);
         }
 
     /////////////////////////////////////////////////////////////////
