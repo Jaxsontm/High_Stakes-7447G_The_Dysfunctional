@@ -50,7 +50,7 @@ void initialize() {
 	//pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
     console.println("Initializing robot...");
-    pros::Task state_machine_task_intake(state_machine);
+    pros::Task state_machine_task_intake(state_machine_intake);
     pros::Task state_machine_task_mogo(state_machine_mogo);
     Intake.set_brake_mode(pros::MotorBrake::brake);
     Lift.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
