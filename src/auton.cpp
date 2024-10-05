@@ -1,4 +1,4 @@
-#include "config.h"
+#include "config.hpp"
 #include "auton.h"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/rtos.hpp"
@@ -199,7 +199,7 @@ void Forwards() { //finished
 void BlueRight() {
     chassis.setPose(0, 0, 0);
 
-    moveToTarget(720, 1000);
+    
 }
 
 /** top ring of the double stack
