@@ -90,6 +90,7 @@ extern void request_new_state_intake(StateIntake new_state);
 extern void request_new_state_mogo(StateMogo new_state);
 
 extern void LiftPID(double targetAngle);
+namespace lemlib {
 struct moveToTargetParams {
     int maxSpeed = 127;
     int minSpeed = 0;
@@ -114,4 +115,4 @@ class Lift {
      */
     void moveToTarget(double targetAngle, int timeout, moveToTargetParams params = {}, bool async = true);
 };
-
+}
