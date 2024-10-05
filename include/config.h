@@ -70,7 +70,7 @@ extern lemlib::Chassis chassis;
 
 extern void waitUntilTankDist();
 
-enum State { //Sets the name of the States in the Intake State Machine
+enum StateIntake { //Sets the name of the States in the Intake State Machine
     LOAD = 0, 
     MECH = 1,
     SCORE = 2, 
@@ -86,7 +86,7 @@ enum StateMogo { //Sets the name of the States in the Mogo State Machine
 
 extern void state_machine();
 extern void state_machine_mogo();
-extern void request_new_state(State new_state);
+extern void request_new_state_intake(StateIntake new_state);
 extern void request_new_state_mogo(StateMogo new_state);
 
 extern void LiftPID(double targetAngle);

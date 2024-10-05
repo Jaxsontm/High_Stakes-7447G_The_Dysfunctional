@@ -36,8 +36,6 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // Yellow Ziptie
  pros::Motor Lift(-1, pros::MotorGearset::green);
-
- pros::Distance WallDistance(10);
 //
 
 // Red Ziptie
@@ -127,33 +125,33 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 //Intake State Machine
 
 // the current state of the mechanism
-State current_state = BRAKE;
+State current_state_intake = BRAKE;
 
 // functions used to request a new state
-void request_new_state(State requested_state) {
-  if (requested_state < current_state) {
-    current_state = requested_state;
+void request_new_state_intake(State requested_state_intake) {
+  if (requested_state_intake < current_state_intake) {
+    current_state_intake = requested_state_intake;
   }
-  if (requested_state > current_state) {
-    current_state = requested_state;
+  if (requested_state_intake > current_state_intake) {
+    current_state_intake = requested_state_intake;
   }
 }
 
 // function which constantly updates the state of the mechanism
-void state_machine() {
+void state_machine_intake() {
   // run forever
   while (true) {
     // switch statement to select what to do based on the current state
-    switch (current_state) {
+    switch (current_state_intake) {
       // the Intake should be spinning
-      case State::LOAD: {
-        if (DistanceIntakeTop.get() < 20) current_state = State::MECH; // if the Sensor does detect something, stop the intake
+      case StateIntake::LOAD: {
+        if (DistanceIntakeTop.get() < 20) current_state_intake = StateIntake::MECH; // if the Sensor does detect something, stop the intake
        
         else Intake.move(-127); // if the Sensors doesn't detect anything, keep spinning the intake
        
         break; // break out of the switch statement
       }
-      case State::MECH: {
+      case StateIntake::MECH: {
         while (DistanceIntakeTop.get_distance() > 15) {
           Intake.move(-100);
           pros::delay(5);
@@ -163,18 +161,18 @@ void state_machine() {
 
         break;
       }
-      case State::SCORE: {
+      case StateIntake::SCORE: {
         Intake.move(-127);
 
         break; // break out of the switch statement
       }
-      case State::UNLOAD: {
+      case StateIntake::UNLOAD: {
         //reverse Intake for Driver Control
         Intake.move(127);
 
         break; // break out of the switch statement
       }
-      case State::BRAKE: {
+      case StateIntake::BRAKE: {
         //keep the Intake from spinning
         Intake.brake();
 

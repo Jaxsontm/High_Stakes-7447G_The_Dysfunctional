@@ -50,7 +50,7 @@ void initialize() {
 	//pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
     console.println("Initializing robot...");
-    pros::Task state_machine_task(state_machine);
+    pros::Task state_machine_task_intake(state_machine);
     pros::Task state_machine_task_mogo(state_machine_mogo);
     Intake.set_brake_mode(pros::MotorBrake::brake);
     Lift.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
@@ -136,11 +136,11 @@ void opcontrol() {
     //Intake buttons
 
 		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            request_new_state(State::SCORE);
+            request_new_state_intake(State::SCORE);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            request_new_state(State::UNLOAD);
+            request_new_state_intake(State::UNLOAD);
         } else {
-            request_new_state(State::BRAKE);
+            request_new_state_intake(State::BRAKE);
         }
 
     /////////////////////////////////////////////////////////////////
