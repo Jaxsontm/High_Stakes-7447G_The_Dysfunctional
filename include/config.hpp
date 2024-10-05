@@ -84,7 +84,7 @@ enum StateMogo { //Sets the name of the States in the Mogo State Machine
     RELEASE = 2
 };
 
-extern void state_machine();
+extern void state_machine_intake();
 extern void state_machine_mogo();
 extern void request_new_state_intake(StateIntake new_state);
 extern void request_new_state_mogo(StateMogo new_state);
