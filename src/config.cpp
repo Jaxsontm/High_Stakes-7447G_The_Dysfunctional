@@ -156,7 +156,7 @@ void state_machine_intake() {
           Intake.move(-110);
         }
 
-        if (DistanceIntakeTop.get() < 16) current_state_intake = StateIntake::UNLOAD;
+        if (DistanceIntakeTop.get() < 17) current_state_intake = StateIntake::UNLOAD;
 
         break;
       }
