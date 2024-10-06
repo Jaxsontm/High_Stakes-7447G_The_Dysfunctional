@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "liblvgl/lvgl.h"
 
+#include "liblvgl/core/lv_obj.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

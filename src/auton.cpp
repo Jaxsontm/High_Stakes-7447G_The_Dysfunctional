@@ -81,6 +81,27 @@ chassis.waitUntilDone();
 
     chassis.moveToPose(38, -36, -55, 1000, {.forwards = false, .maxSpeed = 60});
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void BlueRight() {
+    chassis.setPose(0, 0, 0);
+
+    request_new_state_intake(MECH);
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void RedRight(){
+    chassis.setPose(0, 0, 0);
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Forwards() { //finished
+    chassis.setPose(0,0,0); 
+//sets robot position to 0 on every axes
+    chassis.moveToPose(0, 6, 0, 450, {.forwards = false, .minSpeed = 127});
+//goes reverse 6 inches at max speed
+    Intake.move(127); 
+//spins the Intake to release the rubber band
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void LeftAWP() { 
     chassis.setPose(0, 0, -45);
@@ -167,40 +188,21 @@ chassis.waitUntilDone();
 
     chassis.moveToPose(38, -36, -55, 1000, {.forwards = false, .maxSpeed = 60});
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+void BlueLeft() {
+    chassis.setPose(0,0,0);
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void RedLeft(){
+    chassis.setPose(0, 0, 0);
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Skills() {
     chassis.setPose(0,0,0);
     
     LiftPID(720);          //request_new_state_mogo(StateMogo::LOCATE);
 }
-
-void BlueLeft() {
-    chassis.setPose(0,0,0);
-}
-
-void Forwards() { //finished
-    chassis.setPose(0,0,0); 
-//sets robot position to 0 on every axes
-    chassis.moveToPose(0, 6, 0, 450, {.forwards = false, .minSpeed = 127});
-//goes reverse 6 inches at max speed
-    Intake.move(127); 
-//spins the Intake to release the rubber band
-}
-
-void BlueRight() {
-    chassis.setPose(0, 0, 0);
-
-    request_new_state_intake(MECH);
-}
-
-void RedRight(){
-
-}
-
-void RedLeft(){
-    
-}
-
 /** top ring of the double stack
     intakePiston.set_value(true);
 
