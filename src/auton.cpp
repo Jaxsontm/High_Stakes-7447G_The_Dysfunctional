@@ -16,36 +16,27 @@ chassis.waitUntilDone();
     while (Mogo.extend() == false) {
         pros::delay(5);
     }
-
-pros::delay(250);
-
+    
         request_new_state_intake(SCORE);
 pros::delay(950);
 
-    chassis.turnToPoint(15, -25, 500);
-
         request_new_state_intake(MECH);
 
-    chassis.moveToPoint(15, -25, 1000, {.minSpeed = 120});
+    chassis.turnToPoint(3, -25, 500);   
 
-    while (DistanceIntakeBottom.get() > 65) {
+    chassis.moveToPoint(3, -25.5, 1000, {.minSpeed = 127});
+chassis.waitUntilDone();
+
+    while (DistanceIntakeTop.get() > 16) {
         pros::delay(5);
     }
 
-    chassis.moveToPoint(17, -26, 1000);
+    chassis.moveToPoint(13, -25.5, 1000, {.minSpeed = 120});
 
-    while (DistanceIntakeTop.get() > 25) {
-        pros::delay(5);
-    }
-
-        request_new_state_intake(UNLOAD);
-
-pros::delay(750);
-
-    chassis.turnToHeading(60, 1000, {.maxSpeed = 80});
+    chassis.turnToHeading(30, 500, {.minSpeed = 100});
 chassis.waitUntilDone(); 
 
-    chassis.moveToPose(30, 0, 80, 2500, {.lead = 0.4, .maxSpeed = 80});
+    chassis.moveToPose(30, 0, 80, 2500, {.lead = 0.3, .maxSpeed = 90});
 chassis.waitUntil(9);
 
       request_new_state_intake(SCORE);
@@ -55,19 +46,19 @@ chassis.waitUntil(9);
                 intakePiston.set_value(true);
 chassis.waitUntilDone();
 
-pros::delay(150);
+pros::delay(250);
                 intakePiston.set_value(false); 
 
                     LiftPID(-415);
 
-    chassis.moveToPose(30, 0, 90, 1000, {.maxSpeed = 70, .minSpeed = 50});
+    chassis.moveToPose(31, 0, 80, 1000, {.maxSpeed = 70, .minSpeed = 70});
                     
-pros::delay(500);
+pros::delay(250);
 
-    chassis.moveToPose(24, 0, 90, 1000, {.forwards = false, .minSpeed = 110});
+    chassis.moveToPose(24, 0, 80, 1000, {.forwards = false, .minSpeed = 110});
 chassis.waitUntilDone();
                     
-/*pros::delay(500);
+pros::delay(750);
 
     chassis.swingToHeading(26, lemlib::DriveSide::RIGHT, 1000);
 
@@ -85,10 +76,10 @@ pros::delay(500);
 
                     LiftPID(-425);
 
-    chassis.swingToHeading(-55, lemlib::DriveSide::RIGHT, 1000);
+    chassis.swingToHeading(-55, lemlib::DriveSide::RIGHT, 700);
 chassis.waitUntilDone();
 
-    chassis.moveToPose(38, -36, -55, 1000, {.forwards = false, .maxSpeed = 60});*/
+    chassis.moveToPose(38, -36, -55, 1000, {.forwards = false, .maxSpeed = 60});
 }
 
 void LeftAWP() { 
@@ -183,7 +174,7 @@ void Skills() {
     LiftPID(720);          //request_new_state_mogo(StateMogo::LOCATE);
 }
 
-void Score() {
+void BlueLeft() {
     chassis.setPose(0,0,0);
 }
 
@@ -198,6 +189,16 @@ void Forwards() { //finished
 
 void BlueRight() {
     chassis.setPose(0, 0, 0);
+
+    request_new_state_intake(MECH);
+}
+
+void RedRight(){
+
+}
+
+void RedLeft(){
+    
 }
 
 /** top ring of the double stack

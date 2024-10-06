@@ -152,12 +152,11 @@ void state_machine_intake() {
         break; // break out of the switch statement
       }
       case StateIntake::MECH: {
-        while (DistanceIntakeTop.get_distance() > 15) {
-          Intake.move(-100);
-          pros::delay(5);
+        while (DistanceIntakeTop.get_distance() > 16) {
+          Intake.move(-110);
         }
 
-      Intake.brake();
+        if (DistanceIntakeTop.get() < 16) current_state_intake = StateIntake::UNLOAD;
 
         break;
       }

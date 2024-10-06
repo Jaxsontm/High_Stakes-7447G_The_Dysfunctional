@@ -14,8 +14,10 @@ void Skills();
 static rd::Selector selector({
    {"Right AWP", &RightAWP},
    {"Left AWP", &LeftAWP},
-   {"Blue SUPER SCORE", &BlueRight},
-   {"Red SUPER SCORE", &Score},
+   {"Blue Right Elim", &BlueRight},
+   {"Blue Left Elim", &BlueLeft},
+   {"Red Right Elim", &RedRight},
+   {"Red Left Elim", &RedLeft},
    {"Forwards", &Forwards}, 
    {"Skills", &Skills},
    

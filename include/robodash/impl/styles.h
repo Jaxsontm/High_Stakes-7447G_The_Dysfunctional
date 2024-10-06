@@ -5,8 +5,10 @@
  */
 
 #pragma once
-#include "robodash/apix.h"
 
+#include "liblvgl/misc/lv_anim.h"
+#include "liblvgl/misc/lv_color.h"
+#include "liblvgl/misc/lv_style.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

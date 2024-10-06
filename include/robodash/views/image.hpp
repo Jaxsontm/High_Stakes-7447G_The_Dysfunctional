@@ -5,7 +5,8 @@
  */
 
 #pragma once
-#include "robodash/api.h"
+#include "liblvgl/draw/lv_img_buf.h"
+#include "robodash/core.h"
 #include <string>
 
 namespace rd {
