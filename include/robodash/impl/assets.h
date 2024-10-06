@@ -5,8 +5,9 @@
  */
 
 #pragma once
-#include "robodash/apix.h"
 
+#include "liblvgl/font/lv_font.h"
+#include "liblvgl/widgets/lv_img.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

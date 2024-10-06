@@ -6,7 +6,9 @@
 void RightAWP();
 void LeftAWP();
 void BlueRight();
-void Score();
+void BlueLeft();
+void RedRight();
+void RedLeft();
 void Forwards();
 void Skills();
 
