@@ -73,9 +73,10 @@ extern void waitUntilTankDist();
 enum StateIntake { //Sets the name of the States in the Intake State Machine
     LOAD = 0, 
     MECH = 1,
-    SCORE = 2, 
-    UNLOAD = 3, 
-    BRAKE = 4,
+    STOP = 2,
+    SCORE = 3, 
+    UNLOAD = 4, 
+    BRAKE = 5,
 };
 
 enum StateMogo { //Sets the name of the States in the Mogo State Machine

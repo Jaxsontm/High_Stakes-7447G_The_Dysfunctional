@@ -160,6 +160,15 @@ void state_machine_intake() {
 
         break;
       }
+      case StateIntake::STOP: {
+        while (DistanceIntakeBottom.get() > 65) {
+          Intake.move(-127);
+          pros::delay(5);
+        }
+        if (DistanceIntakeBottom.get() > 60) current_state_intake = StateIntake::BRAKE;
+
+        break;
+      }
       case StateIntake::SCORE: {
         Intake.move(-127);
 
