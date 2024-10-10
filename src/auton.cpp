@@ -489,11 +489,11 @@ pros::delay(500);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Skills() {
-    chassis.setPose(0,0,90);
+    chassis.setPose(0,0,135);
     
             request_new_state_mogo(StateMogo::LOCATE);
 
-    chassis.swingToHeading(135, lemlib::DriveSide::LEFT, 800, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
+    chassis.moveToPose(-3, 4.5, 135, 500);
 
     while (Mogo.extend() == false) {
         pros::delay(5);
@@ -502,113 +502,66 @@ pros::delay(150);
 
         request_new_state_intake(SCORE);
 
-    chassis.moveToPose(29, 0, 93, 800, {.minSpeed = 120, .earlyExitRange = 3});
+    chassis.moveToPose(17.5, -2.5, 93, 800, {.lead = 0, .minSpeed = 120, .earlyExitRange = 3});//
 
-    chassis.moveToPose(27, 12, 45, 750, {.lead = 0, .minSpeed = 120, .earlyExitRange = 2});
+    chassis.moveToPose(29.5, 9.5, 45, 750, {.lead = 0, .minSpeed = 120, .earlyExitRange = 2});
 
-    chassis.moveToPose(15, 36, -45, 750, {.lead = 0, .minSpeed = 120, .earlyExitRange = 2});
+    chassis.moveToPose(29.5, 56.5, 0, 1000, {.lead = 0, .minSpeed = 120});
 
-        request_new_state_intake(STOP);
+    chassis.turnToHeading(-135, 500, {.minSpeed = 100});
 
-    chassis.moveToPose(-8, 36, 90, 900, {.lead = 0, .minSpeed = 120});
+    chassis.moveToPose(17.5, 32.5, -135, 750, {.lead = 0, .minSpeed = 120, .earlyExitRange = 2});
+
+    chassis.moveToPose(-5.5, 33, 90, 900, {.lead = 0, .minSpeed = 120});
 
     chassis.turnToHeading(135, 650);
 
-        request_new_state_intake(MECH);
+        request_new_state_intake(STOP);
 
-    while (DistanceIntakeTop.get() < 80) {
-        pros::delay(5);
-    }
-
-       request_new_state_intake(SCORE); 
-
-    chassis.moveToPose(15, 12, 135, 850, {.minSpeed = 120});
+    chassis.moveToPose(18, 9.5, 135, 850, {.minSpeed = 120});
 
     chassis.turnToHeading(-45, 850, {.minSpeed = 100});
 
             request_new_state_mogo(RELEASE);
 
-    chassis.moveToPose(35, -7, -45, 850, {.forwards = false, .minSpeed = 120, .earlyExitRange = 3});
+    chassis.moveToPose(29.5, -2.5, -45, 850, {.forwards = false, .minSpeed = 120, .earlyExitRange = 3});
 
-    chassis.moveToPoint(15, 36, 750, {.minSpeed = 120, .earlyExitRange = 2});
-
-                        LiftPID(1150);
-
-    chassis.moveToPose(32, 59, 90, 1000, {.lead = 0.5, .minSpeed = 80});
-
-                        LiftPID(-1150);
-
-        request_new_state_intake(MECH);
-
-    chassis.moveToPoint(28, 59, 1000, {.minSpeed = 100});
-\
-    while (DistanceIntakeTop.get() > 16) {
-        pros::delay(5);
-    }
-
-     while (DistanceIntakeTop.get() < 80) {
-        pros::delay(5);
-    }
-
-    chassis.swingToHeading(-135, lemlib::DriveSide::LEFT, 850, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 60, .earlyExitRange = 10});
-
-                        LiftPID(720);
-
-    chassis.moveToPose(-3, -27, -135, 2000, {.minSpeed = 115});
+    chassis.moveToPose(-29.5, -6.5, 0, 1250, {.forwards = false, .lead = 0.6, .minSpeed = 120});
 chassis.waitUntilDone();
 
-                        LiftPID(-285);
+        request_new_state_intake(SCORE);
+pros::delay(250);
 
-    chassis.swingToHeading(105, lemlib::DriveSide::RIGHT, 850, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 60});
+    chassis.swingToHeading(100, lemlib::DriveSide::RIGHT, 850, {.minSpeed = 80});
+
+        request_new_state_intake(BRAKE);
 
             request_new_state_mogo(LOCATE);
 
-    chassis.moveToPose(-49, 12, 90, 1500, {.forwards = false, .minSpeed = 100});
-
-    chassis.turnToHeading(30, 500, {.minSpeed = 100});
+    chassis.moveToPose(49.5, 9.75, 90, 1000, {.forwards = false, .lead = 0, .minSpeed = 120});
 
         request_new_state_intake(SCORE);
 
-    chassis.moveToPose(-54, 36, 30, 1250, {.minSpeed = 100});
+    chassis.moveToPose(-53.5, 33, -70, 1000, {.minSpeed = 100});
 
-    chassis.moveToPose(-78, 36, -90, 1000, {.lead = 0.1, .minSpeed = 100});
+    chassis.moveToPose(-76.5, 33, -90, 1000, {.minSpeed = 100});
 
-    chassis.moveToPose(-78, 0, 180, 1000, {.lead = 0.1, .minSpeed = 100});
+    chassis.turnToHeading(180, 500, {.minSpeed = 120});
 
-    chassis.turnToHeading(-45, 500, {.minSpeed = 100});
+    chassis.moveToPose(-76.5, -2.5, 180, 1000, {.minSpeed = 100});
 
-    chassis.moveToPose(-90, 13, -45, 1000, {.minSpeed = 100});
+    chassis.turnToHeading(-45, 500, {.minSpeed = 120});
 
-    chassis.turnToHeading(30, 1000, {.minSpeed = 100});
+    chassis.moveToPose(-88.5, 9.5, -45, 1000, {.minSpeed = 100});
+
+    chassis.swingToHeading(45, lemlib::DriveSide::LEFT, 850, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
 
             request_new_state_mogo(RELEASE);
 
-    chassis.moveToPose(-94, -5, 30, 1000, {.forwards = false, .minSpeed = 100});
+    chassis.moveToPose(-88.5, -2.5, 45, 1000, {.minSpeed = 100});
 
         request_new_state_intake(MECH);
-
-    chassis.moveToPose(-89, 59, -90, 1500, {.minSpeed = 100});
-
-    while (DistanceIntakeTop.get() > 16) {
-        pros::delay(5);
-    }
-
-     while (DistanceIntakeTop.get() < 80) {
-        pros::delay(5);
-    }
-
-                        LiftPID(1150);
-
-    chassis.moveToPose(-96, 59, -90, 1000, {.minSpeed = 100});
-
-                        LiftPID(-1150);
-
-    chassis.moveToPose(-89, 59, -90, 1500, {.minSpeed = 100});
-
-        request_new_state_intake(MECH);
-
-    chassis.turnToHeading(45, 500, {.minSpeed = 100});
-    
+        
 }
 /** top ring of the double stack
     intakePiston.set_value(true);
