@@ -139,6 +139,8 @@ void opcontrol() {
             request_new_state_intake(StateIntake::SCORE);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             request_new_state_intake(StateIntake::UNLOAD);
+        } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+            request_new_state_intake(MECH);
         } else {
             request_new_state_intake(StateIntake::BRAKE);
         }
