@@ -6,39 +6,40 @@
 #include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
 #include "pros/rotation.hpp"
+using namespace pros;
 
 
 // controller
-extern pros::Controller controller;
+extern Controller controller;
 
 // Green Ziptie
 
-extern pros::MotorGroup DTLeft;
-extern pros::MotorGroup DTRight;
+extern MotorGroup DTLeft;
+extern MotorGroup DTRight;
 
-extern pros::Imu inertial_sensor;
+extern Imu inertial_sensor;
 //
 
 // Blue Ziptie
-extern pros::Motor Intake;
+extern Motor Intake;
 
-extern pros::Distance DistanceIntakeTop;
+extern Distance DistanceIntakeTop;
 
-extern pros::Distance DistanceIntakeBottom;
+extern Distance DistanceIntakeBottom;
 
-extern pros::adi::Pneumatics intakePiston;
+extern adi::Pneumatics intakePiston;
 //
 
 // Yellow Ziptie
-extern pros::Motor Lift;
+extern Motor Lift;
 
-extern pros::Distance WallDistance;
+extern Distance WallDistance;
 //
 
 // Red Ziptie
-extern pros::Distance DistanceMogo;
+extern Distance DistanceMogo;
 
-extern pros::adi::Pneumatics Mogo;
+extern adi::Pneumatics Mogo;
 //
 
 //Utilites White ziptie
@@ -55,8 +56,8 @@ extern lemlib::ControllerSettings
     angularController;
 
 //Rotation Sensors
-extern pros::Rotation horizontal_sensor;
-extern pros::Rotation vertical_sensor;
+extern Rotation horizontal_sensor;
+extern Rotation vertical_sensor;
 
 extern lemlib::TrackingWheel horizontal_tracking_wheel;
 extern lemlib::TrackingWheel vertical_tracking_wheel;

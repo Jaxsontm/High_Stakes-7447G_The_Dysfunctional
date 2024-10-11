@@ -9,39 +9,39 @@
 #include "pros/motors.hpp"
 #include "pros/rotation.hpp"
 #include "pros/rtos.h"
-#include "pros/rtos.hpp"
+using namespace pros;
 
 // controller
 using pros::delay;
 
-pros::Controller controller(pros::E_CONTROLLER_MASTER);
+Controller controller(E_CONTROLLER_MASTER);
 
 // Green Ziptie
 
- pros::MotorGroup DTLeft({-15, 16, -17}, pros::MotorGearset::blue);
- pros::MotorGroup DTRight({12, -13, 14}, pros::MotorGearset::blue);
+ MotorGroup DTLeft({-15, 16, -17}, MotorGearset::blue);
+ MotorGroup DTRight({12, -13, 14}, MotorGearset::blue);
 
- pros::Imu inertial_sensor(9);
+ Imu inertial_sensor(9);
 //
 
 // Blue Ziptie
- pros::Motor Intake(-11, pros::MotorGearset::blue);
+ Motor Intake(-11, MotorGearset::blue);
 
- pros::Distance DistanceIntakeTop(19);
+ Distance DistanceIntakeTop(19);
 
- pros::Distance DistanceIntakeBottom(21);
+ Distance DistanceIntakeBottom(21);
 
- pros::adi::Pneumatics intakePiston('B', false);
+ adi::Pneumatics intakePiston('B', false);
 //
 
 // Yellow Ziptie
- pros::Motor Lift(-1, pros::MotorGearset::green);
+ Motor Lift(-1, MotorGearset::green);
 //
 
 // Red Ziptie
- pros::Distance DistanceMogo(8);
+ Distance DistanceMogo(8);
 
- pros::adi::Pneumatics Mogo('A', false);
+ adi::Pneumatics Mogo('A', false);
 //
 
 //Utilites White ziptie
@@ -83,8 +83,8 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
     );
 
 //Rotation Sensors
- pros::Rotation horizontal_sensor(10);
- pros::Rotation vertical_sensor(18);
+ Rotation horizontal_sensor(10);
+ Rotation vertical_sensor(18);
 
  lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
                                                 lemlib::Omniwheel::NEW_275, 2);
@@ -116,7 +116,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
         lastPose); // redeclares param inches as inches minus distance away from
                    // the last position
     lastPose = chassis.getPose(); // updates current position of robot
-    pros::delay(10);              // adds delay to not overload sensors
+    delay(10);              // adds delay to not overload sensors
   } // slowly whittles down at inches until it is equal to 0, in which it will
     // run the next line of code in queue
 }
@@ -163,7 +163,7 @@ void state_machine_intake() {
       case StateIntake::STOP: {
         while (DistanceIntakeBottom.get() > 65) {
           Intake.move(-127);
-          pros::delay(5);
+          delay(5);
         }
         if (DistanceIntakeBottom.get() > 60) current_state_intake = StateIntake::BRAKE;
 
@@ -188,7 +188,7 @@ void state_machine_intake() {
       }
     }
     // delay to save resources
-    pros::delay(10);
+    delay(10);
   }
 }
 
@@ -223,11 +223,11 @@ void state_machine_mogo() {
         break; // break out of the switch statement
       }
       case StateMogo::GRAB:{
-        pros::delay(50);
+        delay(50);
 
         Mogo.set_value(true); //Extends the pistons, grabbing the goal
 
-        pros::delay(250);
+        delay(250);
 
         break; // break out of the switch statement
       }
@@ -238,7 +238,7 @@ void state_machine_mogo() {
       }
     }
     // delay to save resources
-    pros::delay(10);
+    delay(10);
   }
 }
 
