@@ -9,6 +9,7 @@
 #include "pros/motors.h"
 #include "pros/motors.hpp"
 #include "pros/rtos.hpp"
+using namespace pros;
 
 
 /**
@@ -23,18 +24,18 @@ void on_center_button() {
   static bool pressed = false;
   pressed = !pressed;
   if (pressed) {
-    pros::lcd::set_text(2, "I was pressed!");
+    lcd::set_text(2, "I was pressed!");
   } else {
-    pros::lcd::clear_line(2);
+    lcd::clear_line(2);
   }
 }
 
 void screen() {
     while (true) {
-        pros::lcd::print(0, "X: %f", chassis.getPose().x);
-        pros::lcd::print(1, "Y: %f", chassis.getPose().y);
-        pros::lcd::print(2, "Theta: %f", chassis.getPose().theta);
-        pros::delay(50);
+        lcd::print(0, "X: %f", chassis.getPose().x);
+        lcd::print(1, "Y: %f", chassis.getPose().y);
+        lcd::print(2, "Theta: %f", chassis.getPose().theta);
+        delay(50);
     }
 }
 
@@ -47,24 +48,24 @@ void screen() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	//pros::lcd::initialize(); // initialize brain screen
+	//lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
     console.println("Initializing robot...");
-    pros::Task state_machine_task_intake(state_machine_intake);
-    pros::Task state_machine_task_mogo(state_machine_mogo);
-    Intake.set_brake_mode(pros::MotorBrake::brake);
-    Lift.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+    Task state_machine_task_intake(state_machine_intake);
+    Task state_machine_task_mogo(state_machine_mogo);
+    Intake.set_brake_mode(MotorBrake::brake);
+    Lift.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
     Lift.set_zero_position(0);
-    pros::Task screenTask([&]() {
+    Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {
             // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta);//heading
+            lcd::print(0, "X: %f", chassis.getPose().x); // x
+            lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            lcd::print(2, "Theta: %f", chassis.getPose().theta);//heading
             
             // delay to save resources
-            pros::delay(50); 
+            delay(50); 
         }
     });
 }
@@ -99,8 +100,8 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-  Lift.set_brake_mode(pros::MotorBrake::coast);
-        pros::delay(250); 
+  Lift.set_brake_mode(MotorBrake::coast);
+        delay(250); 
     console.println("Running auton..."); //makes the auton selector properly function
 	selector.run_auton();
 }
@@ -128,18 +129,18 @@ void autonomous() {
 
 void opcontrol() {
   //sets the brake modes for the Intake and lift
-    Intake.set_brake_mode(pros::MotorBrake::coast);
-    Lift.set_brake_mode(pros::MotorBrake::hold); 
+    Intake.set_brake_mode(MotorBrake::coast);
+    Lift.set_brake_mode(MotorBrake::hold); 
 
 	while (true) {
     /////////////////////////////////////////////////////////////////
     //Intake buttons
 
-		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+		if (controller.get_digital(E_CONTROLLER_DIGITAL_R1)) {
             request_new_state_intake(StateIntake::SCORE);
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
             request_new_state_intake(StateIntake::UNLOAD);
-        } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+        } else if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
             request_new_state_intake(MECH);
         } else {
             request_new_state_intake(StateIntake::BRAKE);
@@ -148,38 +149,38 @@ void opcontrol() {
     /////////////////////////////////////////////////////////////////
     //MoGo Mech toggle 
 
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) && !yPressed && !yState) {
+        if (controller.get_digital(E_CONTROLLER_DIGITAL_Y) && !yPressed && !yState) {
             request_new_state_mogo(StateMogo::GRAB);
             yPressed = true;
             yState = true;
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) && !yPressed && yState) {
+        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_Y) && !yPressed && yState) {
             request_new_state_mogo(StateMogo::RELEASE);
             yPressed = true;
             yState = false;
-        } else if (!controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+        } else if (!controller.get_digital(E_CONTROLLER_DIGITAL_Y)) {
             yPressed = false;
         }
 
     /////////////////////////////////////////////////////////////////
     //Intake Piston toggle    
 
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && !rightState) {
+        if (controller.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && !rightState) {
             intakePiston.set_value(true);
             rightPressed = true;
             rightState = true;
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && rightState) {
+        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && rightState) {
             intakePiston.set_value(false);
             rightPressed = true;
             rightState = false;
-        } else if (!controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        } else if (!controller.get_digital(E_CONTROLLER_DIGITAL_RIGHT)) {
             rightPressed = false;
         }
 
     /////////////////////////////////////////////////////////////////
     //Lift buttons
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+        if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) {
           Lift.move(-127);
-        }  else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+        }  else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)){
           Lift.move(127);
         }  else {
           Lift.brake();
@@ -188,13 +189,13 @@ void opcontrol() {
     //Drivetrain Mode
     
         // get left y and right x positions
-        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+        int leftY = controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightY = controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y);
 
         // move the robot
         chassis.tank(leftY, rightY);
 
         // delay to save resources
-        pros::delay(25);
+        delay(25);
      }
 	}
