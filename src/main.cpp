@@ -53,6 +53,7 @@ void initialize() {
     console.println("Initializing robot...");
     Task state_machine_task_intake(state_machine_intake);
     Task state_machine_task_mogo(state_machine_mogo);
+    Task state_machine_task_lift(state_machine_lift);
     Intake.set_brake_mode(MotorBrake::brake);
     Lift.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
     Lift.set_zero_position(0);

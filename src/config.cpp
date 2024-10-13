@@ -290,3 +290,62 @@ void LiftPID(double targetAngle){
 
 //Alliance = 660
 //Wall = 1150
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Intake State Machine
+
+// the current state of the mechanism
+StateLift current_state_lift = liftSTOP;
+
+// functions used to request a new state
+void request_new_state_lift(StateLift requested_state_lift) {
+  if (requested_state_lift < current_state_lift) {
+    current_state_lift = requested_state_lift;
+  }
+  if (requested_state_lift > current_state_lift) {
+    current_state_lift = requested_state_lift;
+  }
+}
+
+// function which constantly updates the state of the mechanism
+void state_machine_lift() {
+  // run forever
+  while (true) {
+    // switch statement to select what to do based on the current state
+    switch (current_state_lift) {
+      // the lift should be spinning
+      case StateLift::NEUTRAL: {
+        
+        break; // break out of the switch statement
+      }
+      case StateLift::ALLIANCE: {
+        
+        break;
+      }
+      case StateLift::neutralDOWN: {
+       
+        break;
+      }
+      case StateLift::allianceDOWN: {
+        
+        break; // break out of the switch statement
+      }
+      case StateLift::UP: {
+        
+        break; // break out of the switch statement
+      }
+      case StateLift::DOWN: {
+        
+        break; // break out of the switch statement
+      }
+      case StateLift::liftSTOP: {
+
+        break;
+      }
+    }
+    // delay to save resources
+    delay(10);
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
