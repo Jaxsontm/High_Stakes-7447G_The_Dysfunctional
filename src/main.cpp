@@ -53,7 +53,7 @@ void initialize() {
     console.println("Initializing robot...");
     Task state_machine_task_intake(state_machine_intake);
     Task state_machine_task_mogo(state_machine_mogo);
-    Task state_machine_task_lift(state_machine_lift);
+    //Task state_machine_task_lift(state_machine_lift);
     Intake.set_brake_mode(MotorBrake::brake);
     Lift.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
     Lift.set_zero_position(0);
@@ -102,7 +102,7 @@ void competition_initialize() {}
  */
 void autonomous() {
   Lift.set_brake_mode(MotorBrake::coast);
-        delay(250); 
+        delay(50); 
     console.println("Running auton..."); //makes the auton selector properly function
 	selector.run_auton();
 }
@@ -151,7 +151,7 @@ void opcontrol() {
     //MoGo Mech toggle 
 
         if (controller.get_digital(E_CONTROLLER_DIGITAL_Y) && !yPressed && !yState) {
-            request_new_state_mogo(StateMogo::GRAB);
+            request_new_state_mogo(StateMogo::dcGRAB);
             yPressed = true;
             yState = true;
         } else if (controller.get_digital(E_CONTROLLER_DIGITAL_Y) && !yPressed && yState) {
@@ -179,12 +179,12 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
     //Lift buttons
-        if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) {
-          Lift.move(-127);
-        }  else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)){
-          Lift.move(127);
-        }  else {
-          Lift.brake();
+       if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) {
+            Lift.move(-127);
+        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)){
+            Lift.move(127);
+        } else {
+            Lift.brake();
         }
     /////////////////////////////////////////////////////////////////
     //Drivetrain Mode
