@@ -9,6 +9,7 @@
 #include "pros/motors.h"
 #include "pros/motors.hpp"
 #include "pros/rtos.hpp"
+#include <string>
 using namespace pros;
 
 
@@ -121,12 +122,11 @@ void autonomous() {
  */
 
  //these are booleans that allow us to have one button toggles for pistons
- bool static yPressed = false;
- bool static yState = false;
+ bool yPressed = false;
+ bool yState = false;
 
- bool static rightPressed = false;
- bool static rightState = false;
-
+ bool rightPressed = false;
+ bool rightState = false;
 
 void opcontrol() {
   //sets the brake modes for the Intake and lift
@@ -179,10 +179,13 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
     //Lift buttons
-       if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) {
+        if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) {
             Lift.move(-127);
         } else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)){
             Lift.move(127);
+        } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+            Lift.move(0);
+            LiftPID(1175);
         } else {
             Lift.brake();
         }

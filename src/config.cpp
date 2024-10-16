@@ -155,17 +155,24 @@ void state_machine_intake() {
           delay(5);
         }
 
-        if (DistanceIntakeTop.get() <=30) current_state_intake = StateIntake::UNLOAD;
+        if (DistanceIntakeTop.get() <= 30) current_state_intake = StateIntake::UNLOAD;
 
         break;
       }
       case StateIntake::STOP: {
-        while (DistanceIntakeBottom.get() > 70) {
+        while (DistanceIntakeTop.get() > 31) {
           Intake.move(-127);
+          while (DistanceIntakeBottom.get() <= 50){
+            Intake.move(-63);
+            delay(5);
+          }
           delay(5);
         }
 
-        if (DistanceIntakeBottom.get() <= 70) current_state_intake = StateIntake::BRAKE;
+        if (!Mogo.is_extended()){
+          Intake.move(0);
+          delay(5);
+        } else current_state_intake = StateIntake::SCORE;
 
         break;
       }
@@ -217,7 +224,7 @@ void state_machine_mogo() {
         break;
       }
       case StateMogo::GRAB: {
-        delay(50);
+        delay(100);
 
         Mogo.set_value(true);
 
