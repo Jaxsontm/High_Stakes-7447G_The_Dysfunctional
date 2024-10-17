@@ -183,9 +183,6 @@ void opcontrol() {
             Lift.move(-127);
         } else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)){
             Lift.move(127);
-        } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
-            Lift.move(0);
-            LiftPID(1175);
         } else {
             Lift.brake();
         }
