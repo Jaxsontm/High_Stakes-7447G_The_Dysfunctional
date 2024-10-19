@@ -547,11 +547,11 @@ void Skills() {
 
         request_new_state_intake(BRAKE);
 
-    chassis.swingToHeading(-90, lemlib::DriveSide::LEFT, 850, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .minSpeed = 90, .earlyExitRange = 10});   
+    chassis.swingToHeading(-90, lemlib::DriveSide::LEFT, 850, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .maxSpeed = 80, .earlyExitRange = 10});   
 
     chassis.waitUntilDone();
 
-    chassis.moveToPose(20, 15, -90, 1000, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPose(26, 13.5, -90, 1000, {.forwards = false, .maxSpeed = 80});
 chassis.waitUntilDone();
 
 pros::delay(350);
@@ -566,7 +566,10 @@ chassis.waitUntilDone();
     chassis.turnToHeading(90, 500);
 chassis.waitUntilDone();
 
-    chassis.moveToPose(48, 38, 90, 1000);
+    chassis.moveToPose(44, 40, 90, 1000);
+chassis.waitUntilDone();
+
+pros::delay(350);
 
     chassis.turnToHeading(180, 500);
 chassis.waitUntilDone();
@@ -628,7 +631,7 @@ chassis.waitUntilDone();
     chassis.moveToPose(-48, 12, 180, 1000, {.lead = 0.1, .maxSpeed = 80});
 chassis.waitUntilDone();
 
-pros::delay(2000);
+pros::delay(500);
 
     chassis.moveToPose(-48, -2, 180, 1500, {.maxSpeed = 60});
 chassis.waitUntilDone();
@@ -646,21 +649,18 @@ pros::delay(750);
 
         request_new_state_intake(BRAKE);
 
-    chassis.moveToPose(-64, -12, 45, 1000, {.forwards = false, .lead = 0});
+    chassis.moveToPose(-64, -14, 45, 1000, {.forwards = false, .lead = 0.3});
 
-    chassis.moveToPose(-10, 92, 10, 4000, {.lead = 0, .minSpeed = 127});
-chassis.waitUntil(10);
-
-
-            LiftPID(640);
+    chassis.moveToPose(-29, 87, 10, 4000, {.lead = 0.2, .minSpeed = 127});
 chassis.waitUntilDone();
 
-    chassis.swingToHeading(-80, lemlib::DriveSide::LEFT, 850);
+    chassis.turnToHeading(-90, 500);
+chassis.waitUntilDone();
 
-            LiftPID(-640);
+    chassis.swingToHeading(95, lemlib::DriveSide::RIGHT, 850, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
+chassis.waitUntilDone();   
 
-    chassis.moveToPose(-72, 92, -80, 1250, {.lead = 0.1});
+    chassis.moveToPose(-68, 130, 130, 2500, {.forwards = false});
 
-    chassis.swingToHeading(135, lemlib::DriveSide::LEFT, 850);
-
+    chassis.moveToPose(-56, 110, 130, 1000);
 }
