@@ -538,6 +538,7 @@ chassis.waitUntilDone();
 }   
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Skills() {
+//1
     chassis.setPose(0, 0, 0);
 
         request_new_state_intake(SCORE);
@@ -546,7 +547,7 @@ void Skills() {
         request_new_state_mogo(LOCATE);
 
         request_new_state_intake(BRAKE);
-
+//2
     chassis.swingToHeading(-90, lemlib::DriveSide::LEFT, 850, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .maxSpeed = 80, .earlyExitRange = 10});   
 
     chassis.waitUntilDone();
@@ -560,12 +561,12 @@ pros::delay(350);
 
     chassis.turnToHeading(0, 500);
 chassis.waitUntilDone();
-
+//3
     chassis.moveToPose(23.5, 38, 0, 1000, {.lead = 0});
 
     chassis.turnToHeading(90, 500);
 chassis.waitUntilDone();
-
+//4
     chassis.moveToPose(44, 40, 90, 1000);
 chassis.waitUntilDone();
 
@@ -573,17 +574,17 @@ pros::delay(350);
 
     chassis.turnToHeading(180, 500);
 chassis.waitUntilDone();
-
+//5
     chassis.moveToPose(48, 22, 180, 1000, {.lead = 0.1});
 chassis.waitUntilDone();
 
 pros::delay(500);
-
+//6
     chassis.moveToPose(48, 4, 180, 1500, {.maxSpeed = 60});
 chassis.waitUntilDone();
 
 pros::delay(750);
-
+//7
     chassis.moveToPose(48, 16, 180, 1500, {.maxSpeed = 95});
 chassis.waitUntilDone();
 
@@ -598,7 +599,7 @@ pros::delay(750);
 
     chassis.moveToPose(59, 1, -45, 1000, {.forwards = false, .lead = 0});
 chassis.waitUntilDone();
-
+//8
     chassis.moveToPose(50, 16, -65, 1000);
 
     chassis.turnToHeading(90, 500);
@@ -614,12 +615,12 @@ pros::delay(350);
 
     chassis.turnToHeading(0, 500);
 chassis.waitUntilDone();
-
+//9
     chassis.moveToPose(-23.5, 30, 0, 1000, {.lead = 0});
 
     chassis.turnToHeading(-90, 500);
 chassis.waitUntilDone();
-
+//10
     chassis.moveToPose(-48, 31, -90, 1000);
 chassis.waitUntilDone();
 
@@ -627,17 +628,17 @@ pros::delay(350);
 
     chassis.turnToHeading(180, 500);
 chassis.waitUntilDone();
-
+//11
     chassis.moveToPose(-48, 12, 180, 1000, {.lead = 0.1, .maxSpeed = 80});
 chassis.waitUntilDone();
 
 pros::delay(500);
-
+//12
     chassis.moveToPose(-48, -2, 180, 1500, {.maxSpeed = 60});
 chassis.waitUntilDone();
 
 pros::delay(750);
-
+//13
     chassis.moveToPose(-48, 12, 180, 1500, {.maxSpeed = 95});
 
     chassis.turnToHeading(45, 850, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
@@ -650,7 +651,7 @@ pros::delay(750);
         request_new_state_intake(BRAKE);
 
     chassis.moveToPose(-64, -14, 45, 1000, {.forwards = false, .lead = 0.3});
-
+//14
     chassis.moveToPose(-29, 87, 10, 4000, {.lead = 0.2, .minSpeed = 127});
 chassis.waitUntilDone();
 
@@ -659,7 +660,7 @@ chassis.waitUntilDone();
 
     chassis.swingToHeading(95, lemlib::DriveSide::RIGHT, 850, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
 chassis.waitUntilDone();   
-
+//15
     chassis.moveToPose(-68, 130, 130, 2500, {.forwards = false});
 
     chassis.moveToPose(-56, 110, 130, 1000);
