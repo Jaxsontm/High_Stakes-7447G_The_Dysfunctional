@@ -35,7 +35,7 @@ Controller controller(E_CONTROLLER_MASTER);
 //
 
 // Yellow Ziptie
- Motor Lift(-1, MotorGearset::green);
+ MotorGroup Lift({-1, 2}, MotorGearset::green);
 //
 
 // Red Ziptie
@@ -50,10 +50,10 @@ Controller controller(E_CONTROLLER_MASTER);
  lemlib::Drivetrain drivetrain(
     &DTLeft,                    // left motor group
     &DTRight,                   // right motor group
-    14,                         // 10 inch track width
-    lemlib::Omniwheel::NEW_275, // using new 3.25" omnis
-    450,                        // drivetrain rpm is 360
-    2 // chase power is 2. If we had traction wheels, it would have been 8
+    14,                         // 40 inch track width
+    lemlib::Omniwheel::NEW_275, // using new 2.75" omnis
+    450,                        // drivetrain rpm is 450
+    2 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // lateral motion controller
