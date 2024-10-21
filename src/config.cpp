@@ -261,7 +261,7 @@ void LiftPID(double targetAngle){
         kI = 0.0175,
         kD = 0.75,
         5,
-        false
+        true
   );
 
   double error;
@@ -310,10 +310,10 @@ void LiftPID(double targetAngle){
         revIntegral = 0;
       }
 
-      double revDerivative = revError - prevRevError; //derivative
+      double revDerivative = (revError * -1) - (prevRevError * -1); //derivative
       prevRevError = revError;
 
-      double speed = (kP*revError + kI*revIntegral + kD*revDerivative);
+      double speed = (kP*revError + kI*revIntegral + kD*revDerivative) * 1.4;
         
       Lift.move_absolute(revError, speed);
 
