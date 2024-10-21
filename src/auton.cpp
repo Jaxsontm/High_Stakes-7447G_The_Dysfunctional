@@ -30,7 +30,7 @@ chassis.moveToPose(-14.75, 2, 0, 1000, {.minSpeed = 100});
     chassis.turnToHeading(130, 500);
 chassis.waitUntilDone();
 //4
-    chassis.moveToPose(10, 31.5, -133, 1900, {.forwards = false, .lead = 0.45});
+    chassis.moveToPose(10, 34, -133, 1900, {.forwards = false, .lead = 0.45, .maxSpeed = 80});
 chassis.waitUntilDone();
 
     chassis.turnToHeading(90, 800, {.maxSpeed = 80});
@@ -38,7 +38,7 @@ chassis.waitUntilDone();
 
         request_new_state_intake(SCORE);
 //5
-    chassis.moveToPose(21, 31, 88, 2000, {.lead = 0.2, .minSpeed = 80});
+    chassis.moveToPose(25, 35, 88, 2000, {.lead = 0.2, .minSpeed = 80});
 chassis.waitUntilDone();
 
 pros::delay(650);
@@ -510,7 +510,7 @@ void Skills() {
     chassis.setPose(0, 0, 0);
 
         request_new_state_intake(SCORE);
-        pros::delay(750);
+        pros::delay(550);
 
         request_new_state_mogo(LOCATE);
 
@@ -523,7 +523,7 @@ void Skills() {
     chassis.moveToPose(26, 13.5, -90, 1000, {.forwards = false, .maxSpeed = 80});
 chassis.waitUntilDone();
 
-pros::delay(350);
+pros::delay(500);
 
         request_new_state_intake(SCORE);
 
@@ -531,6 +531,9 @@ pros::delay(350);
 chassis.waitUntilDone();
 //3
     chassis.moveToPose(23.5, 38, 0, 1000, {.lead = 0});
+chassis.waitUntilDone();
+
+pros::delay(500);
 
     chassis.turnToHeading(90, 500);
 chassis.waitUntilDone();
@@ -538,7 +541,7 @@ chassis.waitUntilDone();
     chassis.moveToPose(44, 40, 90, 1000);
 chassis.waitUntilDone();
 
-pros::delay(350);
+pros::delay(500);
 
     chassis.turnToHeading(180, 500);
 chassis.waitUntilDone();
@@ -585,6 +588,9 @@ pros::delay(350);
 chassis.waitUntilDone();
 //9
     chassis.moveToPose(-23.5, 30, 0, 1000, {.lead = 0});
+chassis.waitUntilDone();
+
+pros::delay(500);
 
     chassis.turnToHeading(-90, 500);
 chassis.waitUntilDone();
@@ -592,7 +598,7 @@ chassis.waitUntilDone();
     chassis.moveToPose(-48, 31, -90, 1000);
 chassis.waitUntilDone();
 
-pros::delay(350);
+pros::delay(500);
 
     chassis.turnToHeading(180, 500);
 chassis.waitUntilDone();

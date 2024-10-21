@@ -261,37 +261,66 @@ void LiftPID(double targetAngle){
         kI = 0.0175,
         kD = 0.75,
         5,
-        true
+        false
   );
 
   double error;
   double prevError = 0;
+  double revError;
+  double prevRevError = 0;
   double integral = 0;
-  while ((error < 1) && (error > -1)) {
-	  error = (Lift.get_position() - targetAngle) - 1.25; //proportional
-    integral = integral + error; //integral
+  double revIntegral;
+  double revDerivative;
+  double currentAngle = Lift.get_position();
+  if (currentAngle < targetAngle){
+    while ((error < 1) && (error > -1)) {
+      error = (currentAngle - targetAngle) - 1.25; //proportional
+      integral = integral + error; //integral
 
-	  if (error == 0) {
-		  integral = 0;
-	  }
+      if (error == 0) {
+        integral = 0;
+      }
 
-	  if (std::abs(error) > 1200) {
-		  integral = 0;
-	  }
+      if (std::abs(error) > 1200) {
+        integral = 0;
+      }
 
-	  double derivative = error - prevError; //derivative
-	  prevError = error;
+      double derivative = error - prevError; //derivative
+      prevError = error;
 
-	  double speed = (kP*error + kI*integral + kD*derivative) * 1.4;
+      double speed = (kP*error + kI*integral + kD*derivative) * 1.4;
+        
+      Lift.move_absolute(error, speed);
 
-    if (targetAngle < 0) {
-      speed = speed * 75;
+
+      if ((error < 1) && (error > -1)) {
+        break;
+      }
     }
+  } else {
+    while ((revError < 1) && (revError > -1)) {
+      revError = (targetAngle - currentAngle); //proportional
+      revIntegral = revIntegral + (revError * -1); //revIntegral
 
-    Lift.move_absolute(error, speed);
+      if (revError == 0) {
+        revIntegral = 0;
+      }
 
-    if ((error < 1) && (error > -1)) {
-      break;
+      if (std::abs(revError) > 1200) {
+        revIntegral = 0;
+      }
+
+      double revDerivative = revError - prevRevError; //derivative
+      prevRevError = revError;
+
+      double speed = (kP*revError + kI*revIntegral + kD*revDerivative);
+        
+      Lift.move_absolute(revError, speed);
+
+
+      if ((revError < 1) && (revError > -1)) {
+        break;
+      }
     }
   }
 }
