@@ -272,56 +272,26 @@ void LiftPID(double targetAngle){
   double revIntegral;
   double revDerivative;
   double currentAngle = Lift.get_position();
-  if (currentAngle < targetAngle){
-    while ((error < 1) && (error > -1)) {
-      error = (currentAngle - targetAngle) - 1.25; //proportional
-      integral = integral + error; //integral
+  while (std::abs(error) > 1) { 
+    error = currentAngle - targetAngle; 
+    integral += error;
 
-      if (error == 0) {
+    if (std::abs(error) < 1) {
         integral = 0;
-      }
+    }
 
-      if (std::abs(error) > 1200) {
+    if (std::abs(error) > 1200) {
         integral = 0;
-      }
-
-      double derivative = error - prevError; //derivative
-      prevError = error;
-
-      double speed = (kP*error + kI*integral + kD*derivative) * 1.4;
-        
-      Lift.move_absolute(error, speed);
-
-
-      if ((error < 1) && (error > -1)) {
-        break;
-      }
     }
-  } else {
-    while ((revError < 1) && (revError > -1)) {
-      revError = (targetAngle - currentAngle); //proportional
-      revIntegral = revIntegral + (revError * -1); //revIntegral
 
-      if (revError == 0) {
-        revIntegral = 0;
-      }
+    double derivative = error - prevError;
+    prevError = error;
 
-      if (std::abs(revError) > 1200) {
-        revIntegral = 0;
-      }
+    double speed = (kP * error + kI * integral + kD * derivative) * 1.4;
 
-      double revDerivative = (revError * -1) - (prevRevError * -1); //derivative
-      prevRevError = revError;
+    Lift.move_absolute(targetAngle, speed);
 
-      double speed = (kP*revError + kI*revIntegral + kD*revDerivative) * 1.4;
-        
-      Lift.move_absolute(revError, speed);
-
-
-      if ((revError < 1) && (revError > -1)) {
-        break;
-      }
-    }
+    currentAngle = Lift.get_position();
   }
 }
 
