@@ -35,7 +35,7 @@ Controller controller(E_CONTROLLER_MASTER);
 //
 
 // Yellow Ziptie
- MotorGroup Lift({-1, 2}, MotorGearset::green);
+ MotorGroup Lift({8, -9}, MotorGearset::green);
 //
 
 // Red Ziptie
