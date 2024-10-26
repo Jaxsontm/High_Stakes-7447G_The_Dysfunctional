@@ -1,4 +1,4 @@
-#include "config.hpp"
+/*#include "config.hpp"
 #include "auton.h"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
@@ -63,7 +63,7 @@ chassis.waitUntilDone();
     chassis.moveToPose(-42, 46, -75, 1200);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*void BlueRight() {
+void BlueRight() {
     chassis.setPose(-38, 0, 45);
 
     
@@ -250,7 +250,7 @@ chassis.waitUntilDone();
 }*/
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //finished
-void Forwards() { 
+/*void Forwards() { 
 //1
     chassis.setPose(0,0,0); 
     Lift.set_brake_mode(MotorBrake::hold);
@@ -265,7 +265,7 @@ delay(250);
         request_new_state_intake(BRAKE);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
+
 void RedLeft() { 
     chassis.setPose(0, 0, 45);
     
@@ -446,7 +446,7 @@ pros::delay(500);
 }*/
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //finished
-void LeftAWP(){
+/*void LeftAWP(){
 //1
      chassis.setPose(0, 0, -90);
 //2
@@ -638,4 +638,4 @@ chassis.waitUntilDone();
     chassis.moveToPose(-68, 130, 130, 2500, {.forwards = false});
 
     chassis.moveToPose(-56, 110, 130, 1000);
-}
+}*/

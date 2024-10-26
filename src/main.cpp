@@ -49,9 +49,9 @@ void screen() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	//lcd::initialize(); // initialize brain screen
+	lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
-    console.println("Initializing robot...");
+    //console.println("Initializing robot...");
     Task state_machine_task_intake(state_machine_intake);
     Task state_machine_task_mogo(state_machine_mogo);
     //Task state_machine_task_lift(state_machine_lift);
@@ -103,9 +103,11 @@ void competition_initialize() {}
  */
 void autonomous() {
   Lift.set_brake_mode(MotorBrake::coast);
-        delay(50); 
-    console.println("Running auton..."); //makes the auton selector properly function
-	selector.run_auton();
+        delay(50);
+        chassis.setPose(0,0,0); 
+        chassis.moveToPoint(0, 10, 10000000);
+    //console.println("Running auton..."); //makes the auton selector properly function
+	//selector.run_auton();
 }
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -131,7 +133,7 @@ void autonomous() {
 void opcontrol() {
   //sets the brake modes for the Intake and lift
     Intake.set_brake_mode(MotorBrake::coast);
-    Lift.set_brake_mode(MotorBrake::hold); 
+    Lift.set_brake_mode(MotorBrake::coast); 
 
 	while (true) {
     /////////////////////////////////////////////////////////////////
@@ -141,8 +143,6 @@ void opcontrol() {
             request_new_state_intake(StateIntake::SCORE);
         } else if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
             request_new_state_intake(StateIntake::UNLOAD);
-        } else if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
-            request_new_state_intake(MECH);
         } else {
             request_new_state_intake(StateIntake::BRAKE);
         }
@@ -180,9 +180,9 @@ void opcontrol() {
     /////////////////////////////////////////////////////////////////
     //Lift buttons
         if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) {
-            Lift.move(-127);
-        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)){
             Lift.move(127);
+        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)){
+            Lift.move(-127);
         } else {
             Lift.brake();
         }

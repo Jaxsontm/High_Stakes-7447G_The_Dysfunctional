@@ -31,7 +31,7 @@ extern adi::Pneumatics intakePiston;
 //
 
 // Yellow Ziptie
-extern MotorGroup Lift;
+extern Motor Lift;
 
 extern Distance WallDistance;
 //
@@ -87,30 +87,9 @@ enum StateMogo { //Sets the name of the States in the Mogo State Machine
     dcGRAB = 3
 };
 
-/*enum StateLift {
-    NEUTRAL = 0,
-    ALLIANCE = 1,
-    neutralDOWN = 2,
-    allianceDOWN = 3,
-    UP = 4,
-    DOWN = 5, 
-    liftSTOP = 6,
-    Raise = 7, 
-    Lower = 8
-};*/
-
 extern void state_machine_intake();
 extern void state_machine_mogo();
-//extern void state_machine_lift();
 extern void request_new_state_intake(StateIntake new_state);
 extern void request_new_state_mogo(StateMogo new_state);
-//extern void request_new_state_lift(StateLift new_state);
 
 extern void LiftPID(double targetAngle);
-
-struct targetParams{
-
-};
-class Lift{
-
-};

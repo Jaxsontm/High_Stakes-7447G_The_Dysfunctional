@@ -35,7 +35,7 @@ Controller controller(E_CONTROLLER_MASTER);
 //
 
 // Yellow Ziptie
- MotorGroup Lift({8, -9}, MotorGearset::green);
+ Motor Lift(7, MotorGearset::green);
 //
 
 // Red Ziptie
@@ -63,17 +63,17 @@ Controller controller(E_CONTROLLER_MASTER);
                      52,   // derivative gain (kD)
                      3,    // anti windup
                      1,    // small error range, in inches
-                     1000, // small error range timeout, in milliseconds
+                     1000000000, // small error range timeout, in milliseconds
                      30,   // large error range, in inches
-                     3000, // large error range timeout, in milliseconds
+                     3000000000, // large error range timeout, in milliseconds
                      2     // maximum acceleration (slew)
     );
 
 // angular motion controller
  lemlib::ControllerSettings
-    angularController(4, // proportional gain (kP)
-                      0.00006,    // integral gain (kI)
-                      36,   // derivative gain (kD)
+    angularController(5, // proportional gain (kP)
+                      0.00001,    // integral gain (kI)
+                      41.125,   // derivative gain (kD)
                       2,    // anti windup
                       1,    // small error range, in degrees
                       500,  // small error range timeout, in milliseconds
@@ -87,9 +87,9 @@ Controller controller(E_CONTROLLER_MASTER);
  Rotation vertical_sensor(18);
 
  lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
-                                                lemlib::Omniwheel::NEW_275, 1.375);
+                                                lemlib::Omniwheel::NEW_275, 2.5);
  lemlib::TrackingWheel vertical_tracking_wheel(&vertical_sensor,
-                                              lemlib::Omniwheel::NEW_275, -1.25);
+                                              lemlib::Omniwheel::NEW_275, -2);
 // sensors for odometry
 // note that in this example we use internal motor encoders (IMEs), so we don't
 // pass vertical tracking wheels
@@ -252,119 +252,44 @@ void state_machine_mogo() {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void LiftPID(double targetAngle){
-  double kP;
-  double kI;
-  double kD;
-  lemlib::PID LiftController(
-        kP = 0.15,
-        kI = 0.0175,
-        kD = 0.75,
-        5,
-        true
-  );
+void LiftPID(double targetAngle) {
+    double kP;
+    double kI;
+    double kD;
+    
+    lemlib::PID LiftPID(
+      kP = 0.15, 
+      kI = 0.0175,
+      kD = 0.75, 
+      5, 
+      true);
 
-  double error;
-  double prevError = 0;
-  double revError;
-  double prevRevError = 0;
-  double integral = 0;
-  double revIntegral;
-  double revDerivative;
-  double currentAngle = Lift.get_position();
-  while (std::abs(error) > 1) { 
-    error = currentAngle - targetAngle; 
-    integral += error;
+    double error;
+    double prevError = 0;
+    double integral = 0;
+    
+    while (std::abs(error) > 1) {
+        double currentAngle = Lift.get_position();
+        error = currentAngle - targetAngle;
+        integral += error;
 
-    if (std::abs(error) < 1) {
-        integral = 0;
+        if (std::abs(error) < 1) {
+            integral = 0;
+        }
+
+        if (std::abs(error) > 1200) {
+            integral = 0;
+        }
+
+        double derivative = error - prevError;
+        prevError = error;
+
+        double speed = ((kP * error) + (kI * integral) + (kD * derivative)) * 1.4;
+
+        Lift.move_absolute(targetAngle, speed);
     }
-
-    if (std::abs(error) > 1200) {
-        integral = 0;
-    }
-
-    double derivative = error - prevError;
-    prevError = error;
-
-    double speed = (kP * error + kI * integral + kD * derivative) * 1.4;
-
-    Lift.move_absolute(targetAngle, speed);
-
-    currentAngle = Lift.get_position();
-  }
 }
+  
 
 //Alliance = 660
 //Wall = 1150
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Intake State Machine
-
-// the current state of the mechanism
-/*StateLift current_state_lift = liftSTOP;
-
-// functions used to request a new state
-void request_new_state_lift(StateLift requested_state_lift) {
-  if (requested_state_lift != current_state_lift) {
-    current_state_lift = requested_state_lift;
-  }
-}
-
-// function which constantly updates the state of the mechanism
-void state_machine_lift() {
-  // run forever
-  while (true) {
-    switch (current_state_lift) {
-      case StateLift::NEUTRAL: {
-        LiftPID(1150);
-              
-        break;
-      }
-      case StateLift::ALLIANCE: {
-        LiftPID(720);
-
-        break;
-      }
-      case StateLift::neutralDOWN: {
-        LiftPID(-1150);
-
-        break;
-      }
-      case StateLift::allianceDOWN: {
-        LiftPID(720);
-        
-        break;
-      }
-      case StateLift::UP: {
-        Lift.move(-127);
-        
-        break;
-      }
-      case StateLift::DOWN: {
-        Lift.move(127);
-
-        break;
-      }
-      case StateLift::liftSTOP: {
-        Lift.brake();
-
-        break;
-      }
-      case StateLift::Raise: {
-        LiftPID(425);
-
-        break;
-      }
-      case StateLift::Lower: {
-        LiftPID(-425);
-
-        break;
-      }
-    }
-    // delay to save resources
-    delay(10);
-  }
-}*/
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
