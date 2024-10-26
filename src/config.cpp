@@ -35,7 +35,7 @@ Controller controller(E_CONTROLLER_MASTER);
 //
 
 // Yellow Ziptie
- Motor Lift(7, MotorGearset::green);
+ Motor Lift(-6, MotorGearset::green);
 //
 
 // Red Ziptie
@@ -251,45 +251,3 @@ void state_machine_mogo() {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void LiftPID(double targetAngle) {
-    double kP;
-    double kI;
-    double kD;
-    
-    lemlib::PID LiftPID(
-      kP = 0.15, 
-      kI = 0.0175,
-      kD = 0.75, 
-      5, 
-      true);
-
-    double error;
-    double prevError = 0;
-    double integral = 0;
-    
-    while (std::abs(error) > 1) {
-        double currentAngle = Lift.get_position();
-        error = currentAngle - targetAngle;
-        integral += error;
-
-        if (std::abs(error) < 1) {
-            integral = 0;
-        }
-
-        if (std::abs(error) > 1200) {
-            integral = 0;
-        }
-
-        double derivative = error - prevError;
-        prevError = error;
-
-        double speed = ((kP * error) + (kI * integral) + (kD * derivative)) * 1.4;
-
-        Lift.move_absolute(targetAngle, speed);
-    }
-}
-  
-
-//Alliance = 660
-//Wall = 1150

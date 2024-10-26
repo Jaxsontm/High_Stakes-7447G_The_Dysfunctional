@@ -91,5 +91,3 @@ extern void state_machine_intake();
 extern void state_machine_mogo();
 extern void request_new_state_intake(StateIntake new_state);
 extern void request_new_state_mogo(StateMogo new_state);
-
-extern void LiftPID(double targetAngle);

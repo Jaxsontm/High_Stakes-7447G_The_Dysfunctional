@@ -1,5 +1,4 @@
 #include "unused/main.h"
-#include "auton.h"
 #include "config.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
@@ -122,18 +121,33 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+double liftTarget;
+bool pid = false;
+
+void setLiftTarget(double target) {
+    liftTarget = target;
+}
+
+lemlib::PID LiftPID(
+  0.3, 
+  0, 
+  0,
+  5
+);
+
+
 
  //these are booleans that allow us to have one button toggles for pistons
  bool yPressed = false;
  bool yState = false;
 
- bool rightPressed = false;
- bool rightState = false;
+ bool BPressed = false;
+ bool BState = false;
 
 void opcontrol() {
   //sets the brake modes for the Intake and lift
     Intake.set_brake_mode(MotorBrake::coast);
-    Lift.set_brake_mode(MotorBrake::coast); 
+    Lift.set_brake_mode(MotorBrake::hold); 
 
 	while (true) {
     /////////////////////////////////////////////////////////////////
@@ -165,31 +179,48 @@ void opcontrol() {
     /////////////////////////////////////////////////////////////////
     //Intake Piston toggle    
 
-        if (controller.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && !rightState) {
+        if (controller.get_digital(E_CONTROLLER_DIGITAL_B) && !BPressed && !BState) {
             intakePiston.set_value(true);
-            rightPressed = true;
-            rightState = true;
-        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && rightState) {
+            BPressed = true;
+            BState = true;
+        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_B) && !BPressed && BState) {
             intakePiston.set_value(false);
-            rightPressed = true;
-            rightState = false;
-        } else if (!controller.get_digital(E_CONTROLLER_DIGITAL_RIGHT)) {
-            rightPressed = false;
+            BPressed = true;
+            BState = false;
+        } else if (!controller.get_digital(E_CONTROLLER_DIGITAL_B)) {
+            BPressed = false;
         }
 
     /////////////////////////////////////////////////////////////////
     //Lift buttons
         if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) {
+            pid = false;
             Lift.move(127);
         } else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)){
+            pid = false;
             Lift.move(-127);
         } else {
             Lift.brake();
         }
+
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+            pid = true;
+            setLiftTarget(120);
+        } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            pid = true;
+            setLiftTarget(0);
+        }
+
+        if (pid){
+            double liftOutput = LiftPID.update(liftTarget - Lift.get_position());
+            Lift.move(liftOutput);
+        }
+        lcd::print(4, "Lift: %f", Lift.get_position());
+    
     /////////////////////////////////////////////////////////////////
     //Drivetrain Mode
     
-        // get left y and right x positions
+        // get left y and B x positions
         int leftY = controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
         int rightY = controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y);
 
