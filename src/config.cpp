@@ -58,21 +58,21 @@ Controller controller(E_CONTROLLER_MASTER);
 
 // lateral motion controller
  lemlib::ControllerSettings
-    linearController(12.01,   // proportional gain (kP)
-                     0.0001,    // integral gain (kI)
-                     52,   // derivative gain (kD)
-                     3,    // anti windup
+    linearController(7.2,   // proportional gain (kP)
+                     0,    // integral gain (kI)
+                     9.6,   // derivative gain (kD)
+                     10,    // anti windup
                      1,    // small error range, in inches
-                     1000000000, // small error range timeout, in milliseconds
+                     1000, // small error range timeout, in milliseconds
                      30,   // large error range, in inches
-                     3000000000, // large error range timeout, in milliseconds
-                     2     // maximum acceleration (slew)
+                     3000, // large error range timeout, in milliseconds
+                     10     // maximum acceleration (slew)
     );
 
 // angular motion controller
  lemlib::ControllerSettings
     angularController(5, // proportional gain (kP)
-                      0.00001,    // integral gain (kI)
+                      0,    // integral gain (kI)
                       41.125,   // derivative gain (kD)
                       2,    // anti windup
                       1,    // small error range, in degrees
@@ -84,7 +84,7 @@ Controller controller(E_CONTROLLER_MASTER);
 
 //Rotation Sensors
  Rotation horizontal_sensor(10);
- Rotation vertical_sensor(18);
+ Rotation vertical_sensor(-18);
 
  lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
                                                 lemlib::Omniwheel::NEW_275, 2.5);

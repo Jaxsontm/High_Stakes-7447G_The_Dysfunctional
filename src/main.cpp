@@ -104,7 +104,7 @@ void autonomous() {
   Lift.set_brake_mode(MotorBrake::coast);
         delay(50);
         chassis.setPose(0,0,0); 
-        chassis.moveToPoint(0, 10, 10000000);
+        chassis.moveToPoint(0, 10, 1000);
     //console.println("Running auton..."); //makes the auton selector properly function
 	//selector.run_auton();
 }
@@ -129,10 +129,11 @@ void setLiftTarget(double target) {
 }
 
 lemlib::PID LiftPID(
-  0.3, 
+  0.6, 
   0, 
   0,
-  5
+  5,
+  true
 );
 
 
@@ -193,22 +194,15 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
     //Lift buttons
-        if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) {
-            pid = false;
-            Lift.move(127);
-        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)){
-            pid = false;
-            Lift.move(-127);
-        } else {
-            Lift.brake();
-        }
-
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
             pid = true;
-            setLiftTarget(120);
-        } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            setLiftTarget(115);
+        } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
             pid = true;
             setLiftTarget(0);
+        } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+            pid = true;
+            setLiftTarget(530);
         }
 
         if (pid){
