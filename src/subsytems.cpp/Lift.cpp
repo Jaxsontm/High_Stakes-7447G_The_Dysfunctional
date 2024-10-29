@@ -1,9 +1,6 @@
-#include "lemlib/chassis/chassis.hpp"
-#include "pros/adi.hpp"
-#include "pros/distance.hpp"
-#include "pros/imu.hpp"
-#include "pros/misc.hpp"
-#include "pros/motor_group.hpp"
+#include "drive.cpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/motors.hpp"
-#include "pros/rotation.hpp"
 using namespace pros;
+
+Motor Lift(20, MotorGearset::green);

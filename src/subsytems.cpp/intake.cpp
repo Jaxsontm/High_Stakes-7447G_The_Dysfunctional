@@ -1,9 +1,15 @@
-#include "lemlib/chassis/chassis.hpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
-#include "pros/imu.hpp"
-#include "pros/misc.hpp"
-#include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
-#include "pros/rotation.hpp"
 using namespace pros;
+
+// Blue Ziptie
+Motor Intake(11, MotorGearset::blue);
+
+Distance DistanceIntakeTop(19);
+
+Distance DistanceIntakeBottom(21);
+
+adi::Pneumatics intakePiston('B', false);
+//

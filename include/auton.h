@@ -1,33 +1,6 @@
 #pragma once
 #include "robodash/views/selector.hpp"
-
-enum State { 
-    LOAD = 0, 
-    IDLE = 1, 
-    SCORE = 2, 
-    UNLOAD = 3, 
-    BRAKE = 4,
-};
-
-enum StateMogo {
-    LOCATE = 0, 
-    GRAB = 1,
-    RELEASE = 2
-};
-
-enum StateLift {
-    LOWER = 0,
-    ALLIANCE = 1,
-    WALL = 2,
-    STOP = 3
-};
-
-void state_machine();
-void state_machine_mogo();
-void state_machine_lift();
-void request_new_state(State new_state);
-void request_new_state_mogo(StateMogo new_state);
-void request_new_state_lift(StateLift new_state);
+using namespace rd;
 
 void RightAWP();
 void LeftAWP();
@@ -36,7 +9,7 @@ void Score();
 void Forwards();
 void Skills();
 
-static rd::Selector selector({
+static Selector selector({
    {"Right AWP", &RightAWP},
    {"Left AWP", &LeftAWP},
    {"Blue SUPER SCORE", &BlueRight},
@@ -47,4 +20,4 @@ static rd::Selector selector({
    
 }); 
 
-static rd::Console console;
+static Console console;
