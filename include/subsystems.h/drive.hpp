@@ -1,9 +1,4 @@
 #pragma once
-
-/**
-static and inline are used to be bale to set everything wihtin .h files.
- */
-
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/pid.hpp"
 #include "pros/abstract_motor.hpp"
@@ -14,9 +9,11 @@ static and inline are used to be bale to set everything wihtin .h files.
 #include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
 #include "pros/rotation.hpp"
+using namespace pros;
 
 // controller
-static pros::Controller controller(pros::E_CONTROLLER_MASTER);
+extern Controller controller;
+
 
 // Green Ziptie
 
