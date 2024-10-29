@@ -201,7 +201,7 @@ void opcontrol() {
             setLiftTarget(0);
         } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
             pid = true;
-            setLiftTarget(530);
+            setLiftTarget(532);
         }
 
         if (pid){
