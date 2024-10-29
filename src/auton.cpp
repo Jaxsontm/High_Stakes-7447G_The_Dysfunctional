@@ -5,60 +5,53 @@
 
 //finished
 void RightAWP() {
-//1
-     chassis.setPose(0, 0, 90);
-//2
-    chassis.moveToPose(-14.35, 0, 90, 500, {.forwards = false, .minSpeed = 126});
-chassis.waitUntilDone();
-    chassis.turnToHeading(0, 500, {.maxSpeed = 60});
-chassis.waitUntilDone();
-//3
-    chassis.moveToPose(-14.75, -30, 0, 500, {.forwards = false, .maxSpeed = 60});
-chassis.waitUntilDone();
-
-delay(500);
-
-        request_new_state_intake(SCORE);
-delay(1150);
-
-        request_new_state_intake(BRAKE);
-chassis.moveToPose(-14.75, 2, 0, 1000, {.minSpeed = 100});
+    chassis.setPose(0, 0, 180);
 
         request_new_state_mogo(LOCATE);
 
-    chassis.turnToHeading(130, 500);
-chassis.waitUntilDone();
-//4
-    chassis.moveToPose(10, 34, -133, 1900, {.forwards = false, .lead = 0.45, .maxSpeed = 80});
-chassis.waitUntilDone();
-
-    chassis.turnToHeading(90, 800, {.maxSpeed = 80});
+    chassis.moveToPose(0, 30, 180, 1000, {.forwards = false, .maxSpeed = 85});
 chassis.waitUntilDone();
 
         request_new_state_intake(SCORE);
-//5
-    chassis.moveToPose(25, 35, 88, 2000, {.lead = 0.2, .minSpeed = 80});
+
+    chassis.turnToPoint(25, 25, 500);
 chassis.waitUntilDone();
 
-pros::delay(650);
-
-    chassis.moveToPose(19, 31, 88, 500);
-
-    chassis.swingToHeading(2, lemlib::DriveSide::RIGHT, 900);
-chassis.waitUntilDone();
-//6
-    chassis.moveToPose(31, 46, 10, 500, {.lead = 0});
+    chassis.moveToPoint(25, 25, 1000);
 chassis.waitUntilDone();
 
-pros::delay(250);
+    chassis.turnToHeading(0, 500);
 
-    chassis.turnToHeading(30, 500);
+        request_new_state_mogo(RELEASE);
+
+        request_new_state_intake(BRAKE);
+
+    chassis.turnToHeading(180, 1000);
+
+        request_new_state_mogo(LOCATE);
+
+    chassis.moveToPose(24, 60, 180, 1000, {.forwards = false, .maxSpeed = 70});
 chassis.waitUntilDone();
-//7
-    chassis.swingToHeading(-75, lemlib::DriveSide::LEFT, 500);
 
+pros::delay(150);
 
-    chassis.moveToPose(-42, 46, -75, 1200);
+    chassis.moveToPose(-20, 18, 133, 1500, {.lead = 0.1});
+chassis.waitUntil(15);
+
+            intakePiston.set_value(true);
+
+        request_new_state_intake(SCORE);
+chassis.waitUntilDone();
+
+    chassis.moveToPoint(-24, 14, 500, {.maxSpeed = 80});
+
+            intakePiston.set_value(false);
+
+    chassis.moveToPoint(-20, 18, 500, {.forwards = false});
+
+    chassis.turnToPoint(-24, 27, 500);
+
+    chassis.moveToPoint(-24, 26, 1000);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void BlueRight() {
