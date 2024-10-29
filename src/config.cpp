@@ -35,7 +35,9 @@ Controller controller(E_CONTROLLER_MASTER);
 //
 
 // Yellow Ziptie
- Motor Lift(-6, MotorGearset::green);
+ Motor LiftA(-6, MotorGearset::green);
+
+ Motor LiftB(5, MotorGearset::green);
 //
 
 // Red Ziptie
@@ -217,7 +219,7 @@ void state_machine_mogo() {
     switch (current_state_mogo) {
       // the MoGo Mech should be open
       case StateMogo::LOCATE: {
-        if (DistanceMogo.get() <= 83) current_state_mogo = StateMogo::GRAB;
+        if (DistanceMogo.get() <= 87) current_state_mogo = StateMogo::GRAB;
         
         else Mogo.set_value(false);
 

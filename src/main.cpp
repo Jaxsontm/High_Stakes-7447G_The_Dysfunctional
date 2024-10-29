@@ -1,5 +1,6 @@
 #include "unused/main.h"
 #include "config.hpp"
+#include "auton.h"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
@@ -48,15 +49,15 @@ void screen() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	lcd::initialize(); // initialize brain screen
+	//lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
-    //console.println("Initializing robot...");
+    console.println("Initializing robot...");
     Task state_machine_task_intake(state_machine_intake);
     Task state_machine_task_mogo(state_machine_mogo);
     //Task state_machine_task_lift(state_machine_lift);
     Intake.set_brake_mode(MotorBrake::brake);
-    Lift.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
-    Lift.set_zero_position(0);
+    LiftA.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
+    LiftA.set_zero_position(0);
     Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {
@@ -101,12 +102,9 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-  Lift.set_brake_mode(MotorBrake::coast);
-        delay(50);
-        chassis.setPose(0,0,0); 
-        chassis.moveToPoint(0, 10, 1000);
-    //console.println("Running auton..."); //makes the auton selector properly function
-	//selector.run_auton();
+  LiftA.set_brake_mode(MotorBrake::coast);
+    console.println("Running auton..."); //makes the auton selector properly function
+	selector.run_auton();
 }
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -148,7 +146,8 @@ lemlib::PID LiftPID(
 void opcontrol() {
   //sets the brake modes for the Intake and lift
     Intake.set_brake_mode(MotorBrake::coast);
-    Lift.set_brake_mode(MotorBrake::hold); 
+    LiftA.set_brake_mode(MotorBrake::hold); 
+    LiftB.set_brake_mode(MotorBrake::hold);
 
 	while (true) {
     /////////////////////////////////////////////////////////////////
@@ -206,10 +205,10 @@ void opcontrol() {
         }
 
         if (pid){
-            double liftOutput = LiftPID.update(liftTarget - Lift.get_position());
-            Lift.move(liftOutput);
+            double liftOutput = LiftPID.update(liftTarget - LiftA.get_position());
+            LiftA.move(liftOutput), LiftB.move(liftOutput);
         }
-        lcd::print(4, "Lift: %f", Lift.get_position());
+        lcd::print(4, "Lift: %f", LiftA.get_position());
     
     /////////////////////////////////////////////////////////////////
     //Drivetrain Mode

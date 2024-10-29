@@ -31,9 +31,9 @@ extern adi::Pneumatics intakePiston;
 //
 
 // Yellow Ziptie
-extern Motor Lift;
+extern Motor LiftA;
 
-extern Distance WallDistance;
+extern Motor LiftB;
 //
 
 // Red Ziptie
