@@ -14,6 +14,8 @@ extern Distance RingCounter;
 extern adi::Pneumatics intakePiston;
 //
 
+void intakeControl();
+
 enum StateIntake { 
     LOAD = 0,
     CHECK = 1, 

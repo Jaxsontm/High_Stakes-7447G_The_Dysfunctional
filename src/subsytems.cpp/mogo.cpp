@@ -11,7 +11,7 @@ adi::Pneumatics Mogo('A', false);
 
 bool actuated = false;
 ////// Driver Control
-void mogoToggle(){
+void mogoToggle() {
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
         if (actuated){
             actuated = true;

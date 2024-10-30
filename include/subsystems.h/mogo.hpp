@@ -9,6 +9,8 @@ extern Distance DistanceMogo;
 extern adi::Pneumatics Mogo;
 //
 
+void mogoToggle();
+
 enum StateMogo {
     LOCATE = 0, 
     GRAB = 1,

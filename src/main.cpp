@@ -1,12 +1,13 @@
 #include "nah/main.h"
 #include "auton.h"
 #include "subsystems.h/drive.hpp"
+#include "subsystems.h/flipper.hpp"
+#include "subsystems.h/intake.hpp"
+#include "subsystems.h/Lift.hpp"
+#include "subsystems.h/mogo.hpp"
 #include "lemlib/chassis/chassis.hpp"
-#include "pros/abstract_motor.hpp"
-#include "pros/adi.hpp"
 #include "pros/llemu.hpp"
 #include "pros/misc.h"
-#include "pros/motors.hpp"
 #include "pros/rtos.hpp"
 
 
@@ -114,13 +115,6 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
- bool static yPressed = false;
- bool static yState = false;
-
- bool static rightPressed = false;
- bool static rightState = false;
-
-
 void opcontrol() {
     Intake.set_brake_mode(pros::MotorBrake::coast);
     Lift.set_brake_mode(pros::MotorBrake::hold);
@@ -137,27 +131,11 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
 
-		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            request_new_state(State::SCORE);
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            request_new_state(State::UNLOAD);
-        } else {
-            request_new_state(State::BRAKE);
-        }
+		intakeControl();
 
     //////////////////////////////////////////////////////
 
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) && !yPressed && !yState) {
-            request_new_state_mogo(StateMogo::GRAB);
-            yPressed = true;
-            yState = true;
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) && !yPressed && yState) {
-            request_new_state_mogo(StateMogo::RELEASE);
-            yPressed = true;
-            yState = false;
-        } else if (!controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-            yPressed = false;
-        }
+        mogoToggle();
 
     ////////////////////////////////////////////////////////////    
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && !rightState) {
