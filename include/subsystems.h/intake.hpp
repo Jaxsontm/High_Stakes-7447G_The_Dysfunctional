@@ -7,20 +7,17 @@ using namespace pros;
 // Blue Ziptie
 extern Motor Intake;
 
-extern Distance DistanceIntakeTop;
+extern Distance BasketCheck;
 
-extern Distance DistanceIntakeBottom;
+extern Distance RingCounter;
 
 extern adi::Pneumatics intakePiston;
 //
 
 enum StateIntake { 
-    LOAD = 0, 
-    IDLE = 1, 
-    SCORE = 2, 
-    UNLOAD = 3, 
-    BRAKE = 4,
+    LOAD = 0,
+    CHECK = 1, 
+    BRAKE = 2
 };
 
-void state_machine_intake();
-void request_new_state_intake(StateIntake new_state_lift);
+void request_new_state_intake(StateIntake new_state_lift, bool two_rings);

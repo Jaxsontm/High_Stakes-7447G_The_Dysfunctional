@@ -38,164 +38,6 @@ void screen() {
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Intake State Machine
-// enum representing the possible states of the mechanism
-// states with higher priorities have lower numbers
-// additional states can be added as needed
-
-
-// the current state of the mechanism
-State current_state = BRAKE;
-
-// function used to request a new state
-void request_new_state(State requested_state) {
-  if (requested_state < current_state) {
-    current_state = requested_state;
-  }
-  if (requested_state > current_state) {
-    current_state = requested_state;
-  }
-}
-
-// function which constantly updates the state of the mechanism
-void state_machine() {
-  // run forever
-  while (true) {
-    // switch statement to select what to do based on the current state
-    switch (current_state) {
-      // the Intake should be spinning
-      case State::LOAD: {
-        // if the Sensor does detect something, stop the intake
-        if (DistanceIntake.get() < 1) current_state = State::IDLE;
-        // if the Sensors doesn't detect anything, keep spinning the intake
-        else Intake.move(-127);
-        // break out of the switch statement
-        break;
-      }
-      // the Intake should stop
-      case State::IDLE: {
-        if (DistanceMogo.get() < 49 or WallDistance.get() < 125) current_state = State::SCORE;
-        //Stop the Intake from spinning
-        else if (DistanceIntake.get() > 52 or WallDistance.get() > 127) current_state = State::BRAKE;
-        // make the Intake hold its position
-        else Intake.brake();
-        // break out of the switch statement
-        break;
-      }
-      case State::SCORE: {
-        Intake.move(-127);
-        //break out of the switch statement
-        break;
-      }
-      case State::UNLOAD: {
-        //reverse Intake for Driver Control
-        Intake.move(127);
-        //break out of the switch statement
-        break;
-      }
-      case State::BRAKE: {
-        //keep the Intake from spinning
-        Intake.brake();
-        //break out of the switch statement
-        break;
-      }
-    }
-    // delay to save resources
-    pros::delay(10);
-  }
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// the current state of the mechanism
-StateMogo current_state2 = RELEASE;
-
-// function used to request a new state
-void request_new_state_mogo(StateMogo requested_state_mogo) {
-  if (requested_state_mogo < current_state2) {
-    current_state2 = requested_state_mogo;
-  }
-  if (requested_state_mogo > current_state2) {
-    current_state2 = requested_state_mogo;
-  }
-}
-
-// function which constantly updates the state of the mechanism
-void state_machine_mogo() {
-  // run forever
-  while (true) {
-    // switch statement to select what to do based on the current state
-    switch (current_state2) {
-      // the Intake should be spinning
-      case StateMogo::LOCATE: {
-        // if the Sensor does detect something, stop the intake
-        if (DistanceMogo.get() < 39) current_state2 = StateMogo::GRAB;
-        // if the Sensors doesn't detect anything, keep spinning the intake
-        else Mogo.set_value(false);
-        // break out of the switch statement
-        break;
-      }
-      case StateMogo::GRAB:{
-        Mogo.set_value(true);
-        break;
-      }
-      case StateMogo::RELEASE:{
-        Mogo.set_value(false);
-        break;
-      }
-    }
-    // delay to save resources
-    pros::delay(10);
-  }
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// the current state of the mechanism
-StateLift current_state3 = LOWER;
-
-// function used to request a new state
-void request_new_state_lift(StateLift requested_state_lift) {
-  if (requested_state_lift < current_state3) {
-    current_state3 = requested_state_lift;
-  }
-  if (requested_state_lift > current_state3) {
-    current_state3 = requested_state_lift;
-  }
-}
-
-// function which constantly updates the state of the mechanism
-void state_machine_lift() {
-  // run forever
-  while (true) {
-    // switch statement to select what to do based on the current state
-    switch (current_state3) {
-      // the Intake should be spinning
-      case StateLift::LOWER: {
-        liftToAngle(-30);
-
-        break;
-      }
-      case StateLift::ALLIANCE:{
-        liftToAngle(20);
-
-        break;
-      }
-      case StateLift::WALL:{
-        liftToAngle(60);
-
-        break;
-      }
-      case StateLift::STOP: {
-        
-      }
-    }
-    // delay to save resources
-    pros::delay(10);
-  }
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -206,10 +48,10 @@ void initialize() {
 	//pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
     console.println("Initializing robot...");
-    pros::Task state_machine_task(state_machine);
+    pros::Task state_machine_task_intake(request_new_state_intake);
     pros::Task state_machine_task_mogo(state_machine_mogo);
-    pros::Task state_machine_task_left(state_machine_lift);
-    Intake.set_brake_mode(pros::MotorBrake::brake);
+    pros::Task state_machine_task_lift(state_machine_lift);
+    Intake.set_brake_mode(pros::MotorBrake::coast);
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {
