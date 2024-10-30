@@ -127,7 +127,7 @@ void setLiftTarget(double target) {
 }
 
 lemlib::PID LiftPID(
-  0.6, 
+  0.4, 
   0, 
   0,
   5,
