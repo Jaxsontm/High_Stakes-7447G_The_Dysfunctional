@@ -137,10 +137,8 @@ lemlib::PID LiftPID(
 
 
  //these are booleans that allow us to have one button toggles for pistons
- bool yPressed = false;
  bool yState = false;
 
- bool BPressed = false;
  bool BState = false;
 
 void opcontrol() {
@@ -164,31 +162,26 @@ void opcontrol() {
     /////////////////////////////////////////////////////////////////
     //MoGo Mech toggle 
 
-        if (controller.get_digital(E_CONTROLLER_DIGITAL_Y) && !yPressed && !yState) {
-            request_new_state_mogo(StateMogo::dcGRAB);
-            yPressed = true;
-            yState = true;
-        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_Y) && !yPressed && yState) {
-            request_new_state_mogo(StateMogo::RELEASE);
-            yPressed = true;
-            yState = false;
-        } else if (!controller.get_digital(E_CONTROLLER_DIGITAL_Y)) {
-            yPressed = false;
+        if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+            if (!yState) {
+                yState = !yState;
+                request_new_state_mogo(dcGRAB);
+            } else {
+                yState = !yState;
+                request_new_state_mogo(RELEASE);
+            }
         }
 
     /////////////////////////////////////////////////////////////////
     //Intake Piston toggle    
-
-        if (controller.get_digital(E_CONTROLLER_DIGITAL_B) && !BPressed && !BState) {
-            intakePiston.set_value(true);
-            BPressed = true;
-            BState = true;
-        } else if (controller.get_digital(E_CONTROLLER_DIGITAL_B) && !BPressed && BState) {
-            intakePiston.set_value(false);
-            BPressed = true;
-            BState = false;
-        } else if (!controller.get_digital(E_CONTROLLER_DIGITAL_B)) {
-            BPressed = false;
+        if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
+            if (!BState) {
+                BState = !BState;
+                intakePiston.set_value(true);
+            } else {
+                BState = !BState;
+                intakePiston.set_value(false);
+            }
         }
 
     /////////////////////////////////////////////////////////////////
