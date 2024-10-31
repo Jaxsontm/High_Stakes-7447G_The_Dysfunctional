@@ -195,7 +195,7 @@ void opcontrol() {
     //Lift buttons
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
             pid = true;
-            setLiftTarget(110);
+            setLiftTarget(112.5);
         } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
             pid = true;
             setLiftTarget(0);
