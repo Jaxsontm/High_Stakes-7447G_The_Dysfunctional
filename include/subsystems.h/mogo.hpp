@@ -19,3 +19,5 @@ enum StateMogo {
 
 void request_new_state_mogo(StateMogo new_state);
 void state_machine_mogo();
+
+static Task state_machine_task_mogo(state_machine_mogo);

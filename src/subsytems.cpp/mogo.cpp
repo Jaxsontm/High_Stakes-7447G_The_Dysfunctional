@@ -1,4 +1,4 @@
-#include "drive.cpp"
+#include "subsystems.h/drive.hpp"
 #include "subsystems.h/mogo.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
@@ -10,18 +10,8 @@ Distance DistanceMogo(8);
 adi::Pneumatics Mogo('A', false);
 
 bool actuated = false;
-////// Driver Control
-void mogoToggle() {
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
-        if (actuated){
-            actuated = true;
-            Mogo.set_value(!actuated);
-        } else {
-            actuated = false;
-            Mogo.set_value(actuated);
-        }
-    }
-}
+
+
 ////// State Machine
 StateMogo current_state_mogo = RELEASE;
 
@@ -38,21 +28,34 @@ void state_machine_mogo() {
                 if (DistanceMogo.get() <= 87) {
                     current_state_mogo = StateMogo::GRAB;
                 } else {
-                    Mogo.set_value(actuated);
+                    Mogo.set_value(false);
                 }
 
                 break;
             case GRAB:
                 delay(100);
                 
-                Mogo.set_value(!actuated);
+                Mogo.set_value(true);
 
                 break;
             case RELEASE:
-                Mogo.set_value(actuated);
+                Mogo.set_value(false);
 
               break;
             }
         delay(10);
+    }
+}
+
+////// Driver Control
+void mogoToggle() {
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+        if (!actuated){
+            actuated = !actuated;
+            Mogo.set_value(true);
+        } else {
+            actuated = !actuated;
+            Mogo.set_value(false);
+        }
     }
 }

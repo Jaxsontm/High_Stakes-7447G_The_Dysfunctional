@@ -1,4 +1,5 @@
 #pragma once
+#include "lemlib/pid.hpp"
 #include "pros/motors.hpp"
 using namespace pros;
 
@@ -6,12 +7,19 @@ using namespace pros;
 extern Motor Lift;
 //
 
+void LiftPID(double liftTarget);
+
+extern lemlib::PID liftController();
+
 enum StateLift {
-    LOWER = 0,
-    ALLIANCE = 1,
-    WALL = 2,
-    STOP = 3
+    MOVE = 0,
+    BOTTOM = 1,
+    ALLIANCE = 2,
+    NEUTRAL = 3
 };
 
-void state_machine_lift();
-void request_new_state_lift(StateLift new_state);
+void state_machine_lift(int position);
+
+static Task state_machine_task_lift(state_machine_lift);
+
+void liftControl();

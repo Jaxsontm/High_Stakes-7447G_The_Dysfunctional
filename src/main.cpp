@@ -1,7 +1,7 @@
 #include "nah/main.h"
-#include "auton.h"
+#include "subsystems.h/basket.hpp"
 #include "subsystems.h/drive.hpp"
-#include "subsystems.h/flipper.hpp"
+#include "subsystems.h/basket.hpp"
 #include "subsystems.h/intake.hpp"
 #include "subsystems.h/Lift.hpp"
 #include "subsystems.h/mogo.hpp"
@@ -47,11 +47,6 @@ void screen() {
  */
 void initialize() {
 	//pros::lcd::initialize(); // initialize brain screen
-    chassis.calibrate(); // calibrate sensors
-    console.println("Initializing robot...");
-    pros::Task state_machine_task_intake(request_new_state_intake);
-    pros::Task state_machine_task_mogo(state_machine_mogo);
-    pros::Task state_machine_task_lift(state_machine_lift);
     Intake.set_brake_mode(pros::MotorBrake::coast);
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
@@ -98,8 +93,6 @@ void competition_initialize() {}
  */
 void autonomous() {
         pros::delay(500);
-    console.println("Running auton...");
-	selector.run_auton();
 }
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -133,32 +126,23 @@ void opcontrol() {
 
 		intakeControl();
 
-    //////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
 
         mogoToggle();
 
-    ////////////////////////////////////////////////////////////    
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && !rightState) {
-            intakePiston.set_value(true);
-            rightPressed = true;
-            rightState = true;
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && !rightPressed && rightState) {
-            intakePiston.set_value(false);
-            rightPressed = true;
-            rightState = false;
-        } else if (!controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-            rightPressed = false;
-        }
+    /////////////////////////////////////////////////////////////////    
+       
 
-    //////////////////////////////////////////////////////
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-          Lift.move(127);
-        } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-          Lift.move(-127);
-        } else {
-          Lift.brake();
-        }
-    /////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////
+        
+        liftControl();
+
+    /////////////////////////////////////////////////////////////////
+
+        basketDriver();
+
+    /////////////////////////////////////////////////////////////////
     
 
         // get left y and right x positions
