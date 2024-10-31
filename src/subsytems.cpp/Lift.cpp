@@ -37,16 +37,10 @@ void state_machine_lift(int position) {
                 if (position == 0) {
                     current_state_lift = BOTTOM;
                 } else if (position == 1) {
-                    current_state_lift = ALLIANCE;
-                } else if (position == 2) {
                     current_state_lift = NEUTRAL;
                 }
             case BOTTOM:
                 LiftPID(0);
-
-                break;
-            case ALLIANCE:
-                LiftPID(200);
 
                 break;
             case NEUTRAL:
@@ -59,14 +53,9 @@ void state_machine_lift(int position) {
 
 //////// Driver Control
 void liftControl() {
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
-        if (current_state_lift == BOTTOM) {
-            state_machine_lift(1);
-        } else if (current_state_lift == ALLIANCE || current_state_lift == NEUTRAL){
-            state_machine_lift(0);
-        }
-            
-    } else if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) {
-        state_machine_lift(2);
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
+        state_machine_lift(1);       
+    } else if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
+        state_machine_lift(0);
     }
 }

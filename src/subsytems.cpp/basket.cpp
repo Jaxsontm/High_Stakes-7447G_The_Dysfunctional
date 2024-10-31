@@ -38,7 +38,7 @@ void basketScore() {
 }
 //////// Driver Control
 void basketDriver() {
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_L1)) {
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
         basketScore();
     }
 }

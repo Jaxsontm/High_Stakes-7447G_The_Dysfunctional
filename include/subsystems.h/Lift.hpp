@@ -14,7 +14,6 @@ extern lemlib::PID liftController();
 enum StateLift {
     MOVE = 0,
     BOTTOM = 1,
-    ALLIANCE = 2,
     NEUTRAL = 3
 };
 

@@ -63,8 +63,6 @@ void state_machine_intake(StateIntake requested_new_state_intake, bool two_rings
 void intakeControl() {
     if (controller.get_digital(E_CONTROLLER_DIGITAL_L1) && (basketLimit.get_value() == 1) && BasketCheck.get() < 120) {
         Intake.move(127);
-    } else if (controller.get_digital(E_CONTROLLER_DIGITAL_L2)) {
-        Intake.move(-127);
     } else {
         Intake.brake();
     }
