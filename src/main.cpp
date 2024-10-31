@@ -9,9 +9,21 @@
 #include "pros/motors.h"
 #include "pros/motors.hpp"
 #include "pros/rtos.hpp"
+#include "robodash/views/console.hpp"
+#include "robodash/views/selector.hpp"
 #include <string>
 using namespace pros;
 
+rd::Selector selector({
+   {"Red Right", &RightAWP},
+   {"Red Left", &LeftAWP},
+   {"Blue Right", &BlueRight},
+   {"Bliue Left", &BlueLeft},
+   {"Forwards", &Forwards}, 
+   {"Skills", &Skills}
+    });
+
+    rd::Console console;
 
 /**
  * A callback function for LLEMU's center button.
@@ -188,7 +200,7 @@ void opcontrol() {
     //Lift buttons
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
             pid = true;
-            setLiftTarget(112.5);
+            setLiftTarget(114);
         } else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
             pid = true;
             setLiftTarget(0);

@@ -5,20 +5,26 @@
 
 //finished
 void RightAWP() {
-    chassis.setPose(0, 0, 180);
+    chassis.setPose(-7.5, 0, 180);
+
+    chassis.moveToPose(3, 28, -135, 1700, {.forwards = false, .maxSpeed = 95});
+chassis.waitUntilDone();
 
         request_new_state_mogo(LOCATE);
 
-    chassis.moveToPose(0, 30, 180, 1000, {.forwards = false, .maxSpeed = 85});
-chassis.waitUntilDone();
+pros::delay(750);
 
         request_new_state_intake(SCORE);
 
-    chassis.turnToPoint(25, 25, 500);
+pros::delay(750);
+
+    chassis.turnToPoint(14.5, 27.5, 500);
 chassis.waitUntilDone();
 
-    chassis.moveToPoint(25, 25, 1000);
+    chassis.moveToPoint(14.5, 27.5, 1000);
 chassis.waitUntilDone();
+
+pros::delay(1250);
 
     chassis.turnToHeading(0, 500);
 
@@ -26,32 +32,32 @@ chassis.waitUntilDone();
 
         request_new_state_intake(BRAKE);
 
-    chassis.turnToHeading(180, 1000);
+    chassis.turnToHeading(-135, 1000);
+
+    chassis.moveToPose(25, 48.5, -175, 2000, {.forwards = false, .lead = 0.5, .maxSpeed = 75});
+chassis.waitUntilDone();
 
         request_new_state_mogo(LOCATE);
 
-    chassis.moveToPose(24, 60, 180, 1000, {.forwards = false, .maxSpeed = 70});
-chassis.waitUntilDone();
+pros::delay(350);
 
-pros::delay(150);
+    chassis.swingToHeading(-120, lemlib::DriveSide::RIGHT, 850);
 
-    chassis.moveToPose(-20, 18, -133, 1500, {.lead = 0.1});
-chassis.waitUntil(15);
+    chassis.moveToPose(-16, 13, -115, 1500, {.lead = 0, .maxSpeed = 60, .minSpeed = 0});
+chassis.waitUntil(5);
 
             intakePiston.set_value(true);
 
         request_new_state_intake(SCORE);
 chassis.waitUntilDone();
 
-    chassis.moveToPoint(-24, 14, 500, {.maxSpeed = 80});
+pros::delay(550);
 
-            intakePiston.set_value(false);
+    chassis.swingToHeading(-45, lemlib::DriveSide::LEFT, 850);
 
-    chassis.moveToPoint(-20, 18, 500, {.forwards = false});
+    chassis.moveToPoint(-18, 30, 1000);
 
-    chassis.turnToPoint(-24, 27, 500);
-
-    chassis.moveToPoint(-24, 26, 1000);
+                intakePiston.set_value(false);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void BlueRight() {
