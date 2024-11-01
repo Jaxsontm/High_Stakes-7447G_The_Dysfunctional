@@ -171,10 +171,7 @@ void state_machine_intake() {
           delay(5);
         }
 
-        if (!Mogo.is_extended()){
-          Intake.move(0);
-          delay(5);
-        } else current_state_intake = StateIntake::SCORE;
+        current_state_intake = BRAKE;
 
         break;
       }

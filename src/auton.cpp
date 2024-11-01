@@ -11,11 +11,9 @@ void RightAWP() {
 chassis.waitUntilDone();
 
         request_new_state_mogo(LOCATE);
-
 pros::delay(750);
 
         request_new_state_intake(SCORE);
-
 pros::delay(750);
 
     chassis.turnToPoint(14.5, 27.5, 500);
@@ -34,11 +32,10 @@ pros::delay(1250);
 
     chassis.turnToHeading(-135, 1000);
 
-    chassis.moveToPose(25, 48.5, -175, 2000, {.forwards = false, .lead = 0.5, .maxSpeed = 75});
+    chassis.moveToPose(25, 49, -175, 2000, {.forwards = false, .lead = 0.5, .maxSpeed = 75});
 chassis.waitUntilDone();
 
         request_new_state_mogo(LOCATE);
-
 pros::delay(350);
 
     chassis.swingToHeading(-120, lemlib::DriveSide::RIGHT, 850);
@@ -51,13 +48,15 @@ chassis.waitUntil(5);
         request_new_state_intake(SCORE);
 chassis.waitUntilDone();
 
-pros::delay(550);
+pros::delay(750);
 
     chassis.swingToHeading(-45, lemlib::DriveSide::LEFT, 850);
 
     chassis.moveToPoint(-18, 30, 1000);
 
                 intakePiston.set_value(false);
+            
+    request_new_state_mogo(RELEASE);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void BlueRight() {
@@ -162,20 +161,24 @@ void Forwards() {
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void BlueLeft() {
-    chassis.setPose(0, 0, 180);
+    chassis.setPose(7.5, 0, 180);
+
+    chassis.moveToPose(-3, 28, 135, 1700, {.forwards = false, .maxSpeed = 95});
+chassis.waitUntilDone();
 
         request_new_state_mogo(LOCATE);
-
-    chassis.moveToPose(0, 30, 180, 1000, {.forwards = false, .maxSpeed = 85});
-chassis.waitUntilDone();
+pros::delay(750);
 
         request_new_state_intake(SCORE);
+pros::delay(750);
 
-    chassis.turnToPoint(-25, 25, 500);
+    chassis.turnToPoint(-14.5, 27.5, 500);
 chassis.waitUntilDone();
 
-    chassis.moveToPoint(-25, 25, 1000);
+    chassis.moveToPoint(-14.5, 27.5, 1000);
 chassis.waitUntilDone();
+
+pros::delay(1250);
 
     chassis.turnToHeading(0, 500);
 
@@ -183,96 +186,115 @@ chassis.waitUntilDone();
 
         request_new_state_intake(BRAKE);
 
-    chassis.turnToHeading(180, 1000);
+    chassis.turnToHeading(135, 1000);
 
-        request_new_state_mogo(LOCATE);
-
-    chassis.moveToPose(-24, 60, 180, 1000, {.forwards = false, .maxSpeed = 70});
+    chassis.moveToPose(-25, 49, 175, 2000, {.forwards = false, .lead = 0.5, .maxSpeed = 75});
 chassis.waitUntilDone();
 
-pros::delay(150);
+        request_new_state_mogo(LOCATE);
+pros::delay(350);
 
-    chassis.moveToPose(20, 18, 133, 1500, {.lead = 0.1});
-chassis.waitUntil(15);
+    chassis.swingToHeading(120, lemlib::DriveSide::RIGHT, 850);
+
+    chassis.moveToPose(16, 13, 115, 1500, {.lead = 0, .maxSpeed = 60, .minSpeed = 0});
+chassis.waitUntil(5);
 
             intakePiston.set_value(true);
 
         request_new_state_intake(SCORE);
 chassis.waitUntilDone();
 
-    chassis.moveToPoint(24, 14, 500, {.maxSpeed = 80});
+pros::delay(750);
 
-            intakePiston.set_value(false);
+    chassis.swingToHeading(45, lemlib::DriveSide::LEFT, 850);
 
-    chassis.moveToPoint(20, 18, 500, {.forwards = false});
+    chassis.moveToPoint(18, 30, 1000);
 
-    chassis.turnToPoint(24, 27, 500);
-
-    chassis.moveToPoint(24, 26, 1000);
+                intakePiston.set_value(false);
+            
+    request_new_state_mogo(RELEASE);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//finished
 void LeftAWP(){
-//1
-     chassis.setPose(0, 0, -90);
-//2
-    chassis.moveToPose(14.35, 0, -90, 500, {.forwards = false, .minSpeed = 126});
-chassis.waitUntilDone();
-    chassis.turnToHeading(0, 500, {.maxSpeed = 60});
-chassis.waitUntilDone();
-//3
-    chassis.moveToPose(14.75, -30, 0, 500, {.forwards = false, .maxSpeed = 60});
-chassis.waitUntilDone();
+    chassis.setPose(7.5, 0, 180);
 
-delay(500);
-
-        request_new_state_intake(SCORE);
-delay(1150);
-
-        request_new_state_intake(BRAKE);
-chassis.moveToPose(14.75, 2, 0, 1000, {.minSpeed = 100});
+    chassis.moveToPose(-3, 28, 135, 1700, {.forwards = false, .maxSpeed = 95});
+chassis.waitUntilDone();
 
         request_new_state_mogo(LOCATE);
 
-    chassis.turnToHeading(130, 500);
-chassis.waitUntilDone();
-//4
-    chassis.moveToPose(-10, 31.5, 133, 1900, {.forwards = false, .lead = 0.45});
-chassis.waitUntilDone();
-
-    chassis.turnToHeading(-90, 800, {.maxSpeed = 80});
-chassis.waitUntilDone();
+pros::delay(750);
 
         request_new_state_intake(SCORE);
-//5
-    chassis.moveToPose(-21, 31, -88, 2000, {.lead = 0.2, .minSpeed = 80});
+
+pros::delay(750);
+
+    chassis.turnToPoint(-14.5, 25.5, 500, {.minSpeed = 90});
+chassis.waitUntilDone();
+
+    chassis.moveToPoint(-14.5, 25.5, 1000, {.minSpeed = 90});
 chassis.waitUntilDone();
 
 pros::delay(650);
 
-    chassis.moveToPose(-19, 31, -88, 500);
-
-    chassis.swingToHeading(-2, lemlib::DriveSide::RIGHT, 900);
+    chassis.turnToHeading(-30, 500);
 chassis.waitUntilDone();
-//6
-    chassis.moveToPose(-31, 46, -10, 500, {.lead = 0});
+
+    chassis.moveToPose(-22.5, 32, 0, 1000, {.lead = 0, .maxSpeed = 70, .minSpeed = 50});
 chassis.waitUntilDone();
 
 pros::delay(250);
 
-    chassis.turnToHeading(-30, 500);
+    chassis.swingToHeading(-15, lemlib::DriveSide::RIGHT, 250);
+chassis.waitUntilDone();    
+
+    chassis.moveToPose(-15, 20, 0, 1000, {.forwards = false, .lead = 0, .minSpeed = 90});
 chassis.waitUntilDone();
-//7
-    chassis.swingToHeading(75, lemlib::DriveSide::LEFT, 500);
+    
+    chassis.moveToPose(-15, 32, 0, 1000, {.lead = 0, .minSpeed = 90});
+chassis.waitUntilDone();
 
+    chassis.moveToPose(-15, 20, 0, 1000, {.forwards = false, .lead = 0, .minSpeed = 90});
+chassis.waitUntilDone();
 
-    chassis.moveToPose(42, 46, 75, 1200);
+    chassis.turnToHeading(112, 500);
+chassis.waitUntilDone();
 
+    chassis.moveToPose(25.5, 12, 112, 2000, {.maxSpeed = 60, .minSpeed = 0});
+chassis.waitUntil(15);
+
+            intakePiston.set_value(true);
+
+        request_new_state_intake(STOP);
+
+        request_new_state_mogo(RELEASE);
+
+chassis.waitUntilDone();
+
+    chassis.swingToHeading(180, lemlib::DriveSide::LEFT, 200);
+chassis.waitUntilDone();
+
+    chassis.moveToPose(24, 4, 0, 850, {.lead = 0.1});
+chassis.waitUntilDone();
+
+    chassis.turnToHeading(90, 500);
+chassis.waitUntilDone();
+
+    chassis.moveToPose(31, 4, 90, 750);
+chassis.waitUntilDone();
+
+    chassis.turnToHeading(0, 500);
+chassis.waitUntilDone();
+
+    chassis.moveToPose(31, -3, 0, 500, {.forwards = false}, false);
+
+        request_new_state_intake(SCORE);
+chassis.waitUntilDone();
 }   
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Skills() {
 //1
-    chassis.setPose(0, 0, 0);
+    chassis.setPose(0, 0.5, 0);
 
         request_new_state_intake(SCORE);
         pros::delay(550);
