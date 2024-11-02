@@ -216,7 +216,7 @@ void state_machine_mogo() {
     switch (current_state_mogo) {
       // the MoGo Mech should be open
       case StateMogo::LOCATE: {
-        if (DistanceMogo.get() <= 87) current_state_mogo = StateMogo::GRAB;
+        if (DistanceMogo.get() <= 88) current_state_mogo = StateMogo::GRAB;
         
         else Mogo.set_value(false);
 
