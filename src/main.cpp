@@ -1,4 +1,5 @@
 #include "nah/main.h"
+#include "auton.h"
 #include "subsystems.h/basket.hpp"
 #include "subsystems.h/drive.hpp"
 #include "subsystems.h/basket.hpp"
@@ -28,7 +29,7 @@ void on_center_button() {
   }
 }
 
-
+int autonSelection;
 
 void screen() {
     while (true) {
@@ -92,7 +93,11 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-        pros::delay(500);
+    if (autonSelection == 0) {
+        Skills();
+    } else if (autonSelection == 1) {
+        redRight();
+    }
 }
 /**
  * Runs the operator control code. This function will be started in its own task

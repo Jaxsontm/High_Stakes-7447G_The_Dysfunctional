@@ -37,6 +37,10 @@ EXCLUDE_SRC_FROM_LIB+=$(foreach file, $(SRCDIR)/main,$(foreach cext,$(CEXTS),$(f
 # that are in the the include directory get exported
 TEMPLATE_FILES=$(INCDIR)/**/*.h $(INCDIR)/**/*.hpp
 
+LVGL_DIR_NAME ?= lvgl
+LVGL_DIR ?= ${shell pwd}
+include $(LVGL_DIR)/$(LVGL_DIR_NAME)/lvgl.mk
+
 .DEFAULT_GOAL=quick
 
 ################################################################################
