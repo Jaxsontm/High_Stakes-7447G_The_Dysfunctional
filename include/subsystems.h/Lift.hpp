@@ -17,8 +17,7 @@ enum StateLift {
     NEUTRAL = 3
 };
 
-void state_machine_lift(int position);
+//void state_machine_lift();
 
-static Task state_machine_task_lift(state_machine_lift);
 
-void liftControl();
+//void liftControl();

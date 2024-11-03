@@ -12,7 +12,7 @@
 #include "pros/rtos.hpp"
 #include "auton_selector.hpp"
 
-int autonSelection = -1;
+int autonSelection = 0;
 
 /**
  * A callback function for LLEMU's center button.
@@ -171,7 +171,7 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
         
-        liftControl();
+        //liftControl();
 
     /////////////////////////////////////////////////////////////////
 

@@ -22,7 +22,7 @@ bool up = false;
 //////// state machine
 StateIntake current_state_intake = BRAKE;
 
-void state_machine_intake(StateIntake requested_new_state_intake, bool two_rings) {
+void state_machine_intake(StateIntake requested_new_state_intake) {
     if (requested_new_state_intake != current_state_intake) {
         requested_new_state_intake = current_state_intake;
     }
@@ -40,7 +40,7 @@ void state_machine_intake(StateIntake requested_new_state_intake, bool two_rings
                 if (basketLimit.get_value() == 0) {
                     current_state_intake = BRAKE;
                 } else {
-                    if (two_rings) {
+                    /*if (two_rings) {
                         if (BasketCheck.get() < 120) {
                             current_state_intake = LOAD;
                         } else {
@@ -48,7 +48,7 @@ void state_machine_intake(StateIntake requested_new_state_intake, bool two_rings
                         }
                     } else {
                         current_state_intake = BRAKE;
-                    }
+                    }*/
                 }
                 break;
             case BRAKE:

@@ -15,5 +15,3 @@ extern lemlib::PID basketControl();
 void basketScore();
 
 void basketDriver();
-
-static Task basketPID_task(basketScore);

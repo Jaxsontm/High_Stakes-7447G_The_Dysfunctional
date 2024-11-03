@@ -27,9 +27,9 @@ void LiftPID(double liftTarget) {
 }
 
 /////// State Machine
-StateLift current_state_lift = BOTTOM;
+/*StateLift current_state_lift = BOTTOM;
 
-void state_machine_lift(int position) {
+void state_machine_lift() {
     current_state_lift = MOVE;
     while (true) {
         switch (current_state_lift) {
@@ -54,8 +54,8 @@ void state_machine_lift(int position) {
 //////// Driver Control
 void liftControl() {
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
-        state_machine_lift(1);       
+        state_machine_lift();       
     } else if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
-        state_machine_lift(0);
+        state_machine_lift();
     }
-}
+}*/
