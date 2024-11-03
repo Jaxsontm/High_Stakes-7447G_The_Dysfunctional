@@ -37,13 +37,12 @@
 #ifndef _LIBLVGL_LLEMU_H_
 #define _LIBLVGL_LLEMU_H_
 
-#include <errno.h>
+#include "liblvgl/core/lv_obj.h"
 #include <stdbool.h>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wignored-qualifiers"
-#include "liblvgl/lvgl.h"
 #pragma GCC diagnostic pop
 
 #ifdef __cplusplus

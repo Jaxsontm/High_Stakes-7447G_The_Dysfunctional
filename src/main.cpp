@@ -1,5 +1,7 @@
 #include "nah/main.h"
 #include "auton.h"
+#include "liblvgl/llemu.hpp"
+#include "pros/llemu.hpp"
 #include "subsystems.h/basket.hpp"
 #include "subsystems.h/drive.hpp"
 #include "subsystems.h/basket.hpp"
@@ -7,10 +9,10 @@
 #include "subsystems.h/Lift.hpp"
 #include "subsystems.h/mogo.hpp"
 #include "lemlib/chassis/chassis.hpp"
-#include "pros/llemu.hpp"
-#include "pros/misc.h"
 #include "pros/rtos.hpp"
+#include "auton_selector.hpp"
 
+int autonSelection = -1;
 
 /**
  * A callback function for LLEMU's center button.
@@ -28,8 +30,6 @@ void on_center_button() {
     pros::lcd::clear_line(2);
   }
 }
-
-int autonSelection;
 
 void screen() {
     while (true) {
@@ -93,10 +93,40 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-    if (autonSelection == 0) {
-        Skills();
-    } else if (autonSelection == 1) {
-        redRight();
+    switch (autonSelection) {
+        case 0:
+            Skills();
+            break;
+        case 1:
+            redRight();
+            break;
+        case 2:
+            redLeft();
+            break;
+        case 3:
+            redSolo();
+            break;
+        case 4:
+            redRightElim();
+            break;
+        case 5:
+            redLeftElim();
+            break;
+        case 6:
+            blueRight();
+            break;
+        case 7:
+            blueLeft();
+            break;
+        case 8:
+            blueSolo();
+            break;
+        case 9:
+            blueRightElim();
+            break;
+        case 10:
+            blueLeftElim();
+            break;
     }
 }
 /**
@@ -149,13 +179,7 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
     
-
-        // get left y and right x positions
-        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
-
-        // move the robot
-        chassis.tank(leftY, rightY);
+        tank();
 
         // delay to save resources
         pros::delay(25);

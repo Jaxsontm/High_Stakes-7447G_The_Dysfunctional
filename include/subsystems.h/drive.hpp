@@ -36,3 +36,7 @@ extern lemlib::OdomSensors sensors;
 extern lemlib::Chassis chassis;
 
 extern void waitUntilTankDist(double inches);
+
+extern void tank();
+
+extern void arcade();

@@ -1,14 +1,15 @@
 #pragma once
 
 void redRight();
-void blueRight();
 void redLeft();
-void blueLeft();
 void redSolo();
-void blueSolo();
 void redRightElim();
-void blueRightElim();
 void redLeftElim();
+
+void blueRight();
+void blueLeft();
+void blueSolo();
+void blueRightElim();
 void blueLeftElim();
-void Forwards();
+
 void Skills();

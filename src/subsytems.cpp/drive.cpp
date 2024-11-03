@@ -91,3 +91,17 @@ void waitUntilTankDist(
   } // slowly whittles down at inches until it is equal to 0, in which it will
     // run the next line of code in queue
 }
+
+void tank () {
+    int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+
+    chassis.tank(leftY, rightY);
+}
+
+void arcade () {
+    int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+    chassis.arcade(leftY, rightX);
+}

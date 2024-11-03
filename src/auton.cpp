@@ -1,10 +1,14 @@
-#include "subsystems.h/Lift.hpp"
 
-void RightAWP() {
-    state_machine_lift(2);
-}
-void LeftAWP();
-void BlueRight();
-void Score();
-void Forwards();
+void redRight();
+void redLeft();
+void redSolo();
+void redRightElim();
+void redLeftElim();
+
+void blueRight();
+void blueLeft();
+void blueSolo();
+void blueRightElim();
+void blueLeftElim();
+
 void Skills();
