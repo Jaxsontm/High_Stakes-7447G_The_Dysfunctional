@@ -13,3 +13,5 @@ void blueRightElim();
 void blueLeftElim();
 
 void Skills();
+
+void none();

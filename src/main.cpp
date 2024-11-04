@@ -12,7 +12,6 @@
 #include "pros/rtos.hpp"
 #include "auton_selector.hpp"
 
-int autonSelection = 0;
 
 /**
  * A callback function for LLEMU's center button.
@@ -95,36 +94,39 @@ void competition_initialize() {}
 void autonomous() {
     switch (autonSelection) {
         case 0:
-            Skills();
+            none();
             break;
         case 1:
-            redRight();
+            Skills();
             break;
         case 2:
-            redLeft();
+            redRight();
             break;
         case 3:
-            redSolo();
+            redLeft();
             break;
         case 4:
-            redRightElim();
+            redSolo();
             break;
         case 5:
-            redLeftElim();
+            redRightElim();
             break;
         case 6:
-            blueRight();
+            redLeftElim();
             break;
         case 7:
-            blueLeft();
+            blueRight();
             break;
         case 8:
-            blueSolo();
+            blueLeft();
             break;
         case 9:
-            blueRightElim();
+            blueSolo();
             break;
         case 10:
+            blueRightElim();
+            break;
+        case 11:
             blueLeftElim();
             break;
     }
@@ -145,7 +147,6 @@ void autonomous() {
 
 void opcontrol() {
     Intake.set_brake_mode(pros::MotorBrake::coast);
-    Lift.set_brake_mode(pros::MotorBrake::hold);
 
 	while (true) {
 
@@ -171,7 +172,7 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
         
-        //liftControl();
+        liftToggle();
 
     /////////////////////////////////////////////////////////////////
 

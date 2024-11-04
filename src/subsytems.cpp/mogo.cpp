@@ -4,6 +4,7 @@
 #include "pros/distance.hpp"
 #include "pros/misc.h"
 using namespace pros;
+
 /////// Globals
 Distance DistanceMogo(8);
 

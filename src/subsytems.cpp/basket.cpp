@@ -6,7 +6,7 @@
 #include "pros/motors.hpp"
 using namespace pros;
 /////// globals
-Motor basket(1, MotorGearset::green);
+Motor basket(10, MotorGearset::green);
 
 adi::Button basketLimit('C');
 ////////// PID

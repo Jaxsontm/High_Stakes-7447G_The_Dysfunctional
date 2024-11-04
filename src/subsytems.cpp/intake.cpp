@@ -22,11 +22,7 @@ bool up = false;
 //////// state machine
 StateIntake current_state_intake = BRAKE;
 
-void state_machine_intake(StateIntake requested_new_state_intake) {
-    if (requested_new_state_intake != current_state_intake) {
-        requested_new_state_intake = current_state_intake;
-    }
-
+void state_machine_intake(bool two_rings) {
     while (true) {
         switch(current_state_intake) {
             case LOAD:
@@ -40,7 +36,7 @@ void state_machine_intake(StateIntake requested_new_state_intake) {
                 if (basketLimit.get_value() == 0) {
                     current_state_intake = BRAKE;
                 } else {
-                    /*if (two_rings) {
+                    if (two_rings) {
                         if (BasketCheck.get() < 120) {
                             current_state_intake = LOAD;
                         } else {
@@ -48,7 +44,7 @@ void state_machine_intake(StateIntake requested_new_state_intake) {
                         }
                     } else {
                         current_state_intake = BRAKE;
-                    }*/
+                    }
                 }
                 break;
             case BRAKE:
@@ -61,7 +57,7 @@ void state_machine_intake(StateIntake requested_new_state_intake) {
 
 ////// Driver Control
 void intakeControl() {
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_L1) && (basketLimit.get_value() == 1) && BasketCheck.get() < 120) {
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && (basketLimit.get_value() == 1) && BasketCheck.get() < 120) {
         Intake.move(127);
     } else {
         Intake.brake();

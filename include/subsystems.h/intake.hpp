@@ -24,4 +24,4 @@ enum StateIntake {
     BRAKE = 2
 };
 
-void state_machine_intake(StateIntake new_state_lift);
+void state_machine_intake(bool two_rings);
