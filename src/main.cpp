@@ -67,10 +67,10 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-bool auton = false;
+bool autonStarted = false;
 
 void competition_initialize() {
-    while (auton == false) {
+    while (autonStarted == false) {
         selector();
     }
 }

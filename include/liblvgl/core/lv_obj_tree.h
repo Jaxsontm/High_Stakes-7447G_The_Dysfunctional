@@ -6,6 +6,9 @@
 #ifndef LV_OBJ_TREE_H
 #define LV_OBJ_TREE_H
 
+#include "liblvgl/hal/lv_hal_disp.h"
+#include "liblvgl/misc/lv_anim.h"
+#include <cstdint>
 #ifdef __cplusplus
 extern "C" {
 #endif

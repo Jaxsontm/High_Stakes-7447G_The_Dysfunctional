@@ -15,22 +15,9 @@
 
 int autonSelection = 0;
 
-
-static void autonSelect (lv_event_t * e) {
+static void selector(lv_event_t * e) {
     lv_event_code_t code = lv_event_get_code(e);
     lv_obj_t * obj = lv_event_get_target(e);
-    lv_obj_t * auton = lv_label_create(lv_scr_act());
-    lv_label_set_text(auton, "Selected: ");
-    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110 , -10);
-
-    if (code == LV_EVENT_VALUE_CHANGED) {
-        char selected[6];
-        lv_dropdown_get_selected_str(obj, selected, sizeof(selected));
-        lv_label_set_text_fmt(auton, "Selected: %s", selected);
-    }
-}
-
-void selector() {
     //creates tabview and colors the background orange
     lv_obj_t * tabview;
     tabview = lv_tabview_create(lv_scr_act(), LV_DIR_LEFT, 100);
@@ -116,11 +103,6 @@ void selector() {
     lv_obj_align(skillsBtn, LV_ALIGN_CENTER, 0, -10);
     lv_obj_center(skillsLabel);
 
-    lv_obj_add_event_cb(qualRedDropDown, autonSelect, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(elimRedDropDown, autonSelect, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(qualBlueDropDown, autonSelect, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(elimBlueDropDown, autonSelect, LV_EVENT_ALL, NULL);
-
     //adds the coordinates and heading
     lv_obj_t * coordinates = lv_label_create(lv_scr_act());
     lv_label_set_text_fmt(coordinates, "Coords: (%g, %g)", chassis.getPose().x, chassis.getPose().y);
@@ -128,4 +110,9 @@ void selector() {
     lv_obj_t * heading = lv_label_create(lv_scr_act());
     lv_label_set_text_fmt(heading, "Heading: %g", chassis.getPose().theta);
     lv_obj_align(heading, LV_ALIGN_BOTTOM_RIGHT, -20 , -10);
+
+    
+    if (tab_btns = LV_EVENT_CLICKED) {
+
+    }
 }
