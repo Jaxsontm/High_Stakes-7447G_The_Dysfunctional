@@ -1,5 +1,5 @@
-#include "subsystems.h/drive.hpp"
-#include "subsystems.h/mogo.hpp"
+#include "subsystemsHeaders/drive.hpp"
+#include "subsystemsHeaders/mogo.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
 #include "pros/misc.h"

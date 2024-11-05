@@ -1,6 +1,6 @@
 #include "pros/adi.hpp"
-#include "subsystems.h/Lift.hpp"
-#include "subsystems.h/drive.hpp"
+#include "subsystemsHeaders/Lift.hpp"
+#include "subsystemsHeaders/drive.hpp"
 using namespace pros;
 
 ///////// global

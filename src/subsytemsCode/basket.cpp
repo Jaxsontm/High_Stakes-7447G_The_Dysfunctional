@@ -1,6 +1,6 @@
-#include "subsystems.h/basket.hpp"
+#include "subsystemsHeaders/basket.hpp"
 #include "pros/misc.h"
-#include "subsystems.h/drive.hpp"
+#include "subsystemsHeaders/drive.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
