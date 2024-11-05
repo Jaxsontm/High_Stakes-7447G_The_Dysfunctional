@@ -1,4 +1,5 @@
 #include "liblvgl/core/lv_disp.h"
+#include "liblvgl/core/lv_event.h"
 #include "liblvgl/core/lv_obj.h"
 #include "liblvgl/core/lv_obj_pos.h"
 #include "liblvgl/core/lv_obj_style.h"
@@ -9,23 +10,31 @@
 #include "liblvgl/misc/lv_color.h"
 #include "liblvgl/widgets/lv_dropdown.h"
 #include "liblvgl/widgets/lv_label.h"
+#include "subsystemsHeaders/drive.hpp"
 #include "auton_selector.hpp"
 
+int autonSelection = 0;
 
+
+static void autonSelect (lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_label_set_text(auton, "Selected: ");
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110 , -10);
+
+    if (code == LV_EVENT_VALUE_CHANGED) {
+        char selected[6];
+        lv_dropdown_get_selected_str(obj, selected, sizeof(selected));
+        lv_label_set_text_fmt(auton, "Selected: %s", selected);
+    }
+}
 
 void selector() {
     //creates tabview and colors the background orange
     lv_obj_t * tabview;
     tabview = lv_tabview_create(lv_scr_act(), LV_DIR_LEFT, 100);
     lv_obj_set_style_bg_color(tabview, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
-
-    //adds the coordinates and heading
-    lv_obj_t * coordinates = lv_label_create(lv_scr_act());
-    lv_label_set_text_fmt(coordinates, "Coordinates: (x, y)"); //(%f, %f)", chassis.getPose().x, chassis.getPose().y);
-    lv_obj_align(coordinates, LV_ALIGN_BOTTOM_LEFT, 120, -10);
-    lv_obj_t * heading = lv_label_create(lv_scr_act());
-    lv_label_set_text_fmt(heading, "undef :Heading"); //%f", chassis.getPose().theta);
-    lv_obj_align(heading, LV_ALIGN_BOTTOM_RIGHT, -20 , -10);
 
     //creates tab buttons and colors them
     lv_obj_t * tab_btns = lv_tabview_get_tab_btns(tabview);
@@ -98,7 +107,7 @@ void selector() {
     lv_obj_t * skillsBtn = lv_btn_create(skillsTab);
     lv_obj_t * skillsLabel = lv_label_create(skillsBtn);
 
-    lv_obj_set_size(skillsBtn, 215, 215);
+    lv_obj_set_size(skillsBtn, 205, 205);
     lv_obj_center(skillsBtn);
     lv_obj_set_style_bg_color(skillsBtn, lv_color_black(), 0);
     lv_obj_set_style_radius(skillsBtn, LV_RADIUS_CIRCLE, 0);
@@ -106,4 +115,17 @@ void selector() {
     lv_obj_set_style_text_font(skillsLabel, LV_THEME_DEFAULT_FONT_TITLE, 0);
     lv_obj_align(skillsBtn, LV_ALIGN_CENTER, 0, -10);
     lv_obj_center(skillsLabel);
+
+    lv_obj_add_event_cb(qualRedDropDown, autonSelect, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(elimRedDropDown, autonSelect, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(qualBlueDropDown, autonSelect, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(elimBlueDropDown, autonSelect, LV_EVENT_ALL, NULL);
+
+    //adds the coordinates and heading
+    lv_obj_t * coordinates = lv_label_create(lv_scr_act());
+    lv_label_set_text_fmt(coordinates, "Coords: (%g, %g)", chassis.getPose().x, chassis.getPose().y);
+    lv_obj_align(coordinates, LV_ALIGN_BOTTOM_MID, 50, -10);
+    lv_obj_t * heading = lv_label_create(lv_scr_act());
+    lv_label_set_text_fmt(heading, "Heading: %g", chassis.getPose().theta);
+    lv_obj_align(heading, LV_ALIGN_BOTTOM_RIGHT, -20 , -10);
 }

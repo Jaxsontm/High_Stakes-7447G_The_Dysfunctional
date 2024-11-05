@@ -6,15 +6,16 @@ using namespace pros;
 ///////// global
 adi::Pneumatics Lift('A', true);
 
-bool actuated = true;
+bool liftActuated = true;
+
 //////// Driver Control
 void liftToggle() {
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)){
-        if (!actuated){
-            actuated = !actuated;
+        if (!liftActuated){
+            liftActuated = !liftActuated;
             Lift.set_value(true);
         } else {
-            actuated = !actuated;
+            liftActuated = !liftActuated;
             Lift.set_value(false);
         }
     }

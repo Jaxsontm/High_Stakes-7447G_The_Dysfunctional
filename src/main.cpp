@@ -48,18 +48,7 @@ void screen() {
 void initialize() {
 	//pros::lcd::initialize(); // initialize brain screen
     Intake.set_brake_mode(pros::MotorBrake::coast);
-    pros::Task screenTask([&]() {
-        lemlib::Pose pose(0, 0, 0);
-        while (true) {
-            // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta);//heading
-            
-            // delay to save resources
-            pros::delay(50); 
-        }
-    });
+    pros::Task auton_selector_task(selector);
 }
 
 /**
@@ -78,7 +67,13 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+bool auton = false;
+
+void competition_initialize() {
+    while (auton == false) {
+        selector();
+    }
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task

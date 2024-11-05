@@ -1,16 +1,39 @@
+void redRight() {
+    
+}
+void redLeft() {
 
-void redRight();
-void redLeft();
-void redSolo();
-void redRightElim();
-void redLeftElim();
+}
+void redSolo() {
 
-void blueRight();
-void blueLeft();
-void blueSolo();
-void blueRightElim();
-void blueLeftElim();
+}
+void redRightElim() {
 
-void Skills();
+}
+void redLeftElim() {
 
-void none();
+}
+
+void blueRight() {
+
+}
+void blueLeft() {
+
+}
+void blueSolo() {
+
+}
+void blueRightElim() {
+
+}
+void blueLeftElim() {
+
+}
+
+void Skills() {
+
+}
+
+void none() {
+
+}

@@ -10,7 +10,7 @@ Distance DistanceMogo(8);
 
 adi::Pneumatics Mogo('A', false);
 
-bool actuated = false;
+bool mogoActuated = false;
 
 
 ////// State Machine
@@ -51,11 +51,11 @@ void state_machine_mogo() {
 ////// Driver Control
 void mogoToggle() {
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
-        if (!actuated){
-            actuated = !actuated;
+        if (!mogoActuated){
+            mogoActuated = !mogoActuated;
             Mogo.set_value(true);
         } else {
-            actuated = !actuated;
+            mogoActuated = !mogoActuated;
             Mogo.set_value(false);
         }
     }
