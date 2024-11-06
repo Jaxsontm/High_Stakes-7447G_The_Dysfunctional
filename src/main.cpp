@@ -1,5 +1,4 @@
 #include "nah/main.h"
-#include "auton.h"
 #include "liblvgl/llemu.hpp"
 #include "pros/llemu.hpp"
 #include "subsystemsHeaders/basket.hpp"
@@ -49,6 +48,7 @@ void initialize() {
 	//pros::lcd::initialize(); // initialize brain screen
     Intake.set_brake_mode(pros::MotorBrake::coast);
     pros::Task auton_selector_task(selector);
+    selector();
 }
 
 /**
@@ -70,9 +70,9 @@ void disabled() {}
 bool autonStarted = false;
 
 void competition_initialize() {
-    while (autonStarted == false) {
+    /*while (autonStarted == false) {
         selector();
-    }
+    }*/
 }
 
 /**
@@ -87,44 +87,7 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    switch (autonSelection) {
-        case 0:
-            none();
-            break;
-        case 1:
-            Skills();
-            break;
-        case 2:
-            redRight();
-            break;
-        case 3:
-            redLeft();
-            break;
-        case 4:
-            redSolo();
-            break;
-        case 5:
-            redRightElim();
-            break;
-        case 6:
-            redLeftElim();
-            break;
-        case 7:
-            blueRight();
-            break;
-        case 8:
-            blueLeft();
-            break;
-        case 9:
-            blueSolo();
-            break;
-        case 10:
-            blueRightElim();
-            break;
-        case 11:
-            blueLeftElim();
-            break;
-    }
+    //run_auton();
 }
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -142,7 +105,6 @@ void autonomous() {
 
 void opcontrol() {
     Intake.set_brake_mode(pros::MotorBrake::coast);
-
 	while (true) {
 
     /** get left y and right y positions
