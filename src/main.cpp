@@ -1,12 +1,8 @@
 #include "nah/main.h"
 #include "liblvgl/llemu.hpp"
 #include "pros/llemu.hpp"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/basket.hpp"
 #include "subsystemsHeaders/intake.hpp"
-#include "subsystemsHeaders/Lift.hpp"
-#include "subsystemsHeaders/mogo.hpp"
+#include "subsystemsHeaders/drive.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/rtos.hpp"
 #include "auton_selector.hpp"
@@ -45,10 +41,8 @@ void screen() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	//pros::lcd::initialize(); // initialize brain screen
     Intake.set_brake_mode(pros::MotorBrake::coast);
     pros::Task auton_selector_task(selector);
-    selector();
 }
 
 /**
@@ -67,12 +61,9 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-bool autonStarted = false;
 
 void competition_initialize() {
-    /*while (autonStarted == false) {
-        selector();
-    }*/
+    selector();
 }
 
 /**
@@ -87,7 +78,8 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    //run_auton();
+    //while (true) run_auton();
+
 }
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -121,7 +113,7 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
 
-        mogoToggle();
+        //mogoToggle();
 
     /////////////////////////////////////////////////////////////////    
        
@@ -129,11 +121,11 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
         
-        liftToggle();
+        //liftToggle();
 
     /////////////////////////////////////////////////////////////////
 
-        basketDriver();
+        //basketDriver();
 
     /////////////////////////////////////////////////////////////////
     

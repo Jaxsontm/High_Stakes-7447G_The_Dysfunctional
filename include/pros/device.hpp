@@ -18,9 +18,9 @@
 #ifndef _PROS_DEVICE_HPP_
 #define _PROS_DEVICE_HPP_
 
-#include "pros/misc.hpp"
-#include "pros/rtos.hpp"
 
+#include <cstdint>
+#include <vector>
 namespace pros {
 inline namespace v5 {
 /**

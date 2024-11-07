@@ -17,5 +17,3 @@ enum autons {
     skills = 10,
     None = 11,
 };
-
-void run_auton();

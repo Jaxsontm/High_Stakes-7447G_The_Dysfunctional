@@ -57,7 +57,7 @@ void state_machine_intake(bool two_rings) {
 
 ////// Driver Control
 void intakeControl() {
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && (basketLimit.get_value() == 1) && BasketCheck.get() < 120) {
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) /*&& (basketLimit.get_value() == 1) && BasketCheck.get() < 120*/) {
         Intake.move(127);
     } else {
         Intake.brake();

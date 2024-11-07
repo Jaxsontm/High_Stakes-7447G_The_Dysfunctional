@@ -13,7 +13,6 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
-#include "liblvgl/lvgl.h"
 
 #if LV_USE_TABVIEW
 

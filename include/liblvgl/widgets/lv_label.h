@@ -17,12 +17,7 @@ extern "C" {
 
 #if LV_USE_LABEL != 0
 
-#include <stdarg.h>
 #include "liblvgl/core/lv_obj.h"
-#include "liblvgl/font/lv_font.h"
-#include "liblvgl/font/lv_symbol_def.h"
-#include "liblvgl/misc/lv_txt.h"
-#include "liblvgl/draw/lv_draw.h"
 
 /*********************
  *      DEFINES

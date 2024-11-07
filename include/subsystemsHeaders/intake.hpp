@@ -16,7 +16,7 @@ extern adi::Pneumatics intakePiston;
 
 void intakeControl();
 
-void intakePistonToggle();
+extern void intakePistonToggle();
 
 enum StateIntake { 
     LOAD = 0,
@@ -24,4 +24,4 @@ enum StateIntake {
     BRAKE = 2
 };
 
-void state_machine_intake(bool two_rings);
+extern void state_machine_intake(bool two_rings);
