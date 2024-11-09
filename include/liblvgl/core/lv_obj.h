@@ -17,11 +17,7 @@ extern "C" {
 
 #include <stddef.h>
 #include <stdbool.h>
-#include "../misc/lv_style.h"
-#include "../misc/lv_types.h"
 #include "../misc/lv_area.h"
-#include "../misc/lv_color.h"
-#include "../misc/lv_assert.h"
 #include "../hal/lv_hal.h"
 
 /*********************

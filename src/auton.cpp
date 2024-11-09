@@ -11,7 +11,7 @@ void redSolo() {
 
 }
 void redRightElim() {
-
+Intake.move_absolute(1000, 127);
 }
 void redLeftElim() {
 
@@ -34,7 +34,7 @@ void blueLeftElim() {
 }
 
 void Skills() {
-
+    
 }
 
 void none() {

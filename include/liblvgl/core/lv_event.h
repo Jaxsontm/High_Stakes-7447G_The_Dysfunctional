@@ -6,6 +6,10 @@
 #ifndef LV_EVENT_H
 #define LV_EVENT_H
 
+#include "liblvgl/core/lv_obj_draw.h"
+#include "liblvgl/hal/lv_hal_indev.h"
+#include "lv_obj_class.h"
+#include <cstdint>
 #ifdef __cplusplus
 extern "C" {
 #endif

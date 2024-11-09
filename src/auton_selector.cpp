@@ -23,20 +23,72 @@ lv_obj_t * labelBlue;
 static void selection(lv_event_t * e) {
     lv_event_code_t code = lv_event_get_code(e);
     lv_obj_t * obj = lv_event_get_target(e);
-    lv_obj_t * autonSelection = lv_label_create(lv_scr_act());
-    lv_obj_align(autonSelection, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
     
     if (code == LV_EVENT_CLICKED) {
-        lv_label_set_text(autonSelection, "Auton: ");
+        lv_label_set_text(auton, "Skills"); 
+        autonSelection = 0;
+    }
+}
 
-        if (lv_tabview_get_tab_act(tab_btns) == 0) {
-            lv_label_set_text_fmt(autonSelection, "Auton: %s", lv_label_get_text(labelRed));
-        } else if (lv_tabview_get_tab_act(tab_btns) == 1) {
-            lv_label_set_text_fmt(autonSelection, "Auton: %s", lv_label_get_text(labelBlue));
-        } else if (lv_tabview_get_tab_act(tab_btns) == 2) {
-            lv_label_set_text_fmt(autonSelection, "Auton: %s", lv_label_get_text(label));
-        }
+static void selectionRedR(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "RRQ");
+        autonSelection = 1;
+    }
+}
 
+static void selectionRedL(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "RLQ");
+        autonSelection = 2;
+    }
+}
+
+static void selectionRedS(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "RSQ");
+        autonSelection = 3;
+    }
+}
+
+static void selectionRedRE(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "RRE");
+        autonSelection = 4;
+    }
+}
+
+static void selectionRedLE(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "RLE");
+        autonSelection = 5;
     }
 }
 
@@ -78,7 +130,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(redright, 2, 0);
     lv_obj_set_style_bg_color(redright, lv_color_black(), 0);
     lv_obj_align(redright, LV_ALIGN_TOP_MID, 0, 0);
-    lv_obj_add_event_cb(redright, selection, LV_EVENT_CLICKED, nullptr);
+    lv_obj_add_event_cb(redright, selectionRedR, LV_EVENT_CLICKED, nullptr);
 
     lv_obj_t * redleft = lv_btn_create(qualTabRed);
     labelRed = lv_label_create(redleft);
@@ -87,6 +139,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(redleft, 2, 0);
     lv_obj_set_style_bg_color(redleft, lv_color_black(), 0);
     lv_obj_align(redleft, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_add_event_cb(redleft, selectionRedL, LV_EVENT_CLICKED, nullptr);
 
     lv_obj_t * redsolo = lv_btn_create(qualTabRed);
     labelRed = lv_label_create(redsolo);
@@ -95,6 +148,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(redsolo, 2, 0);
     lv_obj_set_style_bg_color(redsolo, lv_color_black(), 0);
     lv_obj_align(redsolo, LV_ALIGN_BOTTOM_MID, 0, 0);
+    lv_obj_add_event_cb(redsolo, selectionRedS, LV_EVENT_CLICKED, nullptr);
 
     lv_obj_t * redrightElim = lv_btn_create(elimTabRed);
     labelRed = lv_label_create(redrightElim);
@@ -103,6 +157,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(redrightElim, 2, 0);
     lv_obj_set_style_bg_color(redrightElim, lv_color_black(), 0);
     lv_obj_align(redrightElim, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_add_event_cb(redrightElim, selectionRedRE, LV_EVENT_CLICKED, nullptr);
 
     lv_obj_t * redleftElim = lv_btn_create(elimTabRed);
     labelRed = lv_label_create(redleftElim);
@@ -111,6 +166,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(redleftElim, 2, 0);
     lv_obj_set_style_bg_color(redleftElim, lv_color_black(), 0);
     lv_obj_align(redleftElim, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_add_event_cb(redleftElim, selectionRedLE, LV_EVENT_CLICKED, nullptr);
 
     //blue view/////////////////////////////////////
     labelBlue = lv_label_create(blueTab);
@@ -177,6 +233,7 @@ void selector() {
     lv_label_set_text(label, "EZPZ");
     lv_obj_set_style_text_font(label, LV_THEME_DEFAULT_FONT_TITLE, 0);
     lv_obj_align(skills, LV_ALIGN_CENTER, 0, -10);
+    lv_obj_add_event_cb(skills, selection, LV_EVENT_CLICKED, nullptr);
     lv_obj_center(label);
 
     //adds the coordinates and heading
