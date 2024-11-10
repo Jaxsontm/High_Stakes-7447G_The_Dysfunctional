@@ -32,9 +32,19 @@ void basketScore() {
     delay(50);
     while (basketLimit.get_value() == 0) {
         basket.move(-100);
+    }
     basket.tare_position();
     basket.brake();
+}
+/////// Sort
+void basketSort() {
+    basketPID(100);
+    delay(5);
+    while (basketLimit.get_value() == 0) {
+        basket.move(-100); 
     }
+    basket.tare_position();
+    basket.brake();
 }
 //////// Driver Control
 void basketDriver() {

@@ -6,6 +6,7 @@
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
 #include "pros/motors.hpp"
+#include "auton_selector.hpp"
 using namespace pros;
 
 /////// globals
@@ -13,33 +14,50 @@ Motor Intake(11, MotorGearset::blue);
 
 Distance BasketCheck(19);
 
-Distance RingCounter(21);
-
 adi::Pneumatics intakePiston('B', false);
+
+Optical color (10);
 
 bool up = false;
 
 //////// state machine
 StateIntake current_state_intake = BRAKE;
 
-void state_machine_intake(bool two_rings) {
+void state_machine_intake(bool two_rings, bool color_sort) {
     while (true) {
         switch(current_state_intake) {
             case LOAD:
-                if (RingCounter.get() > 20 && basketLimit.get_value() == 1) {
-                    Intake.move(127);
+                if (color_sort == true){
+                    current_state_intake = COLOR;
                 } else {
-                    current_state_intake = CHECK;
+                    if (two_rings == true) {
+                        if (BasketCheck.get() > 120) {
+                            while (BasketCheck.get() > 120 && basketLimit.get_value() == 1) {
+                                Intake.move(127);
+                            } 
+                            current_state_intake = CHECK;
+                        } else if (BasketCheck.get() > 70) {
+                            while (BasketCheck.get() > 70 && basketLimit.get_value() == 1) {
+                                Intake.move(127);
+                            } 
+                            current_state_intake = CHECK;
+                        }
+                    } else {
+                        while (BasketCheck.get() > 70 && basketLimit.get_value() == 1 || BasketCheck.get() > 120 && basketLimit.get_value() == 1) {
+                            Intake.move(127);
+                        }
+                        current_state_intake = CHECK;
+                    }
                 }
                 break;
             case CHECK:
                 if (basketLimit.get_value() == 0) {
                     current_state_intake = BRAKE;
                 } else {
-                    if (two_rings) {
+                    if (two_rings == true) {
                         if (BasketCheck.get() < 120) {
                             current_state_intake = LOAD;
-                        } else {
+                        } else if (BasketCheck.get() < 70) {
                             current_state_intake = BRAKE;
                         }
                     } else {
@@ -47,11 +65,37 @@ void state_machine_intake(bool two_rings) {
                     }
                 }
                 break;
+            case COLOR:
+                if (blue == true) {
+                    while (color.get_hue() > 315) {
+                        if (two_rings == true) {
+                            if (BasketCheck.get() > 120) {
+                                while (BasketCheck.get() > 120 && basketLimit.get_value() == 1) {
+                                    Intake.move(127);
+                                }
+                                current_state_intake = CHECK;
+                            } else if (BasketCheck.get() > 70) {
+                                while (BasketCheck.get() > 70 && basketLimit.get_value() == 1) {
+                                    Intake.move(127);
+                                } 
+                                current_state_intake = CHECK;
+                            }
+                        } else {
+                            while (BasketCheck.get() > 70 && basketLimit.get_value() == 1 || BasketCheck.get() > 120 && basketLimit.get_value() == 1) {
+                                Intake.move(127);
+                            }
+                            current_state_intake = CHECK;
+                        }
+                    }
+                    basketSort();
+                }       
+                break;
             case BRAKE:
                 Intake.brake();
 
                 break;
             }
+            delay(10);
     }
 }
 

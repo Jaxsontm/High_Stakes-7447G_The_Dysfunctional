@@ -14,4 +14,6 @@ extern lemlib::PID basketControl();
 
 void basketScore();
 
+void basketSort();
+
 void basketDriver();

@@ -14,6 +14,7 @@
 #include "auton_selector.hpp"
 
 int autonSelection = 0;
+bool blue = true;
 
 lv_obj_t * tab_btns;
 lv_obj_t * label;
@@ -27,8 +28,9 @@ static void selection(lv_event_t * e) {
     lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
     
     if (code == LV_EVENT_CLICKED) {
-        lv_label_set_text(auton, "Skills"); 
+        lv_label_set_text(auton, "EZPZ"); 
         autonSelection = 0;
+        blue = true;
     }
 }
 
@@ -39,8 +41,9 @@ static void selectionRedR(lv_event_t * e) {
     lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
     
     if (code == LV_EVENT_CLICKED) {
-        lv_label_set_text(auton, "RRQ");
+        lv_label_set_text(auton, "Red Right Qual");
         autonSelection = 1;
+        blue = true;
     }
 }
 
@@ -51,8 +54,9 @@ static void selectionRedL(lv_event_t * e) {
     lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
     
     if (code == LV_EVENT_CLICKED) {
-        lv_label_set_text(auton, "RLQ");
+        lv_label_set_text(auton, "Red Left Qual");
         autonSelection = 2;
+        blue = true;
     }
 }
 
@@ -63,8 +67,9 @@ static void selectionRedS(lv_event_t * e) {
     lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
     
     if (code == LV_EVENT_CLICKED) {
-        lv_label_set_text(auton, "RSQ");
+        lv_label_set_text(auton, "Red Solo Qual");
         autonSelection = 3;
+        blue = true;
     }
 }
 
@@ -75,8 +80,9 @@ static void selectionRedRE(lv_event_t * e) {
     lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
     
     if (code == LV_EVENT_CLICKED) {
-        lv_label_set_text(auton, "RRE");
+        lv_label_set_text(auton, "Red Right Elim");
         autonSelection = 4;
+        blue = true;
     }
 }
 
@@ -87,8 +93,74 @@ static void selectionRedLE(lv_event_t * e) {
     lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
     
     if (code == LV_EVENT_CLICKED) {
-        lv_label_set_text(auton, "RLE");
+        lv_label_set_text(auton, "Red Left Elim");
         autonSelection = 5;
+        blue = true;
+    }
+}
+
+static void selectionBlueR(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "Blue Right Qual");
+        autonSelection = 1;
+        blue = true;
+    }
+}
+
+static void selectionBlueL(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "Blue Left Qual");
+        autonSelection = 2;
+        blue = true;
+    }
+}
+
+static void selectionBlueS(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "Blue Solo Qual");
+        autonSelection = 3;
+        blue = true;
+    }
+}
+
+static void selectionBlueRE(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "Blue Right Elim");
+        autonSelection = 4;
+        blue = true;
+    }
+}
+
+static void selectionBlueLE(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_label_set_text(auton, "Blue Left Elim");
+        autonSelection = 5;
+        blue = true;
     }
 }
 
@@ -175,9 +247,9 @@ void selector() {
 
     lv_obj_set_style_bg_color(tabviewBlue, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
     
-    lv_obj_t * blue_tab_btns = lv_tabview_get_tab_btns(tabviewBlue);
-    lv_obj_set_style_text_letter_space(blue_tab_btns, 2, 0);
-    lv_obj_set_style_bg_color(blue_tab_btns, lv_color_black(), 0);
+    lv_obj_t * Blue_tab_btns = lv_tabview_get_tab_btns(tabviewBlue);
+    lv_obj_set_style_text_letter_space(Blue_tab_btns, 2, 0);
+    lv_obj_set_style_bg_color(Blue_tab_btns, lv_color_black(), 0);
 
     lv_obj_t * qualTabBlue = lv_tabview_add_tab(tabviewBlue, "Qual");
     lv_obj_t * elimTabBlue = lv_tabview_add_tab(tabviewBlue, "Elim");
@@ -189,6 +261,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(blueright, 2, 0);
     lv_obj_set_style_bg_color(blueright, lv_color_black(), 0);
     lv_obj_align(blueright, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_add_event_cb(blueright, selectionBlueR, LV_EVENT_CLICKED, nullptr);
 
     lv_obj_t * blueleft = lv_btn_create(qualTabBlue);
     labelBlue = lv_label_create(blueleft);
@@ -197,6 +270,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(blueleft, 2, 0);
     lv_obj_set_style_bg_color(blueleft, lv_color_black(), 0);
     lv_obj_align(blueleft, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_add_event_cb(blueleft, selectionBlueL, LV_EVENT_CLICKED, nullptr);
 
     lv_obj_t * bluesolo = lv_btn_create(qualTabBlue);
     labelBlue = lv_label_create(bluesolo);
@@ -205,6 +279,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(bluesolo, 2, 0);
     lv_obj_set_style_bg_color(bluesolo, lv_color_black(), 0);
     lv_obj_align(bluesolo, LV_ALIGN_BOTTOM_MID, 0, 0);
+    lv_obj_add_event_cb(bluesolo, selectionBlueS, LV_EVENT_CLICKED, nullptr);
 
     lv_obj_t * bluerightElim = lv_btn_create(elimTabBlue);
     labelBlue = lv_label_create(bluerightElim);
@@ -213,6 +288,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(bluerightElim, 2, 0);
     lv_obj_set_style_bg_color(bluerightElim, lv_color_black(), 0);
     lv_obj_align(bluerightElim, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_add_event_cb(bluerightElim, selectionBlueRE, LV_EVENT_CLICKED, nullptr);
 
     lv_obj_t * blueleftElim = lv_btn_create(elimTabBlue);
     labelBlue = lv_label_create(blueleftElim);
@@ -221,6 +297,7 @@ void selector() {
     lv_obj_set_style_text_letter_space(blueleftElim, 2, 0);
     lv_obj_set_style_bg_color(blueleftElim, lv_color_black(), 0);
     lv_obj_align(blueleftElim, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_add_event_cb(blueleftElim, selectionBlueLE, LV_EVENT_CLICKED, nullptr);
 
     //Skills view/////////////////////////////////////////
     lv_obj_t * skills = lv_btn_create(skillsTab);
