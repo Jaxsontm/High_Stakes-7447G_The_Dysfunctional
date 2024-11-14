@@ -20,6 +20,7 @@ lv_obj_t * tab_btns;
 lv_obj_t * label;
 lv_obj_t * labelRed;
 lv_obj_t * labelBlue;
+lv_obj_t * labelChange;
 
 static void selection(lv_event_t * e) {
     lv_event_code_t code = lv_event_get_code(e);
@@ -31,6 +32,21 @@ static void selection(lv_event_t * e) {
         lv_label_set_text(auton, "EZPZ"); 
         autonSelection = 0;
         blue = true;
+    }
+}
+
+static void selectionChange(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+    lv_obj_t * auton = lv_label_create(lv_scr_act());
+    lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 109, -10);
+    
+    if (code == LV_EVENT_CLICKED) {
+        lv_obj_t * change = lv_obj_create(auton);
+        lv_obj_center(change);
+        lv_obj_set_height(change, 20);
+        lv_obj_set_style_bg_color(change, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
+        lv_obj_set_style_border_color(change, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
     }
 }
 
@@ -312,6 +328,20 @@ void selector() {
     lv_obj_align(skills, LV_ALIGN_CENTER, 0, -10);
     lv_obj_add_event_cb(skills, selection, LV_EVENT_CLICKED, nullptr);
     lv_obj_center(label);
+
+    //auton change button/////////////////////////////////////////
+    lv_obj_t * change = lv_btn_create(lv_scr_act());
+    labelChange = lv_label_create(change);
+
+    lv_obj_set_size(change, 30, 50);
+    lv_obj_center(change);
+    lv_obj_set_style_bg_color(change, lv_color_black(), 0);
+    lv_obj_set_style_text_font(labelChange, LV_THEME_DEFAULT_FONT_SMALL, 0);
+    lv_label_set_text(labelChange, " You Done\nMessed Up\n   A-Aron"); 
+    lv_obj_align(change, LV_ALIGN_LEFT_MID, 120, 25);
+    lv_obj_add_event_cb(change, selectionChange, LV_EVENT_CLICKED, nullptr);
+    lv_obj_set_size(change, 70, 40);
+    lv_obj_center(labelChange);
 
     //adds the coordinates and heading
     lv_obj_t * coordinates = lv_label_create(lv_scr_act());

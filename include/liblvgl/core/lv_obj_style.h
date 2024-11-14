@@ -6,6 +6,8 @@
 #ifndef LV_OBJ_STYLE_H
 #define LV_OBJ_STYLE_H
 
+#include "liblvgl/core/lv_obj.h"
+#include "liblvgl/misc/lv_style.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -15,7 +17,6 @@ extern "C" {
  *********************/
 #include <stdint.h>
 #include <stdbool.h>
-#include "liblvgl/misc/lv_bidi.h"
 
 /*********************
  *      DEFINES
@@ -91,7 +92,7 @@ void lv_obj_remove_style(struct _lv_obj_t * obj, lv_style_t * style, lv_style_se
  */
 static inline void lv_obj_remove_style_all(struct _lv_obj_t * obj)
 {
-    lv_obj_remove_style(obj, NULL, LV_PART_ANY | LV_STATE_ANY);
+    lv_obj_remove_style(obj, NULL, LV_PART_ANY || LV_STATE_ANY);
 }
 
 /**
