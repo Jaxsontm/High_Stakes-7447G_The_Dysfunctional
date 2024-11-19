@@ -8,6 +8,7 @@
 #include "pros/rtos.hpp"
 #include "auton_selector.hpp"
 #include "auton.h"
+#include "subsystemsHeaders/mogo.hpp"
 
 
 /**
@@ -73,7 +74,7 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
 
-        //mogoToggle();
+        mogoToggle();
 
     /////////////////////////////////////////////////////////////////    
        
