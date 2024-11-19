@@ -8,7 +8,7 @@ using namespace pros;
 // Blue Ziptie
 extern Motor Intake;
 
-extern Distance BasketCheck;
+extern Distance basketCheck;
 
 extern Distance RingCounter;
 
@@ -25,7 +25,6 @@ enum StateIntake {
     LOAD = 0,
     CHECK = 1, 
     BRAKE = 2,
-    COLOR = 3
 };
 
 extern void state_machine_intake(bool two_rings, bool color_sort);

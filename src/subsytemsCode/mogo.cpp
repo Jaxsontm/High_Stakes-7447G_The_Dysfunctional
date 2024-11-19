@@ -44,7 +44,7 @@ void state_machine_mogo() {
 
               break;
             }
-        delay(10);
+        delay(5);
     }
 }
 

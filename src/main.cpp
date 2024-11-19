@@ -1,6 +1,7 @@
 #include "nah/main.h"
 #include "liblvgl/llemu.hpp"
 #include "pros/llemu.hpp"
+#include "subsystemsHeaders/basket.hpp"
 #include "subsystemsHeaders/intake.hpp"
 #include "subsystemsHeaders/drive.hpp"
 #include "lemlib/chassis/chassis.hpp"
@@ -37,6 +38,7 @@ void screen() {
 
 void initialize() {
     Intake.set_brake_mode(pros::MotorBrake::coast);
+    basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
     pros::Task auton_selector_task(selector);
 }
 
@@ -83,7 +85,7 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
 
-        //basketDriver();
+        basketDriver();
 
     /////////////////////////////////////////////////////////////////
     
