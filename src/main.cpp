@@ -62,6 +62,16 @@ void autonomous() {
         redRightElim();
     } else if (autonSelection == 5) {
         redLeftElim();
+    } else if (autonSelection == 6) {
+        blueRight();
+    } else if (autonSelection == 7) {
+        blueLeft();
+    } else if (autonSelection == 8) {
+        blueSolo();
+    } else if (autonSelection == 9) {
+        blueRightElim();
+    } else if (autonSelection == 10) {
+        blueLeftElim();
     }
 }
 
