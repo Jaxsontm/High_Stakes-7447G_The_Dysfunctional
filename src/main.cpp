@@ -1,5 +1,6 @@
 #include "nah/main.h"
 #include "liblvgl/llemu.hpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/llemu.hpp"
 #include "subsystemsHeaders/basket.hpp"
 #include "subsystemsHeaders/intake.hpp"
@@ -40,6 +41,7 @@ void screen() {
 void initialize() {
     Intake.set_brake_mode(pros::MotorBrake::coast);
     basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
+    basket.set_brake_mode(MotorBrake::hold);
     pros::Task auton_selector_task(selector);
 }
 
@@ -97,15 +99,12 @@ void opcontrol() {
     /////////////////////////////////////////////////////////////////
 
         basketDriver();
-
+    
     /////////////////////////////////////////////////////////////////
     
         tank();
 
         // delay to save resources
-        pros::delay(25);
-
-    
-
+        pros::delay(20);
      }
 	}

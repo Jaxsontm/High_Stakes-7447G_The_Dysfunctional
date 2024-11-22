@@ -11,8 +11,8 @@ using pros::delay;
 Controller controller(E_CONTROLLER_MASTER);
 
 // Green Ziptie
-MotorGroup DTLeft({-15, 16, -17}, MotorGearset::blue);
-MotorGroup DTRight({12, -13, 14}, MotorGearset::blue);
+MotorGroup DTLeft({-16, -15, 14}, MotorGearset::blue);
+MotorGroup DTRight({20, 19, -18}, MotorGearset::blue);
 
 Imu inertial_sensor(9);
 //
