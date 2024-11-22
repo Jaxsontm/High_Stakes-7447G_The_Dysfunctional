@@ -4,19 +4,19 @@
 using namespace pros;
 
 ///////// global
-adi::Pneumatics Lift('A', true);
+adi::Pneumatics liftPTO('A', true);
 
-bool liftActuated = true;
+bool liftPTOActuated = true;
 
 //////// Driver Control
-void liftToggle() {
+void liftPTOToggle() {
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)){
-        if (!liftActuated){
-            liftActuated = !liftActuated;
-            Lift.set_value(true);
+        if (!liftPTOActuated){
+            liftPTOActuated = !liftPTOActuated;
+            liftPTO.set_value(true);
         } else {
-            liftActuated = !liftActuated;
-            Lift.set_value(false);
+            liftPTOActuated = !liftPTOActuated;
+            liftPTO.set_value(false);
         }
     }
 }

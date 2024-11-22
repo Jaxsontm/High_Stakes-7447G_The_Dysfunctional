@@ -3,7 +3,7 @@
 using namespace pros;
 
 // Yellow Ziptie
-extern adi::Pneumatics Lift;
+extern adi::Pneumatics liftPTO;
 //
 
-void liftToggle();
+void liftPTOToggle();

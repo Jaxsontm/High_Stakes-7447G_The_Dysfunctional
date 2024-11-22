@@ -10,11 +10,3 @@ extern adi::Button basketLimit;
 void basketScore(int timeout);
 
 void basketDriver();
-
-enum BasketState {
-    IDLE,
-    UP,
-    PAUSE,
-    DOWN,
-    DONE
-};
