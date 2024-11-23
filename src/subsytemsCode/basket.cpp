@@ -43,3 +43,35 @@ void basketDriver() {
         pros::Task basketTask(basketScore, &timeout, "Basket Scoring");
     }
 }
+
+void basketAllianceScore(void* param) {
+    int timeout = *(int*)param;
+    int startTime = pros::millis();
+    while (basket.get_position() < 210) {
+        if (pros::millis() - startTime < timeout) {
+          basket.move(127);  
+        } else {
+            break;
+        }
+        delay(5);
+    }
+    delay(75);
+    while (basketLimit.get_value() == 0) {
+        if (pros::millis() - startTime < timeout) {
+          basket.move(-127);  
+        } else {
+            break;
+        }
+        delay(5);
+    }
+    basket.brake();
+    basket.tare_position();  
+}
+
+//////// Driver Control
+void basketAllianceDriver() {
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) {
+        static int timeout = 1000;
+        pros::Task basketAllianceTask(basketAllianceScore, &timeout, "Basket Alliance Scoring");
+    }
+}

@@ -10,3 +10,7 @@ extern adi::Button basketLimit;
 void basketScore(int timeout);
 
 void basketDriver();
+
+void basketAllianceScore(int timeout);
+
+void basketAllianceDriver();
