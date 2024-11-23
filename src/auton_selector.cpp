@@ -1,3 +1,5 @@
+#include "lemlib/pose.hpp"
+#include "lemlib/pose.hpp"
 #include "liblvgl/core/lv_disp.h"
 #include "liblvgl/core/lv_event.h"
 #include "liblvgl/core/lv_obj.h"
@@ -10,17 +12,36 @@
 #include "liblvgl/misc/lv_color.h"
 #include "liblvgl/widgets/lv_btn.h"
 #include "liblvgl/widgets/lv_label.h"
+#include "subsystemsHeaders/basket.hpp"
+#include "subsystemsHeaders/drive.hpp"
+#include "subsystemsHeaders/intake.hpp"
 #include <cstdio>
 #include "auton_selector.hpp"
 
 int autonSelection = 0;
 bool blue = true;
 
+lv_obj_t * tabview;
+lv_obj_t * cover;
 lv_obj_t * tab_btns;
 lv_obj_t * label;
+lv_obj_t * statsTab;
 lv_obj_t * labelRed;
 lv_obj_t * labelBlue;
 lv_obj_t * labelChange;
+
+static void hide_change_button(lv_event_t * e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code == LV_EVENT_VALUE_CHANGED) {
+        int selectedTab = lv_tabview_get_tab_act(tabview);
+
+        if (selectedTab == 3) {
+            lv_obj_clear_flag(cover, LV_OBJ_FLAG_HIDDEN);
+        } else {
+            lv_obj_add_flag(cover, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+}
 
 static void selection(lv_event_t * e) {
     lv_event_code_t code = lv_event_get_code(e);
@@ -182,7 +203,6 @@ static void selectionBlueLE(lv_event_t * e) {
 
 void selector() {
     //creates tabview and colors the background orange
-    lv_obj_t * tabview;
     tabview = lv_tabview_create(lv_scr_act(), LV_DIR_LEFT, 100);
     lv_obj_set_style_bg_color(tabview, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
 
@@ -196,6 +216,8 @@ void selector() {
     lv_obj_t * redTab = lv_tabview_add_tab(tabview, "Red");
     lv_obj_t * blueTab = lv_tabview_add_tab(tabview, "Blue");
     lv_obj_t * skillsTab = lv_tabview_add_tab(tabview, "Skills");
+    statsTab = lv_tabview_add_tab(tabview, "Stats");
+    lv_obj_add_event_cb(tabview, hide_change_button, LV_EVENT_VALUE_CHANGED, nullptr);
 
     //red view///////////////////////////////////
     labelRed = lv_label_create(redTab);
@@ -333,21 +355,52 @@ void selector() {
     lv_obj_t * change = lv_btn_create(lv_scr_act());
     labelChange = lv_label_create(change);
 
-    lv_obj_set_size(change, 30, 50);
     lv_obj_center(change);
     lv_obj_set_style_bg_color(change, lv_color_black(), 0);
     lv_obj_set_style_text_font(labelChange, LV_THEME_DEFAULT_FONT_SMALL, 0);
     lv_label_set_text(labelChange, " You Done\nMessed Up\n   A-Aron"); 
-    lv_obj_align(change, LV_ALIGN_LEFT_MID, 120, 25);
+    lv_obj_align(change, LV_ALIGN_LEFT_MID, 120, 30);
     lv_obj_add_event_cb(change, selectionChange, LV_EVENT_CLICKED, nullptr);
     lv_obj_set_size(change, 70, 40);
     lv_obj_center(labelChange);
 
-    //adds the coordinates and heading
-    /*lv_obj_t * coordinates = lv_label_create(lv_scr_act());
-    lv_label_set_text_fmt(coordinates, "Coords: (%.2f, %.2f)", chassis.getPose().x, chassis.getPose().y);
-    lv_obj_align(coordinates, LV_ALIGN_BOTTOM_MID, 50, -10);
-    lv_obj_t * heading = lv_label_create(lv_scr_act());
-    lv_label_set_text_fmt(heading, "Heading: %.2f", chassis.getPose().theta);
-    lv_obj_align(heading, LV_ALIGN_BOTTOM_RIGHT, -20 , -10);*/   
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    char posText[150];
+    char statText[150];
+
+    lv_obj_t * placement_label = lv_label_create(lv_scr_act());
+    lv_obj_align(placement_label, LV_ALIGN_BOTTOM_RIGHT, -20, -10);
+
+    lv_obj_t * stats_label = lv_label_create(statsTab);
+    lv_obj_set_style_bg_color(stats_label, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
+    lv_obj_align(stats_label, LV_ALIGN_CENTER, 0, -20);
+
+    cover = lv_obj_create(lv_scr_act());
+    lv_obj_set_size(cover, 70, 40);
+    lv_obj_align(cover, LV_ALIGN_LEFT_MID, 120, 30);
+    lv_obj_set_style_bg_color(cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
+    lv_obj_set_style_border_color(cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
+    lv_obj_add_flag(cover, LV_OBJ_FLAG_HIDDEN);
+
+    while (true) {
+        //always on screen
+        lemlib::Pose trackerPos = chassis.getPose();
+        sprintf(posText, "(x: %.3f, y: %.3f, theta: %.3f)", trackerPos.x, trackerPos.y, trackerPos.theta);
+        lv_label_set_text(placement_label, posText);
+        //stats tab
+        sprintf(
+            statText, "Switch: %i | Basket Pos: %.2f | Basket Temp: %.0f\n        DT Left Temp: %.0f | DT Right Temp: %.0f\n                           Intake Temp: %.0f", 
+            basketLimit.get_value(), 
+            basket.get_position(), 
+            basket.get_temperature(),
+            DTLeft.get_temperature(),
+            DTRight.get_temperature(),
+            Intake.get_temperature()
+        );
+
+        lv_label_set_text(stats_label, statText);
+
+        pros::delay(10);
+    }
 }

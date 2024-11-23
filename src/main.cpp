@@ -1,9 +1,5 @@
 #include "nah/main.h"
-#include "liblvgl/core/lv_disp.h"
-#include "liblvgl/core/lv_obj_pos.h"
 #include "liblvgl/llemu.hpp"
-#include "liblvgl/misc/lv_area.h"
-#include "liblvgl/widgets/lv_label.h"
 #include "pros/abstract_motor.hpp"
 #include "pros/llemu.hpp"
 #include "subsystemsHeaders/basket.hpp"
@@ -43,23 +39,12 @@ void screen() {
 }
 
 void initialize() {
+    chassis.calibrate();
+    controller.rumble("-- .");
     Intake.set_brake_mode(pros::MotorBrake::coast);
     basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
     basket.set_brake_mode(MotorBrake::hold);
     pros::Task auton_selector_task(selector);
-    Task stats_task([&]() {
-        char text[150];
-        lv_obj_t * stats_label = lv_label_create(lv_scr_act());
-        lv_obj_align(stats_label, LV_ALIGN_BOTTOM_MID, 50, -10);
-        while (true) {
-            lemlib::Pose trackerPos = chassis.getPose();
-
-            sprintf(text, "Switch: %i", basketLimit.get_value());
-            lv_label_set_text(stats_label, text);
-
-            pros::delay(10);
-        }
-    });
 }   
 
 void disabled() {}
