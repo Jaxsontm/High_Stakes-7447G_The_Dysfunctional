@@ -10,7 +10,7 @@
 #include "liblvgl/misc/lv_color.h"
 #include "liblvgl/widgets/lv_btn.h"
 #include "liblvgl/widgets/lv_label.h"
-#include "subsystemsHeaders/drive.hpp"
+#include <cstdio>
 #include "auton_selector.hpp"
 
 int autonSelection = 0;
@@ -344,10 +344,10 @@ void selector() {
     lv_obj_center(labelChange);
 
     //adds the coordinates and heading
-    lv_obj_t * coordinates = lv_label_create(lv_scr_act());
-    lv_label_set_text_fmt(coordinates, "Coords: (%g, %g)", chassis.getPose().x, chassis.getPose().y);
+    /*lv_obj_t * coordinates = lv_label_create(lv_scr_act());
+    lv_label_set_text_fmt(coordinates, "Coords: (%.2f, %.2f)", chassis.getPose().x, chassis.getPose().y);
     lv_obj_align(coordinates, LV_ALIGN_BOTTOM_MID, 50, -10);
     lv_obj_t * heading = lv_label_create(lv_scr_act());
-    lv_label_set_text_fmt(heading, "Heading: %g", chassis.getPose().theta);
-    lv_obj_align(heading, LV_ALIGN_BOTTOM_RIGHT, -20 , -10);    
+    lv_label_set_text_fmt(heading, "Heading: %.2f", chassis.getPose().theta);
+    lv_obj_align(heading, LV_ALIGN_BOTTOM_RIGHT, -20 , -10);*/   
 }

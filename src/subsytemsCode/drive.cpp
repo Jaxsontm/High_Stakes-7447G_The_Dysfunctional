@@ -14,7 +14,7 @@ Controller controller(E_CONTROLLER_MASTER);
 MotorGroup DTLeft({-16, -15, 14}, MotorGearset::blue);
 MotorGroup DTRight({20, 19, -18}, MotorGearset::blue);
 
-Imu inertial_sensor(9);
+Imu inertial_sensor(13);
 //
 
 // drivetrain settings
@@ -54,8 +54,8 @@ lemlib::ControllerSettings
     );
 
 //Rotation Sensors
-Rotation horizontal_sensor(10);
-Rotation vertical_sensor(-18);
+Rotation horizontal_sensor(12);
+Rotation vertical_sensor(-1);
 
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
                                                 lemlib::Omniwheel::NEW_275, 2.5);
