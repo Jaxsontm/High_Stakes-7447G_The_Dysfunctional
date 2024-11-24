@@ -2,6 +2,7 @@
 #include "liblvgl/llemu.hpp"
 #include "pros/abstract_motor.hpp"
 #include "pros/llemu.hpp"
+#include "subsystemsHeaders/Lift.hpp"
 #include "subsystemsHeaders/basket.hpp"
 #include "subsystemsHeaders/intake.hpp"
 #include "subsystemsHeaders/drive.hpp"
@@ -100,7 +101,9 @@ void opcontrol() {
 
     /////////////////////////////////////////////////////////////////
         
-        //liftToggle();
+        liftPTOToggle();
+
+        liftDriver();
 
     /////////////////////////////////////////////////////////////////
 
