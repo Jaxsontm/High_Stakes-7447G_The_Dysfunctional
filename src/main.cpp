@@ -57,6 +57,8 @@ void autonomous() {
     switch (autonSelection) {
         default:
             Skills();
+        case 0:
+            Skills();
         case 1:
             redRight();
         case 2:
