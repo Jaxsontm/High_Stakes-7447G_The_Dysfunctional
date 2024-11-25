@@ -41,11 +41,12 @@ void screen() {
 
 void initialize() {
     chassis.calibrate();
-    controller.rumble("-- .");
     Intake.set_brake_mode(pros::MotorBrake::coast);
     basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
     basket.set_brake_mode(MotorBrake::hold);
     pros::Task auton_selector_task(selector);
+    /*pros::Task mogo_machine_task(state_machine_mogo);
+    pros::Task intake_machine_task(state_machine_intake);*/
 }   
 
 void disabled() {}
@@ -53,34 +54,29 @@ void disabled() {}
 void competition_initialize() {
     selector();
 }
-
 void autonomous() {
-    switch (autonSelection) {
-        default:
-            Skills();
-        case 0:
-            Skills();
-        case 1:
-            redRight();
-        case 2:
-            redLeft();
-        case 3:
-            redSolo();
-        case 4:
-            redRightElim();
-        case 5:
-            redLeftElim();
-        case 6:
-            blueRight();
-        case 7:
-            blueLeft();
-        case 8:
-            blueSolo();
-        case 9:
-            blueRightElim();
-        case 10:
-            blueLeftElim();
-
+    if (autonSelection == 0) {
+        Skills();
+    } else if (autonSelection == 1) {
+        redRight();
+    } else if (autonSelection == 2) {
+        redLeft();
+    } else if (autonSelection == 3) {
+        redSolo();
+    } else if (autonSelection == 4) {
+        redRightElim();
+    } else if (autonSelection == 5) {
+        redLeftElim();
+    } else if (autonSelection == 6) {
+        blueRight();
+    } else if (autonSelection == 7) {
+        blueLeft();
+    } else if (autonSelection == 8) {
+        blueSolo();
+    } else if (autonSelection == 9) {
+        blueRightElim();
+    } else if (autonSelection == 10) {
+        blueLeftElim();
     }
 }
 
@@ -90,14 +86,12 @@ void opcontrol() {
     ///////////////////////////////////////////////////////////////
 
 		intakeControl();
+        
+        intakePistonToggle();
 
     /////////////////////////////////////////////////////////////////
 
         mogoToggle();
-
-    /////////////////////////////////////////////////////////////////    
-       
-
 
     /////////////////////////////////////////////////////////////////
         
@@ -109,11 +103,13 @@ void opcontrol() {
 
         basketDriver();
 
-        basketAllianceDriver();
+        basketReset();
     
     /////////////////////////////////////////////////////////////////
     
         tank();
+
+    /////////////////////////////////////////////////////////////////
 
         // delay to save resources
         pros::delay(20);

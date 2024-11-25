@@ -21,7 +21,7 @@ Imu inertial_sensor(13);
 lemlib::Drivetrain drivetrain(
     &DTLeft,                    // left motor group
     &DTRight,                   // right motor group
-    14,                         // 40 inch track width
+    11,                         // 40 inch track width
     lemlib::Omniwheel::NEW_275, // using new 2.75" omnis
     450,                        // drivetrain rpm is 450
     2 // horizontal drift is 2. If we had traction wheels, it would have been 8
@@ -29,38 +29,38 @@ lemlib::Drivetrain drivetrain(
 
 // lateral motion controller
 lemlib::ControllerSettings
-    linearController(7.2,   // proportional gain (kP)
+    linearController(12,   // proportional gain (kP)
                      0,    // integral gain (kI)
-                     9.6,   // derivative gain (kD)
+                     24,   // derivative gain (kD)
                      10,    // anti windup
                      1,    // small error range, in inches
-                     1000, // small error range timeout, in milliseconds
+                     100, // small error range timeout, in milliseconds
                      30,   // large error range, in inches
-                     3000, // large error range timeout, in milliseconds
+                     30000, // large error range timeout, in milliseconds
                      10     // maximum acceleration (slew)
     );
 
 // angular motion controller
 lemlib::ControllerSettings
-    angularController(5, // proportional gain (kP)
+    angularController(1.045, // proportional gain (kP)
                       0,    // integral gain (kI)
-                      41.125,   // derivative gain (kD)
+                      6,   // derivative gain (kD)
                       2,    // anti windup
                       1,    // small error range, in degrees
                       500,  // small error range timeout, in milliseconds
-                      750,  // large error range, in degrees
+                      15,  // large error range, in degrees
                       750,  // large error range timeout, in milliseconds
-                      0     // maximum acceleration (slew)
+                      5     // maximum acceleration (slew)
     );
 
 //Rotation Sensors
 Rotation horizontal_sensor(12);
-Rotation vertical_sensor(-1);
+Rotation vertical_sensor(1);
 
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
-                                                lemlib::Omniwheel::NEW_275, 2.5);
+                                                lemlib::Omniwheel::NEW_2, 3.25);
 lemlib::TrackingWheel vertical_tracking_wheel(&vertical_sensor,
-                                              lemlib::Omniwheel::NEW_275, -2);
+                                              lemlib::Omniwheel::NEW_275, 0.5);
 // sensors for odometry
 // note that in this example we use internal motor encoders (IMEs), so we don't
 // pass vertical tracking wheels

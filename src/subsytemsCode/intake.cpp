@@ -15,8 +15,6 @@ Distance basketCheck(19);
 
 adi::Pneumatics intakePiston('B', false);
 
-Optical color (10);
-
 bool up = false;
 
 //////// state machine
@@ -71,8 +69,10 @@ void state_machine_intake(bool two_rings, bool color_sort) {
 
 ////// Driver Control
 void intakeControl() {
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) /*&& (basketLimit.get_value() == 1) && basketCheck.get() < 120*/) {
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && (basketLimit.get_value() == 1) /*&& basketCheck.get() < 120*/) {
         Intake.move(127);
+    } else if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
+        Intake.move(-127);
     } else {
         Intake.brake();
     }

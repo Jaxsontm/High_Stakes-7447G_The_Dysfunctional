@@ -371,6 +371,8 @@ void selector() {
 
     lv_obj_t * placement_label = lv_label_create(lv_scr_act());
     lv_obj_align(placement_label, LV_ALIGN_BOTTOM_RIGHT, -20, -10);
+    lv_obj_t * placement_cover = lv_obj_create(lv_scr_act());
+    lv_obj_set_size(placement_cover, 150, 20);
 
     lv_obj_t * stats_label = lv_label_create(statsTab);
     lv_obj_set_style_bg_color(stats_label, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
@@ -385,8 +387,9 @@ void selector() {
 
     while (true) {
         //always on screen
+        lv_label_set_text(placement_label, "");
         lemlib::Pose trackerPos = chassis.getPose();
-        sprintf(posText, "(x: %.3f, y: %.3f, theta: %.3f)", trackerPos.x, trackerPos.y, trackerPos.theta);
+        sprintf(posText, "(x: %.2f, y: %.2f, theta: %.2f)", trackerPos.x, trackerPos.y, trackerPos.theta);
         lv_label_set_text(placement_label, posText);
         //stats tab
         sprintf(
@@ -401,6 +404,6 @@ void selector() {
 
         lv_label_set_text(stats_label, statText);
 
-        pros::delay(10);
+        pros::delay(500);
     }
 }

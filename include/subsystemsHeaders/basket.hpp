@@ -11,6 +11,6 @@ void basketScore(int timeout);
 
 void basketDriver();
 
-void basketAllianceScore(int timeout);
+void basketAllianceScore(int timeoutA);
 
-void basketAllianceDriver();
+void basketReset();
