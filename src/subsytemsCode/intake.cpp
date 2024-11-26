@@ -17,7 +17,7 @@ Distance basketCheck(19);
 //////// state machine
 StateIntake current_state_intake = StateIntake::BRAKE;
 
-void state_machine_intake(bool two_rings, bool color_sort) {
+void state_machine_intake(bool two_rings) {
   while (true) {
     switch (current_state_intake) {
     case StateIntake::LOAD:
@@ -50,7 +50,7 @@ void state_machine_intake(bool two_rings, bool color_sort) {
             current_state_intake = StateIntake::LOAD;
           } else if (basketCheck.get() < 70) {
             current_state_intake = StateIntake::BRAKE;
-        }
+          }
         } else {
           current_state_intake = StateIntake::BRAKE;
         }

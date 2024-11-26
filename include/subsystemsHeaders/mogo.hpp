@@ -7,9 +7,13 @@ using namespace pros;
 extern Distance DistanceMogo;
 
 extern adi::Pneumatics Mogo;
+
+extern adi::Pneumatics doinker;
 //
 
 void mogoToggle();
+
+void doinkerToggle();
 
 enum class StateMogo { 
   LOCATE, 

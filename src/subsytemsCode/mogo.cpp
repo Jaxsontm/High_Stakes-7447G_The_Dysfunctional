@@ -11,6 +11,10 @@ Distance DistanceMogo(8);
 
 adi::Pneumatics Mogo('A', false);
 
+adi::Pneumatics doinker('C', false);
+
+bool doinkerActuated = false;
+
 bool mogoActuated = false;
 
 ////// State Machine
@@ -51,5 +55,12 @@ void mogoToggle() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
     mogoActuated = !mogoActuated;
     Mogo.set_value(mogoActuated);
+  }
+}
+
+void doinkerToggle() {
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) {
+    doinkerActuated = !doinkerActuated;
+    doinker.set_value(doinkerActuated);
   }
 }

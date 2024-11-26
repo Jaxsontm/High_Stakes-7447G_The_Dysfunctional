@@ -10,7 +10,7 @@
 using namespace pros;
 
 ///////// global
-adi::Pneumatics liftPTO('A', false);
+adi::Pneumatics liftPTO('B', false);
 
 bool liftPTOActuated = false;
 ////////PID
@@ -39,7 +39,7 @@ void liftLoad() {
 }
 //////// Driver Control
 void liftPTOToggle() {
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)) {
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) {
     liftPTOActuated = !liftPTOActuated;
     liftPTO.set_value(liftPTOActuated);
     Intake.set_brake_mode(liftPTOActuated ? E_MOTOR_BRAKE_HOLD : E_MOTOR_BRAKE_COAST);

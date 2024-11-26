@@ -22,4 +22,4 @@ enum class StateIntake {
   BRAKE,
 };
 
-void state_machine_intake(bool two_rings, bool color_sort);
+void state_machine_intake(bool two_rings);
