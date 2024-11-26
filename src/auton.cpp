@@ -51,7 +51,7 @@ chassis.waitUntilDone();
   chassis.swingToHeading(135, lemlib::DriveSide::LEFT, 650);
 chassis.waitUntilDone();
 
-  chassis.moveToPoint(-10,-10,650, {.forwards = false, .maxSpeed = 120, .minSpeed = 50, .earlyExitRange = 10});
+  chassis.moveToPoint(-4,10,650, {.forwards = false, .maxSpeed = 120, .minSpeed = 50, .earlyExitRange = 10});
 
   chassis.moveToPose(-22, 21, -62, 1000, {.maxSpeed = 60});
 }
@@ -115,7 +115,7 @@ chassis.waitUntilDone();
   chassis.swingToHeading(-135, lemlib::DriveSide::RIGHT, 650);
 chassis.waitUntilDone();
 
-  chassis.moveToPoint(10,-10,650, {.forwards = false, .maxSpeed = 120, .minSpeed = 50, .earlyExitRange = 10});
+  chassis.moveToPoint(4,10,650, {.forwards = false, .maxSpeed = 120, .minSpeed = 50, .earlyExitRange = 10});
 
   chassis.moveToPose(22, 21, 62, 1000, {.maxSpeed = 60}); 
 }
