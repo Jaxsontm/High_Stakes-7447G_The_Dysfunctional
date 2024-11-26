@@ -8,7 +8,7 @@ extern adi::Pneumatics liftPTO;
 
 void liftPTOToggle();
 
-void lift_to_target_position(int targetPosition);
+void lift_to_target_position(int targetPosition, int timeout = 500);
 
 void liftDriver();
 

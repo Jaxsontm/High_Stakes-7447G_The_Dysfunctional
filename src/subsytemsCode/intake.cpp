@@ -14,10 +14,6 @@ Motor Intake(-11, MotorGearset::blue);
 
 Distance basketCheck(19);
 
-adi::Pneumatics intakePiston('B', false);
-
-bool up = false;
-
 //////// state machine
 StateIntake current_state_intake = BRAKE;
 
@@ -78,12 +74,5 @@ void intakeControl() {
     Intake.move(-127);
   } else {
     Intake.brake();
-  }
-}
-
-void intakePistonToggle() {
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
-    up = !up;
-    intakePiston.set_value(up);
   }
 }

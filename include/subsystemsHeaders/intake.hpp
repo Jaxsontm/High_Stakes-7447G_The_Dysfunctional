@@ -1,5 +1,4 @@
 #pragma once
-#include "pros/adi.hpp"
 #include "pros/distance.hpp"
 #include "pros/motors.hpp"
 #include "pros/optical.hpp"
@@ -12,14 +11,10 @@ extern Distance basketCheck;
 
 extern Distance RingCounter;
 
-extern adi::Pneumatics intakePiston;
-
 extern Optical color;
 //
 
 void intakeControl();
-
-void intakePistonToggle();
 
 enum StateIntake {
   LOAD = 0,

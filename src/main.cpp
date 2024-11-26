@@ -84,8 +84,6 @@ void opcontrol() {
 
     intakeControl();
 
-    intakePistonToggle();
-
     /////////////////////////////////////////////////////////////////
 
     mogoToggle();
