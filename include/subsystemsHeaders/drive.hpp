@@ -9,7 +9,6 @@ using namespace pros;
 // controller
 extern Controller controller;
 
-
 // Green Ziptie
 
 extern MotorGroup DTLeft;

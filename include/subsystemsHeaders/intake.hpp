@@ -1,8 +1,8 @@
 #pragma once
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
-#include "pros/motors.hpp" 
-#include "pros/optical.hpp" 
+#include "pros/motors.hpp"
+#include "pros/optical.hpp"
 using namespace pros;
 
 // Blue Ziptie
@@ -19,12 +19,12 @@ extern Optical color;
 
 void intakeControl();
 
-extern void intakePistonToggle();
+void intakePistonToggle();
 
-enum StateIntake { 
-    LOAD = 0,
-    CHECK = 1, 
-    BRAKE = 2,
+enum StateIntake {
+  LOAD = 0,
+  CHECK = 1,
+  BRAKE = 2,
 };
 
-extern void state_machine_intake(bool two_rings, bool color_sort);
+void state_machine_intake(bool two_rings, bool color_sort);

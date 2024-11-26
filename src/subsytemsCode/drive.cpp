@@ -29,13 +29,13 @@ lemlib::Drivetrain drivetrain(
 
 // lateral motion controller
 lemlib::ControllerSettings
-    linearController(12,   // proportional gain (kP)
-                     0,    // integral gain (kI)
-                     24,   // derivative gain (kD)
+    linearController(12,    // proportional gain (kP)
+                     0,     // integral gain (kI)
+                     24,    // derivative gain (kD)
                      10,    // anti windup
-                     1,    // small error range, in inches
-                     100, // small error range timeout, in milliseconds
-                     30,   // large error range, in inches
+                     1,     // small error range, in inches
+                     100,   // small error range timeout, in milliseconds
+                     30,    // large error range, in inches
                      30000, // large error range timeout, in milliseconds
                      10     // maximum acceleration (slew)
     );
@@ -43,17 +43,17 @@ lemlib::ControllerSettings
 // angular motion controller
 lemlib::ControllerSettings
     angularController(1.045, // proportional gain (kP)
-                      0,    // integral gain (kI)
-                      6,   // derivative gain (kD)
-                      2,    // anti windup
-                      1,    // small error range, in degrees
-                      500,  // small error range timeout, in milliseconds
-                      15,  // large error range, in degrees
-                      750,  // large error range timeout, in milliseconds
-                      5     // maximum acceleration (slew)
+                      0,     // integral gain (kI)
+                      6,     // derivative gain (kD)
+                      2,     // anti windup
+                      1,     // small error range, in degrees
+                      500,   // small error range timeout, in milliseconds
+                      15,    // large error range, in degrees
+                      750,   // large error range timeout, in milliseconds
+                      5      // maximum acceleration (slew)
     );
 
-//Rotation Sensors
+// Rotation Sensors
 Rotation horizontal_sensor(12);
 Rotation vertical_sensor(1);
 
@@ -87,21 +87,21 @@ void waitUntilTankDist(
         lastPose); // redeclares param inches as inches minus distance away from
                    // the last position
     lastPose = chassis.getPose(); // updates current position of robot
-    delay(10);              // adds delay to not overload sensors
+    delay(10);                    // adds delay to not overload sensors
   } // slowly whittles down at inches until it is equal to 0, in which it will
     // run the next line of code in queue
 }
 
-void tank () {
-    int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-    int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+void tank() {
+  int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+  int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
 
-    chassis.tank(leftY, rightY);
+  chassis.tank(leftY, rightY);
 }
 
-void arcade () {
-    int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-    int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+void arcade() {
+  int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+  int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-    chassis.arcade(leftY, rightX);
+  chassis.arcade(leftY, rightX);
 }
