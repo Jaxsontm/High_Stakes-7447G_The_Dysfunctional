@@ -15,48 +15,48 @@ Motor Intake(-11, MotorGearset::blue);
 Distance basketCheck(19);
 
 //////// state machine
-StateIntake current_state_intake = BRAKE;
+StateIntake current_state_intake = StateIntake::BRAKE;
 
 void state_machine_intake(bool two_rings, bool color_sort) {
   while (true) {
     switch (current_state_intake) {
-    case LOAD:
+    case StateIntake::LOAD:
       if (two_rings == true) {
         if (basketCheck.get() > 120) {
           while (basketCheck.get() > 120 && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
-          current_state_intake = CHECK;
+          current_state_intake = StateIntake::CHECK;
         } else if (basketCheck.get() > 70) {
           while (basketCheck.get() > 70 && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
-          current_state_intake = CHECK;
+       current_state_intake = StateIntake::CHECK;
         }
       } else {
         while (basketCheck.get() > 70 && basketLimit.get_value() == 1 ||
                basketCheck.get() > 120 && basketLimit.get_value() == 1) {
           Intake.move(127);
         }
-        current_state_intake = CHECK;
+        current_state_intake = StateIntake::CHECK;
       }
       break;
-    case CHECK:
+    case StateIntake::CHECK:
       if (basketLimit.get_value() == 0) {
-        current_state_intake = BRAKE;
+        current_state_intake = StateIntake::BRAKE;
       } else {
         if (two_rings == true) {
-          if (basketCheck.get() < 120) {
-            current_state_intake = LOAD;
+         if (basketCheck.get() < 120) {
+            current_state_intake = StateIntake::LOAD;
           } else if (basketCheck.get() < 70) {
-            current_state_intake = BRAKE;
-          }
+            current_state_intake = StateIntake::BRAKE;
+        }
         } else {
-          current_state_intake = BRAKE;
+          current_state_intake = StateIntake::BRAKE;
         }
       }
       break;
-    case BRAKE:
+    case StateIntake::BRAKE:
       Intake.brake();
 
       break;

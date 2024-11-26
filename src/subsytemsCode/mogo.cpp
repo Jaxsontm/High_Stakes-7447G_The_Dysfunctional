@@ -14,7 +14,7 @@ adi::Pneumatics Mogo('A', false);
 bool mogoActuated = false;
 
 ////// State Machine
-StateMogo current_state_mogo = RELEASE;
+StateMogo current_state_mogo = StateMogo::RELEASE;
 
 void request_new_state_mogo(StateMogo request_new_state_mogo) {
   if (request_new_state_mogo != current_state_mogo) {
@@ -25,21 +25,21 @@ void request_new_state_mogo(StateMogo request_new_state_mogo) {
 void state_machine_mogo() {
   while (true) {
     switch (current_state_mogo) {
-    case LOCATE:
+    case StateMogo::LOCATE:
       if (DistanceMogo.get() <= 87) {
-        current_state_mogo = GRAB;
+        current_state_mogo = StateMogo::GRAB;
       } else {
         Mogo.set_value(false);
       }
       break;
-    case GRAB:
+    case StateMogo::GRAB:
       delay(100);
       Mogo.set_value(true);
-      current_state_mogo = RELEASE;
+      current_state_mogo = StateMogo::RELEASE;
       break;
-    case RELEASE:
+    case StateMogo::RELEASE:
       Mogo.set_value(false);
-      current_state_mogo = LOCATE;
+      current_state_mogo = StateMogo::LOCATE;
       break;
     }
     delay(5);

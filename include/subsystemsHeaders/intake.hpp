@@ -16,10 +16,10 @@ extern Optical color;
 
 void intakeControl();
 
-enum StateIntake {
-  LOAD = 0,
-  CHECK = 1,
-  BRAKE = 2,
+enum class StateIntake {
+  LOAD,
+  CHECK,
+  BRAKE,
 };
 
 void state_machine_intake(bool two_rings, bool color_sort);
