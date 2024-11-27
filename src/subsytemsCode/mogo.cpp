@@ -43,7 +43,6 @@ void state_machine_mogo() {
       break;
     case StateMogo::RELEASE:
       Mogo.set_value(false);
-      current_state_mogo = StateMogo::LOCATE;
       break;
     }
     delay(5);
