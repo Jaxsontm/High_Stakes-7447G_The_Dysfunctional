@@ -13,3 +13,5 @@ void lift_to_target_position(int targetPosition, int timeout = 500);
 void liftDriver();
 
 void liftScore();
+
+void liftLoad();

@@ -39,6 +39,7 @@ void screen() {
 }
 
 void initialize() {
+  basketReset();
   chassis.calibrate();
   Intake.set_brake_mode(pros::MotorBrake::coast);
   basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
