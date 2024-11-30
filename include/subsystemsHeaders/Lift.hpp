@@ -10,8 +10,10 @@ void liftPTOToggle();
 
 void lift_to_target_position(int targetPosition, int timeout = 500);
 
-void liftDriver();
+void liftLoad();
+
+void liftAlliance();
 
 void liftScore();
 
-void liftLoad();
+void liftDriver();
