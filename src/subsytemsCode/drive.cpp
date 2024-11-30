@@ -6,8 +6,6 @@
 using namespace pros;
 
 // controller
-using pros::delay;
-
 Controller controller(E_CONTROLLER_MASTER);
 
 // Green Ziptie
@@ -76,21 +74,6 @@ lemlib::OdomSensors sensors(
 // create the chassis
 lemlib::Chassis chassis(drivetrain, linearController, angularController,
                         sensors);
-
-void waitUntilTankDist(
-    double inches) { // creates a new function with the parameter inches
-  lemlib::Pose lastPose =
-      chassis.getPose(); // creates a new value under the lemlib:pose class that
-                         // holds the initial position of the robot
-  while (inches > 0) {   // while inches is greater than 0, the inside bit runs
-    inches -= chassis.getPose().distance(
-        lastPose); // redeclares param inches as inches minus distance away from
-                   // the last position
-    lastPose = chassis.getPose(); // updates current position of robot
-    delay(10);                    // adds delay to not overload sensors
-  } // slowly whittles down at inches until it is equal to 0, in which it will
-    // run the next line of code in queue
-}
 
 void tank() {
   int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

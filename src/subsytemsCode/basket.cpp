@@ -7,24 +7,35 @@
 #include "subsystemsHeaders/drive.hpp"
 using namespace pros;
 
-/////// globals
+/// globals
 Motor basket(-6, MotorGearset::green);
 
 adi::Button basketLimit('H');
 
 /// Actions
+//scores and resets the basket within double the timeout time
 void basketScore(int timeout) {
-  int startTime = pros::millis();
+  int startTime = pros::millis(); //start time of the function
   while (basket.get_position() <= 380 && pros::millis() - startTime < timeout) {
-    basket.move(127);
+    basket.move(127); //scores the rings in the timeout
     delay(5);
   }
   delay(75);
   while (basketLimit.get_value() == 0 && pros::millis() - startTime < timeout) {
-    basket.move(-127);
+    basket.move(-127); // resets the basket in the timeout
     delay(5);
   }
-  basket.brake();
+  basket.brake(); // Stop the motor and reset the position to zero
+  basket.tare_position();
+}
+
+// resets the basket in desperate situations
+void basketReset()  {
+  while (basketLimit.get_value() == 0) {
+    basket.move(-127); // resets the basket
+    delay(5);
+  }
+  basket.brake(); // Stop the motor and reset the position to zero
   basket.tare_position();
 }
 
@@ -44,7 +55,7 @@ void basketDrive(void *param) {
   basket.tare_position();
 }
 
-void basketReset(void *param) {
+void basketResetDrive(void *param) {
   int timeoutR = *(int *)param;
   int startTime = pros::millis();
   while (basketLimit.get_value() == 0 && pros::millis() - startTime < timeoutR) {
@@ -63,9 +74,9 @@ void basketDriver() {
   }
 }
 
-void basketReset() {
+void basketResetDriver() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) {
     static int timeoutR = 1000;
-    pros::Task basketResetTask(basketReset, &timeoutR, "Basket Reset");
+    pros::Task basketResetTask(basketResetDrive, &timeoutR, "Basket Reset");
   }
 }

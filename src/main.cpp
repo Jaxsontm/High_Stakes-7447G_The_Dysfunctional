@@ -49,7 +49,7 @@ void opcontrol() {
     liftPTOToggle();
     liftDriver();
     basketDriver();
-    basketReset();
+    basketResetDriver();
     tank();
   
     // delay to save resources

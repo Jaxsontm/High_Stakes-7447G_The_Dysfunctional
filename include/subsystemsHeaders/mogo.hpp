@@ -3,14 +3,14 @@
 #include "pros/distance.hpp"
 using namespace pros;
 
-// Red Ziptie
+// controllables
 extern Distance DistanceMogo;
 
 extern adi::Pneumatics Mogo;
 
 extern adi::Pneumatics doinker;
-//
 
+//macros
 void mogoToggle();
 
 void doinkerToggle();
