@@ -5,14 +5,14 @@
 #include "pros/motors.hpp"
 #include "pros/rtos.hpp"
 #include "subsystemsHeaders/drive.hpp"
-
-
 using namespace pros;
+
 /////// globals
 Motor basket(-6, MotorGearset::green);
 
 adi::Button basketLimit('H');
-/////// Score
+
+/// Actions
 void basketScore(void *param) {
   int timeout = *(int *)param;
   int startTime = pros::millis();
@@ -29,14 +29,6 @@ void basketScore(void *param) {
   basket.tare_position();
 }
 
-//////// Driver Control
-void basketDriver() {
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)) {
-    static int timeout = 2000;
-    pros::Task basketScoreTask(basketScore, &timeout, "Basket Scoring");
-  }
-}
-
 void basketReset(void *param) {
   int timeoutR = *(int *)param;
   int startTime = pros::millis();
@@ -48,7 +40,14 @@ void basketReset(void *param) {
   basket.tare_position();
 }
 
-//////// Driver Control
+//Driver Control
+void basketDriver() {
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)) {
+    static int timeout = 2000;
+    pros::Task basketScoreTask(basketScore, &timeout, "Basket Scoring");
+  }
+}
+
 void basketReset() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) {
     static int timeoutR = 1000;

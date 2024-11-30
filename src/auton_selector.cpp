@@ -19,7 +19,6 @@
 
 
 int autonSelection = 0;
-bool blue = true;
 
 lv_obj_t *tabview;
 lv_obj_t *cover;
@@ -43,19 +42,6 @@ static void hide_change_button(lv_event_t *e) {
   }
 }
 
-static void selection(lv_event_t *e) {
-  lv_event_code_t code = lv_event_get_code(e);
-  lv_obj_t *obj = lv_event_get_target(e);
-  lv_obj_t *auton = lv_label_create(lv_scr_act());
-  lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-  if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "EZPZ");
-    autonSelection = 0;
-    blue = true;
-  }
-}
-
 static void selectionChange(lv_event_t *e) {
   lv_event_code_t code = lv_event_get_code(e);
   lv_obj_t *obj = lv_event_get_target(e);
@@ -66,10 +52,8 @@ static void selectionChange(lv_event_t *e) {
     lv_obj_t *change = lv_obj_create(auton);
     lv_obj_center(change);
     lv_obj_set_height(change, 20);
-    lv_obj_set_style_bg_color(change,
-                              lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
-    lv_obj_set_style_border_color(
-        change, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
+    lv_obj_set_style_bg_color(change, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
+    lv_obj_set_style_border_color(change, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
   }
 }
 
@@ -82,9 +66,20 @@ static void selectionRedR(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Red Right Qual");
     autonSelection = 1;
-    blue = true;
   }
 }
+static void selection(lv_event_t *e) {
+  lv_event_code_t code = lv_event_get_code(e);
+  lv_obj_t *obj = lv_event_get_target(e);
+  lv_obj_t *auton = lv_label_create(lv_scr_act());
+  lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+
+  if (code == LV_EVENT_CLICKED) {
+    lv_label_set_text(auton, "EZPZ");
+    autonSelection = 0;
+  }
+}
+
 
 static void selectionRedL(lv_event_t *e) {
   lv_event_code_t code = lv_event_get_code(e);
@@ -95,7 +90,6 @@ static void selectionRedL(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Red Left Qual");
     autonSelection = 2;
-    blue = true;
   }
 }
 
@@ -108,7 +102,6 @@ static void selectionRedS(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Red Solo Qual");
     autonSelection = 3;
-    blue = true;
   }
 }
 
@@ -121,7 +114,6 @@ static void selectionRedRE(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Red Right Elim");
     autonSelection = 4;
-    blue = true;
   }
 }
 
@@ -134,7 +126,6 @@ static void selectionRedLE(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Red Left Elim");
     autonSelection = 5;
-    blue = true;
   }
 }
 
@@ -147,7 +138,6 @@ static void selectionBlueR(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Right Qual");
     autonSelection = 1;
-    blue = true;
   }
 }
 
@@ -160,7 +150,6 @@ static void selectionBlueL(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Left Qual");
     autonSelection = 2;
-    blue = true;
   }
 }
 
@@ -173,7 +162,6 @@ static void selectionBlueS(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Solo Qual");
     autonSelection = 3;
-    blue = true;
   }
 }
 
@@ -186,7 +174,6 @@ static void selectionBlueRE(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Right Elim");
     autonSelection = 4;
-    blue = true;
   }
 }
 
@@ -199,7 +186,6 @@ static void selectionBlueLE(lv_event_t *e) {
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Left Elim");
     autonSelection = 5;
-    blue = true;
   }
 }
 
@@ -209,19 +195,18 @@ void selector() {
   lv_obj_set_style_bg_color(tabview,
                             lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
 
-  // creates tab buttons and colors them
+  // creates the theme for the tabview
   tab_btns = lv_tabview_get_tab_btns(tabview);
   lv_obj_set_style_bg_color(tab_btns, lv_color_black(), 0);
   lv_obj_set_style_text_color(tab_btns, lv_color_white(), 0);
   lv_obj_set_style_text_letter_space(tab_btns, 2, 0);
 
-  // creates the actual tabs
+  // creates the main tabs
   lv_obj_t *redTab = lv_tabview_add_tab(tabview, "Red");
   lv_obj_t *blueTab = lv_tabview_add_tab(tabview, "Blue");
   lv_obj_t *skillsTab = lv_tabview_add_tab(tabview, "Skills");
   statsTab = lv_tabview_add_tab(tabview, "Stats");
-  lv_obj_add_event_cb(tabview, hide_change_button, LV_EVENT_VALUE_CHANGED,
-                      nullptr);
+  lv_obj_add_event_cb(tabview, hide_change_button, LV_EVENT_VALUE_CHANGED, nullptr);
 
   // red view///////////////////////////////////
   labelRed = lv_label_create(redTab);
@@ -238,14 +223,15 @@ void selector() {
   lv_obj_t *qualTabRed = lv_tabview_add_tab(tabviewRed, "Qual");
   lv_obj_t *elimTabRed = lv_tabview_add_tab(tabviewRed, "Elim");
 
-  lv_obj_t *redright = lv_btn_create(qualTabRed);
-  labelRed = lv_label_create(redright);
-  lv_label_set_text(labelRed, "RED QUAL RIGHT");
-  lv_obj_center(labelRed);
+  lv_obj_t *redright = lv_btn_create(qualTabRed); //creates the button
+  labelRed = lv_label_create(redright); //creates the button's label
+  lv_label_set_text(labelRed, "RED QUAL RIGHT"); //sets the button's text
+  lv_obj_center(labelRed); //centers the button's text
   lv_obj_set_style_text_letter_space(redright, 2, 0);
-  lv_obj_set_style_bg_color(redright, lv_color_black(), 0);
-  lv_obj_align(redright, LV_ALIGN_TOP_MID, 0, 0);
-  lv_obj_add_event_cb(redright, selectionRedR, LV_EVENT_CLICKED, nullptr);
+  lv_obj_set_style_bg_color(redright, lv_color_black(), 0); //sets bg color
+  lv_obj_align(redright, LV_ALIGN_TOP_MID, 0, 0); //aligns the button in the screen
+  lv_obj_add_event_cb(redright,  //sets the callback for the button
+                  selectionRedR, LV_EVENT_CLICKED, nullptr);
 
   lv_obj_t *redleft = lv_btn_create(qualTabRed);
   labelRed = lv_label_create(redleft);
@@ -361,20 +347,16 @@ void selector() {
   // auton change button/////////////////////////////////////////
   lv_obj_t *change = lv_btn_create(lv_scr_act());
   labelChange = lv_label_create(change);
-
   lv_obj_center(change);
   lv_obj_set_style_bg_color(change, lv_color_black(), 0);
   lv_obj_set_style_text_font(labelChange, LV_THEME_DEFAULT_FONT_SMALL, 0);
   lv_label_set_text(labelChange, " You Done\nMessed Up\n   A-Aron");
-  lv_obj_align(change, LV_ALIGN_LEFT_MID, 120, 30);
-  lv_obj_add_event_cb(change, selectionChange, LV_EVENT_CLICKED, nullptr);
   lv_obj_set_size(change, 70, 40);
   lv_obj_center(labelChange);
+  lv_obj_align(change, LV_ALIGN_LEFT_MID, 120, 30);
+  lv_obj_add_event_cb(change, selectionChange, LV_EVENT_CLICKED, nullptr);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  char posText[150];
-  char statText[150];
 
   lv_obj_t *placement_label = lv_label_create(lv_scr_act());
   lv_obj_align(placement_label, LV_ALIGN_BOTTOM_RIGHT, -20, -10);
@@ -389,11 +371,12 @@ void selector() {
   cover = lv_obj_create(lv_scr_act());
   lv_obj_set_size(cover, 70, 40);
   lv_obj_align(cover, LV_ALIGN_LEFT_MID, 120, 30);
-  lv_obj_set_style_bg_color(cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2),
-                            0);
-  lv_obj_set_style_border_color(
-      cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
+  lv_obj_set_style_bg_color(cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
+  lv_obj_set_style_border_color(cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
   lv_obj_add_flag(cover, LV_OBJ_FLAG_HIDDEN);
+
+  char posText[150];
+  char statText[150];
 
   while (true) {
     // always on screen
@@ -414,5 +397,5 @@ void selector() {
     lv_label_set_text(stats_label, statText);
 
     pros::delay(500);
-  }
-}
+  } //while loop
+} //void selector
