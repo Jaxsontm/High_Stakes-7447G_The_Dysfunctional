@@ -239,17 +239,64 @@ chassis.cancelMotion();
   chassis.moveToPoint(54, 20.5, midDriveTimeout, {.maxSpeed = poleMaxSpeed});
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void redRightElim() { chassis.setPose(0, 0, 0); }
+void redRightElim() { chassis.setPose(0, 0, 0); 
+  chassis.moveToPose(6.5, -40.5, -30, midDriveTimeout, {.forwards = false, .lead = 0.2});
+chassis.waitUntil(20);
+
+      request_new_state_mogo(StateMogo::LOCATE);
+chassis.waitUntilDone();
+
+  chassis.turnToHeading(20, turnTimeout);
+chassis.waitUntilDone();
+
+    state_machine_intake(false);
+
+  chassis.moveToPoint(8.5, -35.5, smallDriveTimout);
+chassis.waitUntilDone();
+
+    basketScore(1000);
+
+  chassis.turnToHeading(155, turnTimeout);
+
+      request_new_state_mogo(StateMogo::RELEASE);
+
+  chassis.moveToPoint(-4, -10, midDriveTimeout);
+chassis.waitUntilDone();
+
+  chassis.swingToPoint(29.5, -17, lemlib::DriveSide::LEFT, swingTimeout, {.forwards = false, .minSpeed = 30, .earlyExitRange = 20});
+
+      request_new_state_mogo(StateMogo::RELEASE);
+
+  chassis.moveToPose(29.5, -17, -30, midDriveTimeout, {.forwards = false});
+chassis.waitUntil(30);
+chassis.cancelMotion();
+
+  chassis.moveToPose(29.5, -17, -30, midDriveTimeout, {.forwards = false, .maxSpeed = goalGrabMaxSpeed});
+chassis.waitUntilDone();
+
+  chassis.moveToPoint(3.5, 3.5, midDriveTimeout);
+
+      request_new_state_mogo(StateMogo::RELEASE);
+
+  chassis.swingToHeading(110, lemlib::DriveSide::RIGHT, swingTimeout);
+
+      doinker.set_value(true);
+delay(doinkerDelay);
+
+  chassis.turnToHeading(30, turnTimeout);
+
+  doinker.set_value(false);
+}
 ///////////////////////////////////////////////////////////////////////////////////////////
 void redLeftElim() { chassis.setPose(0, 0, 0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueRight() { chassis.setPose(-0, 0, -0); }
+void blueRight() { chassis.setPose(-0, 0, -180); }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueLeft() { chassis.setPose(-0, 0, -180); }
+void blueLeft() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueSolo() { chassis.setPose(-0, 0, -0); }
+void blueSolo() { chassis.setPose(-0, 0, -180); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void blueRightElim() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
