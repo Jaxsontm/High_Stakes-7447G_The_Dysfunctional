@@ -13,7 +13,22 @@ Motor basket(-6, MotorGearset::green);
 adi::Button basketLimit('H');
 
 /// Actions
-void basketScore(void *param) {
+void basketScore(int timeout) {
+  int startTime = pros::millis();
+  while (basket.get_position() <= 380 && pros::millis() - startTime < timeout) {
+    basket.move(127);
+    delay(5);
+  }
+  delay(75);
+  while (basketLimit.get_value() == 0 && pros::millis() - startTime < timeout) {
+    basket.move(-127);
+    delay(5);
+  }
+  basket.brake();
+  basket.tare_position();
+}
+
+void basketDrive(void *param) {
   int timeout = *(int *)param;
   int startTime = pros::millis();
   while (basket.get_position() <= 380 && pros::millis() - startTime < timeout) {
@@ -44,7 +59,7 @@ void basketReset(void *param) {
 void basketDriver() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)) {
     static int timeout = 2000;
-    pros::Task basketScoreTask(basketScore, &timeout, "Basket Scoring");
+    pros::Task basketScoreTask(basketDrive, &timeout, "Basket Scoring");
   }
 }
 

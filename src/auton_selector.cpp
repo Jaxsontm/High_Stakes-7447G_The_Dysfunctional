@@ -382,7 +382,7 @@ void selector() {
     // always on screen
     lv_label_set_text(placement_label, "");
     lemlib::Pose trackerPos = chassis.getPose();
-    sprintf(posText, "(x: %.3f, y: %.3f, theta: %.2f)", trackerPos.x,
+    sprintf(posText, "(x: %.2f, y: %.2f, theta: %.2f)", trackerPos.x,
             trackerPos.y, trackerPos.theta);
     lv_label_set_text(placement_label, posText);
     // stats tab

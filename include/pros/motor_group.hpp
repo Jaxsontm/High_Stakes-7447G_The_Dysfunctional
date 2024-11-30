@@ -24,13 +24,9 @@
 #define _PROS_MOTOR_GROUP_HPP_
 
 #include <cstdint>
-#include <iostream>
 
 #include "pros/abstract_motor.hpp"
-#include "pros/colors.hpp"
-#include "pros/device.hpp"
 #include "pros/motors.h"
-#include "pros/motors.hpp"
 #include "rtos.hpp"
 
 namespace pros {

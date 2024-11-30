@@ -49,7 +49,7 @@ lemlib::ControllerSettings
                       1,     // small error range, in degrees
                       500,   // small error range timeout, in milliseconds
                       15,    // large error range, in degrees
-                      750,   // large error range timeout, in milliseconds
+                      950,   // large error range timeout, in milliseconds
                       5      // maximum acceleration (slew)
     );
 
