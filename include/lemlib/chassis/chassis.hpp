@@ -323,6 +323,14 @@ struct MoveToPointParams {
         float earlyExitRange = 0;
 };
 
+struct driveParams {
+        bool forwards = true;
+        int percentage = 100;
+        float maxSpeed = 127;
+        float minSpeed = 0;
+        float earlyExitRange = 0;
+};
+
 // default drive curve
 extern ExpoDriveCurve defaultDriveCurve;
 
@@ -680,6 +688,9 @@ class Chassis {
          * @endcode
          */
         void moveToPoint(float x, float y, int timeout, MoveToPointParams params = {}, bool async = true);
+        /**
+         */
+        void drive(float distance, int timeout, driveParams params = {});
         /**
          * @brief Move the chassis along a path
          *

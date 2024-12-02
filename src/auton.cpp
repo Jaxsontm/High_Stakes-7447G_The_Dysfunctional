@@ -286,6 +286,8 @@ delay(doinkerDelay);
   chassis.turnToHeading(30, turnTimeout);
 
   doinker.set_value(false);
+
+  chassis.drive(24, 1000, {.forwards = true, .percentage = 60, .maxSpeed = 80});
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void redLeftElim() { chassis.setPose(0, 0, 0); }

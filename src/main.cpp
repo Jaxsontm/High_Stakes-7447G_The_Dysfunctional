@@ -37,7 +37,6 @@ void autonomous() {
     case 8: blueSolo(); break;
     case 9: blueRightElim(); break;
     case 10: blueLeftElim(); break;
-    default: break;
   }
 }
 
@@ -47,6 +46,7 @@ void opcontrol() {
     intakeControl();
     mogoToggle();
     liftPTOToggle();
+    extenderToggle();
     liftDriver();
     basketDriver();
     basketResetDriver();
