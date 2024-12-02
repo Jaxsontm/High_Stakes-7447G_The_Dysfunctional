@@ -5,8 +5,6 @@
 #include "subsystemsHeaders/basket.hpp"
 #include "subsystemsHeaders/drive.hpp"
 #include "subsystemsHeaders/intake.hpp"
-
-
 using namespace pros;
 
 ///////// global
