@@ -57,17 +57,6 @@ static void selectionChange(lv_event_t *e) {
   }
 }
 
-static void selectionRedR(lv_event_t *e) {
-  lv_event_code_t code = lv_event_get_code(e);
-  lv_obj_t *obj = lv_event_get_target(e);
-  lv_obj_t *auton = lv_label_create(lv_scr_act());
-  lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-  if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Red Right Qual");
-    autonSelection = 1;
-  }
-}
 static void selection(lv_event_t *e) {
   lv_event_code_t code = lv_event_get_code(e);
   lv_obj_t *obj = lv_event_get_target(e);
@@ -80,6 +69,17 @@ static void selection(lv_event_t *e) {
   }
 }
 
+static void selectionRedR(lv_event_t *e) {
+  lv_event_code_t code = lv_event_get_code(e);
+  lv_obj_t *obj = lv_event_get_target(e);
+  lv_obj_t *auton = lv_label_create(lv_scr_act());
+  lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+
+  if (code == LV_EVENT_CLICKED) {
+    lv_label_set_text(auton, "Red Right Qual");
+    autonSelection = 1;
+  }
+}
 
 static void selectionRedL(lv_event_t *e) {
   lv_event_code_t code = lv_event_get_code(e);
@@ -137,7 +137,7 @@ static void selectionBlueR(lv_event_t *e) {
 
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Right Qual");
-    autonSelection = 1;
+    autonSelection = 6;
   }
 }
 
@@ -149,7 +149,7 @@ static void selectionBlueL(lv_event_t *e) {
 
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Left Qual");
-    autonSelection = 2;
+    autonSelection = 7;
   }
 }
 
@@ -161,7 +161,7 @@ static void selectionBlueS(lv_event_t *e) {
 
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Solo Qual");
-    autonSelection = 3;
+    autonSelection = 8;
   }
 }
 
@@ -173,7 +173,7 @@ static void selectionBlueRE(lv_event_t *e) {
 
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Right Elim");
-    autonSelection = 4;
+    autonSelection = 9;
   }
 }
 
@@ -185,7 +185,7 @@ static void selectionBlueLE(lv_event_t *e) {
 
   if (code == LV_EVENT_CLICKED) {
     lv_label_set_text(auton, "Blue Left Elim");
-    autonSelection = 5;
+    autonSelection = 10;
   }
 }
 
@@ -358,27 +358,27 @@ void selector() {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  lv_obj_t *placement_label = lv_label_create(lv_scr_act());
+  /*lv_obj_t *placement_label = lv_label_create(lv_scr_act());
   lv_obj_align(placement_label, LV_ALIGN_BOTTOM_RIGHT, -20, -10);
   lv_obj_t *placement_cover = lv_obj_create(lv_scr_act());
-  lv_obj_set_size(placement_cover, 150, 20);
+  lv_obj_set_size(placement_cover, 150, 20);*/
 
   lv_obj_t *stats_label = lv_label_create(statsTab);
   lv_obj_set_style_bg_color(stats_label,
                             lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
   lv_obj_align(stats_label, LV_ALIGN_CENTER, 0, -20);
 
-  cover = lv_obj_create(lv_scr_act());
+  /*cover = lv_obj_create(lv_scr_act());
   lv_obj_set_size(cover, 70, 40);
   lv_obj_align(cover, LV_ALIGN_LEFT_MID, 120, 30);
   lv_obj_set_style_bg_color(cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
   lv_obj_set_style_border_color(cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
-  lv_obj_add_flag(cover, LV_OBJ_FLAG_HIDDEN);
+  lv_obj_add_flag(cover, LV_OBJ_FLAG_HIDDEN);*/
 
   char posText[150];
   char statText[150];
 
-  while (true) {
+  /*while (true) {
     // always on screen
     lv_label_set_text(placement_label, "");
     lemlib::Pose trackerPos = chassis.getPose();
@@ -397,5 +397,5 @@ void selector() {
     lv_label_set_text(stats_label, statText);
 
     pros::delay(500);
-  } //while loop
+  }*/ //while loop
 } //void selector

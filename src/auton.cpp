@@ -4,7 +4,6 @@
 #include "subsystemsHeaders/drive.hpp"
 #include "subsystemsHeaders/mogo.hpp"
 #include "subsystemsHeaders/intake.hpp"
-#include "subsystemsHeaders/Lift.hpp"
 ///////////////////////////////////////////////////////////////////////////////////////////
 //!  General Params
 float earlyExitRange = 4;
@@ -32,7 +31,7 @@ float soloSpeed = 80;
 //! Skills Specific Params
 float skillsSpeed = 80;
 ///////////////////////////////////////////////////////////////////////////////////////////
-void redRight() { chassis.setPose(0, 0, 180);
+/*void redRight() { chassis.setPose(0, 0, 180);
 	chassis.moveToPose(7.5, 37, -170, 1400, {.forwards = false, .lead = .3, .minSpeed = goalRushSpeed, .earlyExitRange = earlyExitRange});
 chassis.waitUntilDone();
 
@@ -87,9 +86,12 @@ chassis.waitUntil(waitUntil);
 chassis.cancelMotion();
 
 	chassis.moveToPose(-22, 21, -62, midDriveTimeout, {.lead = 0, .maxSpeed = poleMaxSpeed});
+}*/
+void redRight() { chassis.setPose(0, 0, 180);
+basket.move_absolute(200, 127);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void redLeft() { chassis.setPose(0, 0, 0);
+/*void redLeft() { chassis.setPose(0, 0, 0);
 	chassis.turnToHeading(15, turnTimeout);
 
 			doinker.set_value(true);
@@ -155,6 +157,9 @@ chassis.waitUntil(waitUntil);
 chassis.cancelMotion();
 
 	chassis.moveToPoint(12, -16, smallDriveTimout, {.maxSpeed = poleMaxSpeed});
+}*/
+void redLeft() { chassis.setPose(0, 0, 0);
+basketScore(1000);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void redSolo() { chassis.setPose(0, 0, 180); 
@@ -292,9 +297,13 @@ void redLeftElim() { chassis.setPose(0, 0, 0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueRight() { chassis.setPose(-0, 0, -180); }
+//void blueRight() { chassis.setPose(-0, 0, -180); }
+void blueRight() { chassis.setPose(0, 0, -180); 
+}
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueLeft() { chassis.setPose(-0, 0, -0); }
+//void blueLeft() { chassis.setPose(-0, 0, -0); }
+void blueLeft() { chassis.setPose(0, 0, -0); 
+}
 ///////////////////////////////////////////////////////////////////////////////////////////
 void blueSolo() { chassis.setPose(-0, 0, -180); }
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -306,5 +315,5 @@ void blueLeftElim() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Skills() { chassis.setPose(0, 0, 0);
 //!!! chassis.resetLocalPosition(); !!!//
-chassis.drive(36, 2000, {.forwards = true, .percentage = 60, .maxSpeed = 80});
+	chassis.drive(36, 2000, {.forwards = true, .percentage = 60, .maxSpeed = 80});
 }

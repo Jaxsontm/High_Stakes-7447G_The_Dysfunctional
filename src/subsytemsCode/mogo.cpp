@@ -9,7 +9,7 @@ using namespace pros;
 /////// Globals
 Distance DistanceMogo(8);
 
-adi::Pneumatics Mogo('A', false);
+adi::Pneumatics Mogo('B', false);
 
 adi::Pneumatics doinker('C', false);
 
@@ -51,7 +51,7 @@ void state_machine_mogo() {
 
 ////// Driver Control
 void mogoToggle() {
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
     mogoActuated = !mogoActuated;
     Mogo.set_value(mogoActuated);
   }

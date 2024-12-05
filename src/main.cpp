@@ -12,8 +12,6 @@
 
 void initialize() {
 	chassis.calibrate();
-	//basketReset();
-	autonSelection = 0;
 	Intake.set_brake_mode(pros::MotorBrake::coast);
 	basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
 	basket.set_brake_mode(MotorBrake::hold);
@@ -24,19 +22,7 @@ void disabled() {}
 
 void competition_initialize() { selector(); }
 
-void autonomous() {/*
-	switch (autonSelection) {
-		case 0: Skills(); break;
-		case 1: redRight(); break;
-		case 2: redLeft(); break;
-		case 3: redSolo(); break;
-		case 4: redRightElim(); break;
-		case 5: redLeftElim(); break;
-		case 6: blueRight(); break;
-		case 7: blueLeft(); break;
-		case 8: blueSolo(); break;
-		case 9: blueRightElim(); break;
-		case 10: blueLeftElim(); break;*/
+void autonomous() {
 		if (autonSelection == 0) {
       Skills();
     } else if (autonSelection == 1) {
