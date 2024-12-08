@@ -76,7 +76,7 @@ static void selectionRedR(lv_event_t *e) {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 
   if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Red Right Qual");
+    lv_label_set_text(auton, "Red Qual Goalside");
     autonSelection = 1;
   }
 }
@@ -88,7 +88,7 @@ static void selectionRedL(lv_event_t *e) {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 
   if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Red Left Qual");
+    lv_label_set_text(auton, "Red Qual RingStack");
     autonSelection = 2;
   }
 }
@@ -100,7 +100,7 @@ static void selectionRedS(lv_event_t *e) {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 
   if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Red Solo Qual");
+    lv_label_set_text(auton, "Red Solo");
     autonSelection = 3;
   }
 }
@@ -112,7 +112,7 @@ static void selectionRedRE(lv_event_t *e) {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 
   if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Red Right Elim");
+    lv_label_set_text(auton, "Red Elim Goalside");
     autonSelection = 4;
   }
 }
@@ -124,7 +124,7 @@ static void selectionRedLE(lv_event_t *e) {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 
   if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Red Left Elim");
+    lv_label_set_text(auton, "Red Elim RingStack");
     autonSelection = 5;
   }
 }
@@ -136,7 +136,7 @@ static void selectionBlueR(lv_event_t *e) {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 
   if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Blue Right Qual");
+    lv_label_set_text(auton, "Blue Qual RingStack");
     autonSelection = 6;
   }
 }
@@ -148,7 +148,7 @@ static void selectionBlueL(lv_event_t *e) {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 
   if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Blue Left Qual");
+    lv_label_set_text(auton, "Blue Qual Goalside");
     autonSelection = 7;
   }
 }
@@ -172,7 +172,7 @@ static void selectionBlueRE(lv_event_t *e) {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 
   if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Blue Right Elim");
+    lv_label_set_text(auton, "Blue Elim RingStack");
     autonSelection = 9;
   }
 }
@@ -184,7 +184,7 @@ static void selectionBlueLE(lv_event_t *e) {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 
   if (code == LV_EVENT_CLICKED) {
-    lv_label_set_text(auton, "Blue Left Elim");
+    lv_label_set_text(auton, "Blue Elim Goalside");
     autonSelection = 10;
   }
 }
@@ -225,7 +225,7 @@ void selector() {
 
   lv_obj_t *redright = lv_btn_create(qualTabRed); //creates the button
   labelRed = lv_label_create(redright); //creates the button's label
-  lv_label_set_text(labelRed, "RED QUAL RIGHT"); //sets the button's text
+  lv_label_set_text(labelRed, "RED QUAL GOAL"); //sets the button's text
   lv_obj_center(labelRed); //centers the button's text
   lv_obj_set_style_text_letter_space(redright, 2, 0);
   lv_obj_set_style_bg_color(redright, lv_color_black(), 0); //sets bg color
@@ -235,7 +235,7 @@ void selector() {
 
   lv_obj_t *redleft = lv_btn_create(qualTabRed);
   labelRed = lv_label_create(redleft);
-  lv_label_set_text(labelRed, "RED QUAL LEFT");
+  lv_label_set_text(labelRed, "RED QUAL RING");
   lv_obj_center(labelRed);
   lv_obj_set_style_text_letter_space(redleft, 2, 0);
   lv_obj_set_style_bg_color(redleft, lv_color_black(), 0);
@@ -253,7 +253,7 @@ void selector() {
 
   lv_obj_t *redrightElim = lv_btn_create(elimTabRed);
   labelRed = lv_label_create(redrightElim);
-  lv_label_set_text(labelRed, "RED ELIM RIGHT");
+  lv_label_set_text(labelRed, "RED ELIM GOAL");
   lv_obj_center(labelRed);
   lv_obj_set_style_text_letter_space(redrightElim, 2, 0);
   lv_obj_set_style_bg_color(redrightElim, lv_color_black(), 0);
@@ -262,7 +262,7 @@ void selector() {
 
   lv_obj_t *redleftElim = lv_btn_create(elimTabRed);
   labelRed = lv_label_create(redleftElim);
-  lv_label_set_text(labelRed, "RED ELIM LEFT");
+  lv_label_set_text(labelRed, "RED ELIM RING");
   lv_obj_center(labelRed);
   lv_obj_set_style_text_letter_space(redleftElim, 2, 0);
   lv_obj_set_style_bg_color(redleftElim, lv_color_black(), 0);
@@ -286,7 +286,7 @@ void selector() {
 
   lv_obj_t *blueright = lv_btn_create(qualTabBlue);
   labelBlue = lv_label_create(blueright);
-  lv_label_set_text(labelBlue, "BLUE QUAL RIGHT");
+  lv_label_set_text(labelBlue, "BLUE QUAL RING");
   lv_obj_center(labelBlue);
   lv_obj_set_style_text_letter_space(blueright, 2, 0);
   lv_obj_set_style_bg_color(blueright, lv_color_black(), 0);
@@ -295,7 +295,7 @@ void selector() {
 
   lv_obj_t *blueleft = lv_btn_create(qualTabBlue);
   labelBlue = lv_label_create(blueleft);
-  lv_label_set_text(labelBlue, "BLUE QUAL LEFT");
+  lv_label_set_text(labelBlue, "BLUE QUAL GOAL");
   lv_obj_center(labelBlue);
   lv_obj_set_style_text_letter_space(blueleft, 2, 0);
   lv_obj_set_style_bg_color(blueleft, lv_color_black(), 0);
@@ -313,7 +313,7 @@ void selector() {
 
   lv_obj_t *bluerightElim = lv_btn_create(elimTabBlue);
   labelBlue = lv_label_create(bluerightElim);
-  lv_label_set_text(labelBlue, "BLUE ELIM RIGHT");
+  lv_label_set_text(labelBlue, "BLUE ELIM RING");
   lv_obj_center(labelBlue);
   lv_obj_set_style_text_letter_space(bluerightElim, 2, 0);
   lv_obj_set_style_bg_color(bluerightElim, lv_color_black(), 0);
@@ -323,7 +323,7 @@ void selector() {
 
   lv_obj_t *blueleftElim = lv_btn_create(elimTabBlue);
   labelBlue = lv_label_create(blueleftElim);
-  lv_label_set_text(labelBlue, "BLUE ELIM LEFT");
+  lv_label_set_text(labelBlue, "BLUE ELIM GOAL");
   lv_obj_center(labelBlue);
   lv_obj_set_style_text_letter_space(blueleftElim, 2, 0);
   lv_obj_set_style_bg_color(blueleftElim, lv_color_black(), 0);
@@ -378,7 +378,7 @@ void selector() {
 
   while (true) {
     // always on screen
-    lv_label_set_text(placement_label, "");
+    lv_label_set_text(placement_label, ".");
     lemlib::Pose trackerPos = chassis.getPose();
     sprintf(posText, "(x: %.2f, y: %.2f, theta: %.2f)", trackerPos.x,
             trackerPos.y, trackerPos.theta);

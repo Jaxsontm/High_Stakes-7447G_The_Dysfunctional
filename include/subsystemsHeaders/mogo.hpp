@@ -16,9 +16,10 @@ void mogoToggle();
 void doinkerToggle();
 
 enum class StateMogo { 
-  LOCATE, 
-  GRAB, 
-  RELEASE 
+	LOCATE, 
+	GRAB, 
+	RELEASE,
+	opGRAB
 };
 
 void request_new_state_mogo(StateMogo new_state);
