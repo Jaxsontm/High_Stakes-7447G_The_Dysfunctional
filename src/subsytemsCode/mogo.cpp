@@ -62,7 +62,7 @@ void mogoToggle() {
 }
 
 void doinkerToggle() {
-	if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+	if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
 		doinkerActuated = !doinkerActuated;
 		doinker.set_value(doinkerActuated);
 	}

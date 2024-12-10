@@ -15,45 +15,52 @@ Motor Intake(-11, MotorGearset::blue);
 Distance basketCheck(9);
 
 //////// state machine
-StateIntake current_state_intake = StateIntake::BRAKE;
+StateIntake current_number = StateIntake::BRAKE;
 
-void state_machine_intake(bool two_rings) {
+void how_many_rings(StateIntake request_number) {
+	if (request_number != current_number) {
+		current_number = request_number;
+	}
+}
+
+void state_machine_intake() {
 	while (true) {
-		switch (current_state_intake) {
-		case StateIntake::LOAD:
-			if (two_rings == true) {
-				if (basketCheck.get() > 120) {
-					while (basketCheck.get() > 120 && basketLimit.get_value() == 1) {
-						Intake.move(127);
-					}
-					current_state_intake = StateIntake::CHECK;
-				} else if (basketCheck.get() > 70) {
-					while (basketCheck.get() > 70 && basketLimit.get_value() == 1) {
-						Intake.move(127);
-					}
-			 current_state_intake = StateIntake::CHECK;
-				}
-			} else {
-				while (basketCheck.get() > 70 && basketLimit.get_value() == 1 ||
-							 basketCheck.get() > 120 && basketLimit.get_value() == 1) {
+		switch (current_number) {
+		case StateIntake::ONE:
+			if (basketCheck.get_distance() >= 220) {
+				while (basketCheck.get() >= 210 && basketLimit.get_value() == 1) {
 					Intake.move(127);
 				}
-				current_state_intake = StateIntake::CHECK;
+				current_number = StateIntake::BRAKE;
+			} else if (basketCheck.get_distance() <= 160) {
+				while (basketCheck.get() >= 60 && basketLimit.get_value() == 1) {
+					Intake.move(127);
+				}
+				current_number = StateIntake::BRAKE;
+			}
+			break;
+		case StateIntake::TWO:
+			if (basketCheck.get() >= 210) {
+				while (basketCheck.get() >= 210 && basketLimit.get_value() == 1) {
+					Intake.move(127);
+				}
+				current_number = StateIntake::CHECK;
+			} else {
+				while (basketCheck.get() > 60 && basketLimit.get_value() == 1) {
+					Intake.move(127);
+				}
+				current_number = StateIntake::CHECK;
 			}
 			break;
 		case StateIntake::CHECK:
 			if (basketLimit.get_value() == 0) {
-				current_state_intake = StateIntake::BRAKE;
+				current_number = StateIntake::BRAKE;
 			} else {
-				if (two_rings == true) {
-					delay(150);
-				 if (basketCheck.get() < 210) {
-						current_state_intake = StateIntake::LOAD;
-					} else if (basketCheck.get() < 62) {
-						current_state_intake = StateIntake::BRAKE;
-					}
-				} else {
-					current_state_intake = StateIntake::BRAKE;
+				delay(150);
+				if (basketCheck.get() <= 210) {
+					current_number = StateIntake::TWO;
+				} else if (basketCheck.get() < 62) {
+					current_number = StateIntake::BRAKE;
 				}
 			}
 			break;
@@ -68,7 +75,7 @@ void state_machine_intake(bool two_rings) {
 
 ////// Driver Control
 void intakeControl() {
-	if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && (basketLimit.get_value() == 1) /*&& basketCheck.get() < 120*/) {
+	if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && (basketLimit.get_value() == 1) && basketCheck.get() > 60) {
 		Intake.move(127);
 	} else if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
 		Intake.move(-127);
