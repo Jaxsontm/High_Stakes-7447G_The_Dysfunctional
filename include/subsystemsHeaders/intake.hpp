@@ -7,17 +7,19 @@ using namespace pros;
 extern Motor Intake;
 
 extern Distance basketCheck;
-//
-
-void intakeControl();
+/////
 
 enum class StateIntake {
 	ONE,
 	TWO,
 	CHECK,
+	REV,
 	BRAKE,
 };
 
 void how_many_rings(StateIntake request_number);
 
 void state_machine_intake();
+
+/////
+void intakeControl();

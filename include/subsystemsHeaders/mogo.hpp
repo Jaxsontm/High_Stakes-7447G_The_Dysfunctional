@@ -22,5 +22,7 @@ enum class StateMogo {
 	opGRAB
 };
 
+/////
 void request_new_state_mogo(StateMogo new_state);
+
 void state_machine_mogo();

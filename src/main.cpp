@@ -17,7 +17,6 @@ void initialize() {
 	basket.set_brake_mode(MotorBrake::hold);
 	pros::Task mogo_machine(state_machine_mogo);
 	pros::Task auton_selector_task(selector);
-	pros::Task intake_machine(state_machine_intake);
 }
 
 void disabled() {}
@@ -26,6 +25,7 @@ void competition_initialize() { selector(); }
 
 void autonomous() {
 	basketReset();
+	pros::Task intake_machine(state_machine_intake);
 		if (autonSelection == 0) {
 			Skills();
 		} else if (autonSelection == 1) {
