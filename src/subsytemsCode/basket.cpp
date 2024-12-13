@@ -27,6 +27,7 @@ void basketScore(int timeout) {
 	}
 	basket.brake(); // Stop the motor and reset the position to zero
 	basket.tare_position();
+	basket.move_relative(-5, 127);
 }
 
 // resets the basket in desperate situations
@@ -38,7 +39,6 @@ void basketReset()  {
 	basket.brake(); // Stop the motor and reset the position to zero
 	basket.tare_position();
 	basket.move_relative(-5, 127);
-	
 }
 
 void basketDrive(void *param) {
@@ -55,6 +55,7 @@ void basketDrive(void *param) {
 	}
 	basket.brake();
 	basket.tare_position();
+	basket.move_relative(-5, 127);
 }
 
 void basketResetDrive(void *param) {
@@ -66,6 +67,7 @@ void basketResetDrive(void *param) {
 	}
 	basket.brake();
 	basket.tare_position();
+	basket.move_relative(-5, 127);
 }
 
 //Driver Control
