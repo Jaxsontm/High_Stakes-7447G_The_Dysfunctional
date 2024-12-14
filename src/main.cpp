@@ -52,6 +52,7 @@ void autonomous() {
 }
 
 void opcontrol() {
+	basket.set_brake_mode(MotorBrake::hold);
 	Intake.set_brake_mode(pros::MotorBrake::coast);
 	while (true) {
 		intakeControl();

@@ -97,6 +97,7 @@ delay(doinkerDelay);
 chassis.waitUntilDone();
 
 			doinker.set_value(false);
+delay(500);
 			
 	chassis.turnToHeading(90, turnTimeout);
 chassis.waitUntilDone();
@@ -116,6 +117,8 @@ delay(100);
 			Mogo.set_value(true);
 			
 	chassis.turnToHeading(-145, turnTimeout);
+	
+			extender.set_value(true);
 
 			request_new_state_mogo(StateMogo::LOCATE);
 
@@ -223,52 +226,81 @@ chassis.cancelMotion();
 
 	chassis.moveToPoint(12, -16, smallDriveTimout, {.maxSpeed = poleMaxSpeed});
 }*/
-void redLeft() { chassis.setPose(-0, 0, 90);
-	chassis.moveToPoint(6.5, 0, smallDriveTimout);
+void redLeft() { chassis.setPose(0, 0, -90);
+			extender.set_value(true);
+delay(doinkerDelay);
+	
+	chassis.moveToPose(15.5, 0, -90, midDriveTimeout, {.forwards = false, .minSpeed = normalMaxSpeed});
+chassis.waitUntilDone();
+	
+	chassis.turnToHeading(-180, turnTimeout, {.maxSpeed = static_cast<int>(normalMinSpeed)});
+chassis.waitUntilDone();
+	
+	chassis.moveToPoint(6.5, -3, midDriveTimeout, {.maxSpeed = normalMaxSpeed});
 chassis.waitUntilDone();
 
-	chassis.swingToHeading(-180, lemlib::DriveSide::RIGHT, swingTimeout, {.maxSpeed = normalMaxSpeed});
-chassis.waitUntilDone();
-	
-	chassis.moveToPose(15, 7, -180, smallDriveTimout, {.forwards = false});
-chassis.waitUntilDone();
-	
+			extender.set_value(false);
+delay(100);
+
+			Mogo.set_value(true);
+			
 	chassis.turnToHeading(145, turnTimeout);
-
+	
+			extender.set_value(true);
+			
 			request_new_state_mogo(StateMogo::LOCATE);
 
-	chassis.moveToPose(-12.5, 30.5, 145, midDriveTimeout, {.forwards = false, .lead = 0.1});
-chassis.waitUntil(20);
-chassis.cancelMotion();
-
-	while (DistanceMogo.get() > 130) {
-		DTLeft.move(-60), DTRight.move(-60);
-	}
+	chassis.moveToPose(-13, 32, 150, largeDriveTimeout - 500, {.forwards = false, .lead = 0.1, .maxSpeed = goalGrabMaxSpeed + 10});
+chassis.waitUntilDone();
 
 		how_many_rings(StateIntake::TWO);
 		
-	chassis.turnToHeading(-45, turnTimeout);
+	chassis.turnToHeading(-30, turnTimeout);
+chassis.waitUntilDone(); 
 
-	chassis.moveToPoint(-32.5, 52, midDriveTimeout);
+	chassis.moveToPose(-24, 41.5, -30, midDriveTimeout, {.lead = 0, .maxSpeed = normalMaxSpeed});
 chassis.waitUntilDone();
+
+		basketReset();
+
+	chassis.turnToHeading(-60, turnTimeout);
+chassis.waitUntilDone();
+
+	chassis.moveToPose(-100, 48.5, -89, 750, {.lead = 0.5});
+chassis.waitUntilDone();
+
+delay(1500);
+
+		basketScore(1000);
+		
+	chassis.turnToHeading(165, turnTimeout, {.maxSpeed = 70});
 	
-	chassis.moveToPose(-38.5, 53, -75, midDriveTimeout, {.lead = 0.2});
+		basketReset();
+chassis.waitUntilDone();	
+
+		how_many_rings(StateIntake::ONE);
+
+	chassis.moveToPoint(-38, 38, midDriveTimeout, {.maxSpeed = poleMaxSpeed});
 chassis.waitUntilDone();
 
-	chassis.turnToPoint(-40, 46.5, turnTimeout);
-
-	chassis.moveToPoint(-40, 46.5, smallDriveTimout);
+	chassis.turnToHeading(-265, turnTimeout);
 chassis.waitUntilDone();
 
-	chassis.turnToHeading(115, turnTimeout);
+		how_many_rings(StateIntake::REV);
 
-	chassis.moveToPoint(-8, 26.5, midDriveTimeout);
+		basketScore(1000);
+		
+	chassis.turnToHeading(45, turnTimeout);
 chassis.waitUntilDone();
 
-	chassis.swingToHeading(35, lemlib::DriveSide::LEFT, swingTimeout);
+	chassis.moveToPoint(-0, 48, midDriveTimeout, {.maxSpeed = poleMaxSpeed + 20});
 chassis.waitUntilDone();
-	
+
 			request_new_state_mogo(StateMogo::RELEASE);
+			
+		basketReset();
+		
+			extender.set_value(false);
 				
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -437,6 +469,8 @@ delay(100);
 			Mogo.set_value(true);
 			
 	chassis.turnToHeading(-145, turnTimeout);
+	
+			extender.set_value(true);
 			
 			request_new_state_mogo(StateMogo::LOCATE);
 
@@ -495,16 +529,17 @@ chassis.waitUntilDone();
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //void blueLeft() { chassis.setPose(-0, 0, -0); }
-void blueLeft() { chassis.setPose(0, 0, -90);
+void blueLeft() { chassis.setPose(-0, 0, -90);
 			extender.set_value(true);
 
 			doinker.set_value(true);
 delay(doinkerDelay);
 
-	chassis.swingToHeading(-135, lemlib::DriveSide::LEFT, swingTimeout);
+	chassis.swingToHeading(-135, lemlib::DriveSide::RIGHT, swingTimeout);
 chassis.waitUntilDone();
 
 			doinker.set_value(false);
+delay(500);
 			
 	chassis.turnToHeading(-90, turnTimeout);
 chassis.waitUntilDone();
@@ -524,6 +559,8 @@ delay(100);
 			Mogo.set_value(true);
 			
 	chassis.turnToHeading(145, turnTimeout);
+	
+			extender.set_value(true);
 
 			request_new_state_mogo(StateMogo::LOCATE);
 
@@ -562,7 +599,6 @@ chassis.waitUntilDone();
 delay(500);
 			
 		basketReset();
-
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void blueSolo() { chassis.setPose(-0, 0, -180); }
@@ -580,10 +616,12 @@ void Skills() { chassis.setPose(0, 0, 180);
 	chassis.moveToPose(0, -6, 180, midDriveTimeout, {.lead = 0});
 chassis.waitUntilDone();
 
+		basketReset();
+
 			extender.set_value(false);
 delay(50);
 
-	chassis.moveToPose(0, 8.5, 180, midDriveTimeout, {.forwards = false, .lead = 0});
+	chassis.moveToPose(0, 6.5, 180, midDriveTimeout, {.forwards = false, .lead = 0});
 chassis.waitUntilDone();
 
 			request_new_state_mogo(StateMogo::RELEASE);
@@ -593,58 +631,41 @@ chassis.waitUntilDone();
 
 			request_new_state_mogo(StateMogo::LOCATE);
 
-	chassis.moveToPose(20.5, 5.5, 270, midDriveTimeout, {.forwards = false, .lead = 0, .maxSpeed = goalGrabMaxSpeed, .minSpeed = goalGrabMaxSpeed});
+	chassis.moveToPoint(20.5, 3.5, largeDriveTimeout, {.forwards = false, .maxSpeed = goalGrabMaxSpeed - 10});
 chassis.waitUntilDone();
 
-		how_many_rings(StateIntake::TWO);
+		how_many_rings(StateIntake::ONE);
 		
 	chassis.turnToHeading(0, turnTimeout);
 chassis.waitUntilDone();
 	
-	chassis.moveToPose(23, 30, 5, midDriveTimeout, {.lead = 0.4, .minSpeed = 70});
+	chassis.moveToPose(20, 20, -10, midDriveTimeout, {.lead = 0.4, .minSpeed = 70, .earlyExitRange = 2});
 chassis.waitUntilDone();
 
-	chassis.moveToPose(40, 43, 51, midDriveTimeout, {.lead = 0.2, .minSpeed = 70});
-chassis.waitUntilDone();
-
-delay(1500);
+delay(3000);
 		basketScore(1000);
 
-	chassis.turnToHeading(192.5, turnTimeout);
+	chassis.turnToHeading(-35, turnTimeout);
 chassis.waitUntilDone();
 
+			request_new_state_mogo(StateMogo::RELEASE);
+			
+	chassis.moveToPoint(65, -13, largeDriveTimeout, {.forwards = false});
+chassis.waitUntilDone();
+
+	chassis.moveToPoint(58, -7.5, midDriveTimeout);
+	
 		basketReset();
-		
-		how_many_rings(StateIntake::ONE);
-
-	chassis.moveToPose(50.5, 43, 192.5, smallDriveTimout, {.lead = 0, .minSpeed = 70});
 chassis.waitUntilDone();
 
-		basketScore(1000);
-delay(350);
-
-/*		how_many_rings(StateIntake::TWO);
-		
-	chassis.moveToPose(47.5, 5, 180, smallDriveTimout, {.lead = 0.1, .minSpeed = 70});
+	chassis.turnToHeading(90, turnTimeout);
 chassis.waitUntilDone();
 
-		basketScore(1000);
-delay(350);
-
-		how_many_rings(StateIntake::ONE);
-
-	chassis.swingToHeading(40, lemlib::DriveSide::RIGHT, swingTimeout);
+	chassis.moveToPoint(-30, -5, largeDriveTimeout);
+chassis.waitUntilDone();
+	
+	chassis.moveToPose(-95, -65, -120, largeDriveTimeout);
 chassis.waitUntilDone();
 
-while (basketCheck.get() > 220) {
-	delay(5);
-}
-
-		basketScore(1000);
-while (basketLimit.get_value() == 0) {
-	basket.move(-127);
-}
-		basket.move(0);
-		
-			request_new_state_mogo(StateMogo::RELEASE);*/
+	chassis.moveToPoint(-40, 0, midDriveTimeout, {.forwards = false});
 }

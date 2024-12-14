@@ -27,7 +27,7 @@ void basketScore(int timeout) {
 	}
 	basket.brake(); // Stop the motor and reset the position to zero
 	basket.tare_position();
-	basket.move_relative(-5, 127);
+	basket.move_relative(-10, 127);
 }
 
 // resets the basket in desperate situations
@@ -38,7 +38,6 @@ void basketReset()  {
 	}
 	basket.brake(); // Stop the motor and reset the position to zero
 	basket.tare_position();
-	basket.move_relative(-5, 127);
 }
 
 void basketDrive(void *param) {
@@ -55,7 +54,6 @@ void basketDrive(void *param) {
 	}
 	basket.brake();
 	basket.tare_position();
-	basket.move_relative(-5, 127);
 }
 
 void basketResetDrive(void *param) {
@@ -79,7 +77,7 @@ void basketDriver() {
 }
 
 void basketResetDriver() {
-	if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) {
+	if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
 		static int timeoutR = 1000;
 		pros::Task basketResetTask(basketResetDrive, &timeoutR, "Basket Reset");
 	}

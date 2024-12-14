@@ -36,6 +36,7 @@ void state_machine_intake() {
 				while (basketCheck.get() >= 60 && basketLimit.get_value() == 1) {
 					Intake.move(127);
 				}
+				delay(2500);
 				current_number = StateIntake::BRAKE;
 			}
 			break;
@@ -60,6 +61,7 @@ void state_machine_intake() {
 				if (basketCheck.get() <= 210) {
 					current_number = StateIntake::TWO;
 				} else if (basketCheck.get() < 62) {
+					delay(350);
 					current_number = StateIntake::BRAKE;
 				}
 			}
@@ -80,7 +82,7 @@ void state_machine_intake() {
 void intakeControl() {
 	if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && basketLimit.get_value() == 1){
 		Intake.move(127);
-	} else if (controller.get_digital(E_CONTROLLER_DIGITAL_A)) {
+	} else if (controller.get_digital(E_CONTROLLER_DIGITAL_X)) {
 		Intake.move(-127);
 	} else {
 		Intake.brake();
