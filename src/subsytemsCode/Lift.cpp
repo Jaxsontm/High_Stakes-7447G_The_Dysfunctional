@@ -52,7 +52,7 @@ void liftPTOToggle() {
 }
 
 void extenderToggle() {
-  if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+  if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
     extenderActuated = !extenderActuated;
     extender.set_value(extenderActuated);
   }

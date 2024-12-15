@@ -14,12 +14,13 @@ enum class StateIntake {
 	TWO,
 	CHECK,
 	REV,
+	FWD,
 	BRAKE,
 };
-
-void how_many_rings(StateIntake request_number);
 
 void state_machine_intake();
 
 /////
 void intakeControl();
+
+void spinFor(StateIntake request_number);

@@ -85,7 +85,7 @@ static void selection(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "EZPZ");
-		autonSelection = 0;
+		autonSelection = -1;
 	}
 }
 
@@ -97,7 +97,7 @@ static void selectionRedR(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Red Qual Goalside");
-		autonSelection = 1;
+		autonSelection = 0;
 	}
 }
 
@@ -109,7 +109,7 @@ static void selectionRedL(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Red Qual RingStack");
-		autonSelection = 2;
+		autonSelection = 1;
 	}
 }
 
@@ -121,7 +121,7 @@ static void selectionRedS(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Red Solo");
-		autonSelection = 3;
+		autonSelection = 2;
 	}
 }
 
@@ -133,7 +133,7 @@ static void selectionRedRE(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Red Elim Goalside");
-		autonSelection = 4;
+		autonSelection = 3;
 	}
 }
 
@@ -145,7 +145,7 @@ static void selectionRedLE(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Red Elim RingStack");
-		autonSelection = 5;
+		autonSelection = 4;
 	}
 }
 
@@ -157,7 +157,7 @@ static void selectionBlueR(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Blue Qual RingStack");
-		autonSelection = 6;
+		autonSelection = 5;
 	}
 }
 
@@ -169,7 +169,7 @@ static void selectionBlueL(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Blue Qual Goalside");
-		autonSelection = 7;
+		autonSelection = 6;
 	}
 }
 
@@ -181,7 +181,7 @@ static void selectionBlueS(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Blue Solo Qual");
-		autonSelection = 8;
+		autonSelection = 7;
 	}
 }
 
@@ -193,7 +193,7 @@ static void selectionBlueRE(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Blue Elim RingStack");
-		autonSelection = 9;
+		autonSelection = 8;
 	}
 }
 
@@ -205,7 +205,7 @@ static void selectionBlueLE(lv_event_t *e) {
 
 	if (code == LV_EVENT_CLICKED) {
 		lv_label_set_text(auton, "Blue Elim Goalside");
-		autonSelection = 10;
+		autonSelection = 9;
 	}
 }
 

@@ -17,7 +17,7 @@ Distance basketCheck(9);
 //////// state machine
 StateIntake current_number = StateIntake::BRAKE;
 
-void how_many_rings(StateIntake request_number) {
+void spinFor(StateIntake request_number) {
 	if (request_number != current_number) {
 		current_number = request_number;
 	}
@@ -73,18 +73,21 @@ void state_machine_intake() {
 			Intake.brake();
 
 			break;
+		case StateIntake::FWD:
+			Intake.move(127);
+			break;
 		}
-		delay(10);
+								delay(10);
 	}
 }
 
 ////// Driver Control
 void intakeControl() {
 	if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && basketLimit.get_value() == 1){
-		Intake.move(127);
-	} else if (controller.get_digital(E_CONTROLLER_DIGITAL_X)) {
-		Intake.move(-127);
+		spinFor(StateIntake::FWD);
+	} else if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+		spinFor(StateIntake::REV);
 	} else {
-		Intake.brake();
+		spinFor(StateIntake::BRAKE);
 	}
 }

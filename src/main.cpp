@@ -17,6 +17,7 @@ void initialize() {
 	basket.set_brake_mode(MotorBrake::hold);
 	pros::Task mogo_machine(state_machine_mogo);
 	pros::Task auton_selector_task(selector);
+	pros::Task intake_machine(state_machine_intake);
 }
 
 void disabled() {}
@@ -25,30 +26,41 @@ void competition_initialize() { selector(); }
 
 void autonomous() {
 	basketReset();
-	pros::Task intake_machine(state_machine_intake);
-		if (autonSelection == 0) {
+	switch(autonSelection) {
+		case 0:
+			redRight();
+			break;
+		case 1:
+			redLeft();
+			break;
+		case 2:
+			redSolo();
+			break;
+		case 3:
+			redRightElim();
+			break;
+		case 4:
+			redLeftElim();
+			break;
+		case 5:
+			blueRight();
+			break;
+		case 6:
+			blueLeft();
+			break;
+		case 7:
+			blueSolo();
+			break;
+		case 8:
+			blueRightElim();
+			break;
+		case 9:
+			blueLeftElim();
+			break;	
+		default:
 			Skills();
-		} else if (autonSelection == 1) {
-				redRight();
-		} else if (autonSelection == 2) {
-				redLeft();
-		} else if (autonSelection == 3) {
-				redSolo();
-		} else if (autonSelection == 4) {
-				redRightElim();
-		} else if (autonSelection == 5) {
-				redLeftElim();
-		} else if (autonSelection == 6) {
-				blueRight();
-		} else if (autonSelection == 7) {
-				blueLeft();
-		} else if (autonSelection == 8) {
-				blueSolo();
-		} else if (autonSelection == 9) {
-				blueRightElim();
-		} else if (autonSelection == 10) {
-				blueLeftElim();
-		}
+			break;
+	}
 }
 
 void opcontrol() {

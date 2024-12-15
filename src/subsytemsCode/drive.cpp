@@ -1,10 +1,8 @@
 #include "lemlib/chassis/chassis.hpp"
-#include "lemlib/pose.hpp"
 #include "pros/imu.hpp"
 #include "pros/misc.hpp"
 #include "pros/motor_group.hpp"
 #include "pros/rotation.hpp"
-#include "pros/rtos.hpp"
 #include <cmath>
 using namespace pros;
 
@@ -82,73 +80,6 @@ lemlib::OdomSensors sensors(
 // create the chassis
 lemlib::Chassis chassis(drivetrain, linearController, angularController,
 												sensors);
-
-void lemlib::Chassis::drive(float distance, int timeout, driveParams params) {
-	params.earlyExitRange = std::fabs(params.earlyExitRange);
-	if (!this -> motionRunning) return;
-
-	lateralPID.reset();
-	lateralLargeExit.reset();
-	lateralSmallExit.reset();
-	distTraveled = 0;
-	float startTime = pros::millis();
-	lemlib::Pose lastPose = getPose();
-	float target = distance;
-	float changeDist = std::fabs(distance) * std::fabs(params.percentage/100);
-
-	while (distTraveled < std::fabs(distance) && this -> motionRunning && 
-				(lateralLargeExit.getExit() && lateralSmallExit.getExit()) && (pros::millis() - startTime) < timeout) {
-		if (distTraveled < std::fabs(distance) - changeDist){
-			distTraveled += chassis.getPose().distance(lastPose);
-			lastPose = chassis.getPose();
-			float distLeft = target - distTraveled;
-
-			float lateralError = target;
-			lateralLargeExit.update(lateralError);
-			lateralSmallExit.update(lateralError);
-			float lateralOut = lateralPID.update(lateralError);
-			lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
-
-			if (params.forwards && lateralOut < fabs(params.minSpeed) && lateralOut > 0) lateralOut = fabs(params.minSpeed);
-			if (!params.forwards && -lateralOut < fabs(params.minSpeed) && lateralOut < 0) lateralOut = -fabs(params.minSpeed);
-
-			const float ratio = std::max(std::fabs(lateralOut), std::fabs(lateralOut)) / params.maxSpeed;
-			if (ratio > 1) {
-				lateralOut /= ratio;
-			}
-
-			DTLeft.move(lateralOut);
-			DTRight.move(lateralOut);
-
-			delay(10);
-		} else if (distTraveled < distTraveled + changeDist){
-			distTraveled += chassis.getPose().distance(lastPose);
-			lastPose = chassis.getPose();
-			float distLeft = target - distTraveled;
-
-			float lateralError = target;
-			lateralLargeExit.update(lateralError);
-			lateralSmallExit.update(lateralError);
-			float lateralOut = lateralPID.update(lateralError);
-			lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
-
-			if (params.forwards && lateralOut < fabs(params.minSpeed) && lateralOut > 0) lateralOut = fabs(params.minSpeed);
-			if (!params.forwards && -lateralOut < fabs(params.minSpeed) && lateralOut < 0) lateralOut = -fabs(params.minSpeed);
-
-			const float ratio = std::max(std::fabs(lateralOut), std::fabs(lateralOut)) / params.maxSpeed;
-			if (ratio > 1) {
-				lateralOut /= ratio;
-			}
-
-			DTLeft.move(lateralOut / 2);
-			DTRight.move(lateralOut / 2);
-		}
-	}
-	DTLeft.move(0);
-	DTRight.move(0);
-	distTraveled = -1;
-	this -> endMotion();
-}
 
 void tank() {
 	int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
