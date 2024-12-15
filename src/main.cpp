@@ -69,9 +69,7 @@ void opcontrol() {
 	while (true) {
 		intakeControl();
 		mogoToggle();
-		//liftPTOToggle();
-		extenderToggle();
-		//liftDriver();
+		liftToggle();
 		basketDriver();
 		basketResetDriver();
 		doinkerToggle();
