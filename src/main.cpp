@@ -11,13 +11,15 @@
 #include "subsystemsHeaders/mogo.hpp"
 
 void initialize() {
+	pros::Task auton_selector_task(selector);
 	chassis.calibrate();
 	Intake.set_brake_mode(pros::MotorBrake::coast);
 	basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
 	basket.set_brake_mode(MotorBrake::hold);
 	pros::Task mogo_machine(state_machine_mogo);
-	pros::Task auton_selector_task(selector);
-	pros::Task intake_machine(state_machine_intake);
+  pros::Task intake_machine(state_machine_intake);
+  pros::Task basket_machine(basketControl);
+  
 }
 
 void disabled() {}

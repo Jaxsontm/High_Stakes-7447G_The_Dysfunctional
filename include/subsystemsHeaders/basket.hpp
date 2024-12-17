@@ -19,7 +19,8 @@ void basketScore(int timeout);
 
 void basketReset();
 
-pros::Task basketScoreTask();
+void basketControl();
+
 void basketDriver();
 
 void basketResetDriver();
