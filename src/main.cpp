@@ -27,6 +27,7 @@ void disabled() {}
 void competition_initialize() { selector(); }
 
 void autonomous() {
+  request_new_state_mogo(StateMogo::RELEASE);
 	basketMove(StateBasket::RESET);
 	switch(autonSelection) {
 		case 0:

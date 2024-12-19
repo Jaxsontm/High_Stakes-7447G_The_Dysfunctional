@@ -29,23 +29,21 @@ void request_new_state_mogo(StateMogo request_new_state_mogo) {
 void state_machine_mogo() {
 	while (true) {
 		switch (current_state_mogo) {
-		case StateMogo::LOCATE:
-			if (DistanceMogo.get() <= 32) {
-				current_state_mogo = StateMogo::GRAB;
-			}
-			break;
-		case StateMogo::GRAB:
-			delay(50);
-			Mogo.set_value(false);
-			break;
-		case StateMogo::RELEASE:
-			Mogo.set_value(true);
-			break;
-		
-		case StateMogo::opGRAB:
-			Mogo.set_value(false);
-			break;
-		}
+      case StateMogo::LOCATE:
+        while (DistanceMogo.get() > 32) delay(10);
+        delay(50);
+        current_state_mogo = StateMogo::GRAB;
+        break;
+      case StateMogo::GRAB:
+        Mogo.set_value(false);
+        break;
+      case StateMogo::RELEASE:
+        Mogo.set_value(true);
+        break;
+      case StateMogo::opGRAB:
+        Mogo.set_value(false);
+        break;
+    }
 		delay(5);
 	}
 }

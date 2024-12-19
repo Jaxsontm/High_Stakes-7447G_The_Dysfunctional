@@ -10,7 +10,7 @@
 using namespace pros;
 
 /////// globals
-Motor Intake(-11, MotorGearset::blue);
+Motor Intake(-11, MotorGearset::green);
 
 Distance basketCheck(9);
 
