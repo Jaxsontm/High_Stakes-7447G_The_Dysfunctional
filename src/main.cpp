@@ -27,7 +27,7 @@ void disabled() {}
 void competition_initialize() { selector(); }
 
 void autonomous() {
-	basketReset();
+	basketMove(StateBasket::RESET);
 	switch(autonSelection) {
 		case 0:
 			redRight();

@@ -19,7 +19,7 @@ void basketScore(int timeout);
 
 void basketReset();
 
-void basketMove();
+void basketMove(StateBasket requestBasketState);
 
 void basketControl();
 
