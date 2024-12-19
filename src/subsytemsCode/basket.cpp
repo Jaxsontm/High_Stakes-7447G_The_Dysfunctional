@@ -102,6 +102,7 @@ void basketResetDriver() {
 }*/
 
 StateBasket currentBasketState = StateBasket::STOP;
+int currentState = 0;
 
 void basketMove(StateBasket requestBasketState) {
 	if (requestBasketState != currentBasketState) {
@@ -111,7 +112,7 @@ void basketMove(StateBasket requestBasketState) {
 
 void basketControl() {
   int beginTime = pros::millis();
-  int currentState = 0;
+  currentState = 0;
   while (pros::millis() - beginTime < 1000) {
     if (currentBasketState == StateBasket::SCORE) {
       switch (currentState) {
