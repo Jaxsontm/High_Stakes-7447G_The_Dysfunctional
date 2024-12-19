@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-
 namespace lemlib {
 /**
  * @brief A pose in 2D space

@@ -1,5 +1,3 @@
-#include "lemlib/chassis/chassis.hpp"
-#include "subsystemsHeaders/Lift.hpp"
 #include "subsystemsHeaders/basket.hpp"
 #include "subsystemsHeaders/drive.hpp"
 #include "subsystemsHeaders/mogo.hpp"
@@ -88,7 +86,6 @@ chassis.cancelMotion();
 	chassis.moveToPose(-22, 21, -62, midDriveTimeout, {.lead = 0, .maxSpeed = poleMaxSpeed});
 }*/
 void redRight() { chassis.setPose(0, 0, 90);
-			extender.set_value(true);
 
 			doinker.set_value(true);
 delay(doinkerDelay);
@@ -111,14 +108,12 @@ chassis.waitUntilDone();
 	chassis.moveToPoint(-8, -2, midDriveTimeout, {.maxSpeed = normalMaxSpeed});
 chassis.waitUntilDone();
 
-			extender.set_value(false);
 delay(100);
 
 			Mogo.set_value(true);
 			
 	chassis.turnToHeading(-145, turnTimeout);
 	
-			extender.set_value(true);
 
 			request_new_state_mogo(StateMogo::LOCATE);
 
@@ -227,7 +222,6 @@ chassis.cancelMotion();
 	chassis.moveToPoint(12, -16, smallDriveTimout, {.maxSpeed = poleMaxSpeed});
 }*/
 void redLeft() { chassis.setPose(0, 0, -90);
-			extender.set_value(true);
 delay(doinkerDelay);
 	
 	chassis.moveToPose(15.5, 0, -90, midDriveTimeout, {.forwards = false, .minSpeed = normalMaxSpeed});
@@ -239,7 +233,6 @@ chassis.waitUntilDone();
 	chassis.moveToPoint(6.5, -3, midDriveTimeout, {.maxSpeed = normalMaxSpeed});
 chassis.waitUntilDone();
 
-			extender.set_value(false);
 delay(100);
 
 			Mogo.set_value(true);
@@ -293,7 +286,6 @@ chassis.waitUntilDone();
 	chassis.turnToHeading(45, turnTimeout);
 chassis.waitUntilDone();
 
-			extender.set_value(true);
 			
 	chassis.moveToPoint(-0, 48, midDriveTimeout, {.maxSpeed = poleMaxSpeed + 20});
 chassis.waitUntilDone();
@@ -451,7 +443,6 @@ void redLeftElim() { chassis.setPose(0, 0, 0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 //void blueRight() { chassis.setPose(-0, 0, -180); }
 void blueRight() { chassis.setPose(0, 0, 90);
-			extender.set_value(true);
 delay(doinkerDelay);
 	
 	chassis.moveToPose(-15.5, 0, 90, midDriveTimeout, {.forwards = false, .minSpeed = normalMaxSpeed});
@@ -463,14 +454,12 @@ chassis.waitUntilDone();
 	chassis.moveToPoint(-6.5, -3, midDriveTimeout, {.maxSpeed = normalMaxSpeed});
 chassis.waitUntilDone();
 
-			extender.set_value(false);
 delay(100);
 
 			Mogo.set_value(true);
 			
 	chassis.turnToHeading(-145, turnTimeout);
 	
-			extender.set_value(true);
 			
 			request_new_state_mogo(StateMogo::LOCATE);
 
@@ -524,13 +513,11 @@ chassis.waitUntilDone();
 			
 		basketReset();
 		
-			extender.set_value(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //void blueLeft() { chassis.setPose(-0, 0, -0); }
 void blueLeft() { chassis.setPose(-0, 0, -90);
-			extender.set_value(true);
 delay(doinkerDelay);
 	
 	chassis.moveToPose(15.5, 0, -90, midDriveTimeout, {.forwards = false, .minSpeed = normalMaxSpeed});
@@ -542,7 +529,6 @@ chassis.waitUntilDone();
 	chassis.moveToPoint(8, -2, midDriveTimeout, {.maxSpeed = normalMaxSpeed});
 chassis.waitUntilDone();
 
-			extender.set_value(false);
 delay(100);
 
 			Mogo.set_value(true);
@@ -593,14 +579,12 @@ void blueLeftElim() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Skills() { chassis.setPose(0, 0, 180);
 //!!! chassis.resetLocalPosition(); !!!//
-			extender.set_value(true);
 
 	chassis.moveToPose(0, -6, 180, midDriveTimeout, {.lead = 0});
 chassis.waitUntilDone();
 
 		basketReset();
 
-			extender.set_value(false);
 delay(50);
 
 	chassis.moveToPose(0, 6.5, 180, midDriveTimeout, {.forwards = false, .lead = 0});

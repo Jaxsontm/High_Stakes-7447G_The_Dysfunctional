@@ -19,6 +19,8 @@ void basketScore(int timeout);
 
 void basketReset();
 
+void basketMove();
+
 void basketControl();
 
 void basketDriver();
