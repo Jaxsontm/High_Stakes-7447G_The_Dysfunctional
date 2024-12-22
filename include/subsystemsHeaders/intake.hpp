@@ -1,6 +1,11 @@
 #pragma once
+#include "pros/abstract_motor.hpp"
+#include "pros/adi.hpp"
 #include "pros/distance.hpp"
+#include "pros/misc.h"
 #include "pros/motors.hpp"
+#include "subsystemsHeaders/basket.hpp"
+#include "subsystemsHeaders/drive.hpp"
 using namespace pros;
 
 // Blue Ziptie

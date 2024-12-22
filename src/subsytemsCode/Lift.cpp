@@ -1,11 +1,4 @@
 #include "subsystemsHeaders/Lift.hpp"
-#include "pros/abstract_motor.hpp"
-#include "pros/adi.hpp"
-#include "pros/misc.h"
-#include "pros/motors.hpp"
-#include "subsystemsHeaders/drive.hpp"
-using namespace pros;
-using namespace std;
 
 ///////// global
 Motor lift(10, MotorGearset::green, MotorEncoderUnits::degrees);

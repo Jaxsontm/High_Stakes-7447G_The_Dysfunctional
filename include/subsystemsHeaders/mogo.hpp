@@ -1,6 +1,8 @@
 #pragma once
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
+#include "pros/misc.h"
+#include "subsystemsHeaders/drive.hpp"
 using namespace pros;
 
 // controllables

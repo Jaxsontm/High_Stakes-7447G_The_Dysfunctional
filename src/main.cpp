@@ -1,16 +1,4 @@
-#include "nah/main.h"
-#include "auton.h"
-#include "auton_selector.hpp"
-#include "lemlib/chassis/chassis.hpp"
-#include "liblvgl/llemu.hpp"
-#include "pros/abstract_motor.hpp"
-#include "pros/llemu.hpp"
-#include "pros/rtos.hpp"
-#include "subsystemsHeaders/Lift.hpp"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/intake.hpp"
-#include "subsystemsHeaders/mogo.hpp"
+#include "main.h"
 
 void initialize() {
   chassis.calibrate();

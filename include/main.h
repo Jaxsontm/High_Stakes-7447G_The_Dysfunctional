@@ -40,7 +40,20 @@
 /**
  * You should add more #includes here
  */
-//#include "okapi/api.hpp"
+// #include "okapi/api.hpp"
+#include "auton.h"
+#include "auton_selector.hpp"
+#include "lemlib/chassis/chassis.hpp"
+#include "liblvgl/llemu.hpp"
+#include "pros/abstract_motor.hpp"
+#include "pros/llemu.hpp"
+#include "pros/rtos.hpp"
+#include "subsystemsHeaders/Lift.hpp"
+#include "subsystemsHeaders/basket.hpp"
+#include "subsystemsHeaders/drive.hpp"
+#include "subsystemsHeaders/intake.hpp"
+#include "subsystemsHeaders/mogo.hpp"
+using namespace pros;
  
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

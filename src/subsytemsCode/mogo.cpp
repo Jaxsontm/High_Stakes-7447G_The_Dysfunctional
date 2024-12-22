@@ -1,10 +1,6 @@
 #include "subsystemsHeaders/mogo.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
-#include "pros/misc.h"
-#include "subsystemsHeaders/drive.hpp"
-
-using namespace pros;
 
 /////// Globals
 Distance DistanceMogo(2);

@@ -1,8 +1,4 @@
-#include "lemlib/chassis/chassis.hpp"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/mogo.hpp"
-#include "subsystemsHeaders/intake.hpp"
+#include "auton.h"
 ///////////////////////////////////////////////////////////////////////////////////////////
 //!  General Params
 float earlyExitRange = 4;

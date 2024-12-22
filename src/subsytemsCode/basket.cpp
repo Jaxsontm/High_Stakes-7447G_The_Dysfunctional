@@ -1,13 +1,7 @@
 #include "subsystemsHeaders/basket.hpp"
-#include "pros/abstract_motor.hpp"
-#include "pros/adi.hpp"
-#include "pros/motors.hpp"
-#include "pros/rtos.hpp"
-#include "subsystemsHeaders/drive.hpp"
-using namespace pros;
 
 /// globals
-Motor basket(-6, MotorGearset::red);
+Motor basket(-6, MotorGearset::red, pros::v5::MotorEncoderUnits::deg);
 
 adi::Button basketLimit('H');
 
