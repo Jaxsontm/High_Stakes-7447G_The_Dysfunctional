@@ -36,12 +36,15 @@ void state_machine_mogo() {
         break;
       case StateMogo::GRAB:
         Mogo.set_value(false);
+        mogoActuated = true;
         break;
       case StateMogo::RELEASE:
         Mogo.set_value(true);
+        mogoActuated = false;
         break;
       case StateMogo::opGRAB:
         Mogo.set_value(false);
+        mogoActuated = true;
         break;
     }
 		delay(5);
@@ -54,14 +57,18 @@ void mogoToggle() {
 		if (current_state_mogo == StateMogo::RELEASE) {
     	current_state_mogo = StateMogo::opGRAB;
     } else {
-    	current_state_mogo = StateMogo::RELEASE;
+      current_state_mogo = StateMogo::RELEASE;
     }
 	}
 }
 
 void doinkerToggle() {
-	if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+	if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 		doinkerActuated = !doinkerActuated;
 		doinker.set_value(doinkerActuated);
 	}
+}
+
+void text() {
+  controller.print(1, 6, "Extended: %d", mogoActuated);
 }

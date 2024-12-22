@@ -1,12 +1,15 @@
 #pragma once
 #include "pros/adi.hpp"
+#include "pros/motors.hpp"
 using namespace pros;
 
 // Yellow Ziptie
-extern adi::Pneumatics lift;
+extern Motor lift;
 
 extern adi::Pneumatics grabber;
 //
-void liftLoad();
+void liftDriver();
 
-void liftToggle();
+void setLiftPos();
+
+void grabberToggle();

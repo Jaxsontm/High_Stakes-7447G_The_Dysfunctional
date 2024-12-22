@@ -32,11 +32,11 @@ void state_machine_intake() {
 					Intake.move(127);
 				}
 				current_number = StateIntake::BRAKE;
-			} else if (basketCheck.get_distance() <= 200) {
+			} else if (basketCheck.get_distance() <= 200 && basketCheck.get() >= 100) {
 				while (basketCheck.get() >= 60 && basketLimit.get_value() == 1) {
 					Intake.move(127);
 				}
-				delay(2500);
+				delay(500);
 				current_number = StateIntake::BRAKE;
 			}
 			break;
@@ -71,13 +71,12 @@ void state_machine_intake() {
 			break;
 		case StateIntake::BRAKE:
 			Intake.brake();
-
 			break;
 		case StateIntake::FWD:
 			Intake.move(127);
 			break;
 		}
-								delay(10);
+	  delay(10);
 	}
 }
 

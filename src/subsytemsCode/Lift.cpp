@@ -1,25 +1,38 @@
 #include "subsystemsHeaders/Lift.hpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/misc.h"
+#include "pros/motors.hpp"
 #include "subsystemsHeaders/drive.hpp"
 using namespace pros;
+using namespace std;
 
 ///////// global
-adi::Pneumatics lift('D', false);
+Motor lift(10, MotorGearset::green, MotorEncoderUnits::degrees);
 
 adi::Pneumatics grabber('E', false);
 
 bool liftActuated = false;
 bool grabberActuated = false;
-////////Macros
+////////Macro
+void setLiftPos(int targetPos) {
+  lift.move_absolute(targetPos, 127);
+}
 //////// Driver Control
-void liftToggle() {
-	if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
-		liftActuated = !liftActuated;
-		lift.set_value(liftActuated);
-	}
-	
-	if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+void liftDriver() {
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) {
+    grabber.set_value(true);
+    setLiftPos(500);
+  }
+
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
+    grabber.set_value(false);
+    setLiftPos(1200);
+  }
+}
+
+void grabberToggle() {
+	if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) {
 		grabberActuated = !grabberActuated;
 		grabber.set_value(grabberActuated);
 	}

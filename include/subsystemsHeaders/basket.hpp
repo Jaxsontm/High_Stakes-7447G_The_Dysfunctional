@@ -15,10 +15,6 @@ enum class StateBasket {
 	STOP
 };
 
-void basketScore(int timeout);
-
-void basketReset();
-
 void basketMove(StateBasket requestBasketState);
 
 void basketControl();

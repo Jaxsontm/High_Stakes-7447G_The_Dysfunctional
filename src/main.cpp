@@ -2,7 +2,9 @@
 #include "auton.h"
 #include "auton_selector.hpp"
 #include "lemlib/chassis/chassis.hpp"
+#include "liblvgl/llemu.hpp"
 #include "pros/abstract_motor.hpp"
+#include "pros/llemu.hpp"
 #include "pros/rtos.hpp"
 #include "subsystemsHeaders/Lift.hpp"
 #include "subsystemsHeaders/basket.hpp"
@@ -11,20 +13,21 @@
 #include "subsystemsHeaders/mogo.hpp"
 
 void initialize() {
-	pros::Task auton_selector_task(selector);
-	chassis.calibrate();
+  chassis.calibrate();
+  pros::lcd::initialize();
 	Intake.set_brake_mode(pros::MotorBrake::coast);
 	basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
-	basket.set_brake_mode(MotorBrake::hold);
+	basket.set_brake_mode(MotorBrake::brake);
+  lift.set_zero_position(0);
+	//pros::Task auton_selector_task(selector);
 	pros::Task mogo_machine(state_machine_mogo);
-  pros::Task intake_machine(state_machine_intake);
+	pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
-  
 }
 
 void disabled() {}
 
-void competition_initialize() { selector(); }
+void competition_initialize() {}
 
 void autonomous() {
   request_new_state_mogo(StateMogo::RELEASE);
@@ -65,20 +68,24 @@ void autonomous() {
 			break;
 	}
 }
-
 void opcontrol() {
-	basket.set_brake_mode(MotorBrake::hold);
-	Intake.set_brake_mode(pros::MotorBrake::coast);
+	basket.set_brake_mode(MotorBrake::brake);
+  Intake.set_brake_mode(pros::MotorBrake::coast);
+  pros::Task texts(text);
 	while (true) {
 		intakeControl();
 		mogoToggle();
-		liftToggle();
+		doinkerToggle();
+		liftDriver();
 		basketDriver();
 		basketResetDriver();
-		doinkerToggle();
-		tank();
+    tank();
+
+    text();
+
+    pros::lcd::print(1, "Pos: %f", lift.get_position());
 	
 		// delay to save resources
-		pros::delay(10);
+		pros::delay(20);
 	}
 }

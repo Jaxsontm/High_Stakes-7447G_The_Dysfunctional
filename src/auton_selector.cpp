@@ -19,7 +19,6 @@
 
 
 int autonSelection = 0;
-bool hide = false;
 
 lv_obj_t *tabview;
 lv_obj_t *cover;
@@ -64,17 +63,13 @@ static void coords(lv_event_t *e) {
 	lv_obj_t *placement_label = lv_label_create(lv_scr_act());
 	lv_obj_align(placement_label, LV_ALIGN_BOTTOM_RIGHT, -20, -10);
 	char posText[150];
+  sprintf(posText, " ");
 
-	if (code == LV_EVENT_CLICKED) {
-		if (!hide) {
-			lemlib::Pose trackerPos = chassis.getPose();
-			sprintf(posText, "(x: %.2f, y: %.2f, theta: %.2f)", trackerPos.x, trackerPos.y, trackerPos.theta);
-			lv_label_set_text(placement_label, posText);
-		} else {
-			lv_label_set_text(placement_label, " ");
-		}
-		hide = !hide;
-	}
+  if (code == LV_EVENT_CLICKED) {
+    lemlib::Pose trackerPos = chassis.getPose();
+		sprintf(posText, "(x: %.2f, y: %.2f, theta: %.2f)", trackerPos.x, trackerPos.y, trackerPos.theta);
+		lv_label_set_text(placement_label, posText);
+  }
 }
 
 static void selection(lv_event_t *e) {

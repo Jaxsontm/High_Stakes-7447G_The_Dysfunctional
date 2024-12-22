@@ -7,7 +7,7 @@
 using namespace pros;
 
 /// globals
-Motor basket(6, MotorGearset::green);
+Motor basket(-6, MotorGearset::red);
 
 adi::Button basketLimit('H');
 
@@ -82,27 +82,23 @@ void basketResetDrive(void *param) {
 	basket.brake();
 	basket.tare_position();
 	basket.move_relative(-10, 127);
+        // Driver Control
 }
-
-//Driver Control
 void basketDriver() {
 	if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
 		static int timeout = 2000;
 		pros::Task basketScoreTask(basketDrive, &timeout, "Basket Scoring");
 	}
-	basketScoreTask().remove();
 }
 
 void basketResetDriver() {
 	if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
 		static int timeoutR = 1000;
 		pros::Task basketResetTask(basketResetDrive, &timeoutR, "Basket Reset");
-		basketResetTask.remove();
 	}
 }*/
 
 StateBasket currentBasketState = StateBasket::STOP;
-int currentState = 0;
 
 void basketMove(StateBasket requestBasketState) {
 	if (requestBasketState != currentBasketState) {
@@ -111,46 +107,30 @@ void basketMove(StateBasket requestBasketState) {
 }
 
 void basketControl() {
-  int beginTime = pros::millis();
-  currentState = 0;
-  while (pros::millis() - beginTime < 1000) {
-    if (currentBasketState == StateBasket::SCORE) {
-      switch (currentState) {
-        case 0:
-          while (basketLimit.get_value() == 1) {
-            basket.move(127);
+  int timeNum = 1000;
+  int timeoutCalc = timeNum / 10;
+  while (true) {
+    switch (currentBasketState) {
+      case StateBasket::SCORE:
+        basket.move(127);
+        for (int t = 0; t < timeoutCalc; t++) {
+          if (basket.get_position() > 287) {
+            t = timeoutCalc;
           }
-          currentState = 1;
-          break;
-        case 1:
-          delay(500);
-          currentState = 2;
-          break;
-        case 2:
-          while (basketLimit.get_value() == 0) {
-            basket.move(127);
-          }
-          currentState = 3;
-          break;
-        case 3:
-          basket.brake();
-          break;
-      }
-    } else if (currentBasketState == StateBasket::RESET) {
-      switch (currentState) {
-        case 0:
-          while (basketLimit.get_value() == 0) {
-            basket.move(127);
-          }
-          currentState = 1;
-          break;
-        case 1:
-          basket.brake();
-          break;
-      }
-    } else {
-      basket.brake();
+          delay(10);
+        }
+        currentBasketState = StateBasket::RESET;
+        break;
+      case StateBasket::RESET:
+        while (basketLimit.get_value() == 0) basket.move(-127);
+        currentBasketState = StateBasket::STOP;
+        break;
+      case StateBasket::STOP:
+        basket.brake();
+        basket.tare_position();
+        break;
     }
+     delay(10); 
   }
 }
 

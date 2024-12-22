@@ -21,12 +21,9 @@
 
 #include <stdarg.h>
 #include <stdbool.h>
-#define _GNU_SOURCE
-#include <stdio.h>
 #undef _GNU_SOURCE
 #include <stdint.h>
 
-#include "pros/colors.h"  // c color macros
 
 #ifdef __cplusplus
 extern "C" {
