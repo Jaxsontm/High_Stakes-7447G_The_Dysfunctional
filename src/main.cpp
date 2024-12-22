@@ -66,7 +66,6 @@ void opcontrol() {
 		doinkerToggle();
 		liftDriver();
 		basketDriver();
-		basketResetDriver();
     tank();
 
     text();

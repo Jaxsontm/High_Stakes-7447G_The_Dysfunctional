@@ -4,6 +4,7 @@
 #include "pros/motors.hpp"
 #include "pros/rtos.hpp"
 #include "subsystemsHeaders/drive.hpp"
+#include "subsystemsHeaders/intake.hpp"
 using namespace pros;
 
 //controllable objects
@@ -13,7 +14,8 @@ extern adi::Button basketLimit;
 
 // doing the controlling
 enum class StateBasket {
-	SCORE,
+  SCORE,
+  TOP,
 	RESET,
 	STOP
 };
@@ -23,5 +25,3 @@ void basketMove(StateBasket requestBasketState);
 void basketControl();
 
 void basketDriver();
-
-void basketResetDriver();
