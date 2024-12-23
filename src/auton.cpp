@@ -25,7 +25,7 @@ float soloSpeed = 80;
 
 //! Skills Specific Params
 float skillsSpeed = 80;
-//?/////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
 void redRight() { chassis.setPose(0, 0, 180);
   request_new_state_mogo(StateMogo::LOCATE);
 
@@ -221,10 +221,49 @@ void redRightElim() { chassis.setPose(0, 0, 180);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void redLeftElim() { chassis.setPose(0, 0, 0);
-  
+  spinFor(StateIntake::ONE);
+
+  chassis.moveToPoint(0, 20, midDriveTimeout);
+
+  chassis.swingToHeading(270, lemlib::DriveSide::LEFT, swingTimeout);
+  chassis.waitUntilDone();
+
+  request_new_state_mogo(StateMogo::LOCATE);
+
+  chassis.moveToPoint(13.5, 27.25, midDriveTimeout, {.maxSpeed = goalGrabMaxSpeed});
+  chassis.waitUntilDone();
+
+  basketMove(StateBasket::SCORE);
+  delay(250);
+
+  while (basketLimit.get_value() == 0) delay(10);
+
+  spinFor(StateIntake::TWO);
+
+  chassis.turnToHeading(345, turnTimeout);
+
+  chassis.moveToPose(0, 41.5, 270, midDriveTimeout);
+  chassis.waitUntilDone();
+
+  basketMove(StateBasket::SCORE);
+  delay(250);
+
+  while (basketLimit.get_value() == 0) delay(10);
+
+  spinFor(StateIntake::ONE);
+
+  chassis.moveToPose(-14, -5.25, 180, largeDriveTimeout);
+  chassis.waitUntilDone();
+
+  chassis.swingToHeading(225, lemlib::DriveSide::RIGHT, swingTimeout);
+  chassis.waitUntilDone();
+
+  drive(-63, -63, 250);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueRight() { chassis.setPose(-0, 0, -180); }
+void blueRight() { chassis.setPose(-0, 0, -180);
+  
+}
 ///////////////////////////////////////////////////////////////////////////////////////////
 void blueLeft() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////

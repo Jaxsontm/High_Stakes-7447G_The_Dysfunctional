@@ -624,8 +624,22 @@ class Chassis {
          * chassis.swingToPoint(7.5, 7.5, DriveSide::RIGHT, 2000, {.minSpeed = 60, .earlyExitRange = 5});
          * @endcode
          */
-        void swingToPoint(float x, float y, DriveSide lockedSide, int timeout, SwingToPointParams params = {},
-                          bool async = true);
+        void swingToPoint(float x, float y, DriveSide lockedSide, int timeout,
+                          SwingToPointParams params = {}, bool async = true);
+        /**
+        * @brief Move the chassis with a specifc speed on each side of the dt
+respectively
+        *
+        * @param Lspeed speed of the left side of the drivetrain
+        * @param Rspeed speed of the right side of the drivetrain
+        * @param timeout time the robot spends moving
+        *
+        * @b Example
+        * @code {.cpp}
+        * chassis.setPose(0, 0, 0); // set the pose of the chassis
+        * chassis.drive(63, 63, 1000); // drive the robot with a speed of 63 (1/2 speed) on each side
+        */
+        void drive(int Lspeed, int Rspeed, int timeout);
         /**
          * @brief Move the chassis towards the target pose
          *

@@ -28,27 +28,27 @@ lemlib::Drivetrain drivetrain(
 // lateral motion controller
 lemlib::ControllerSettings
 		linearController(11.95,    // proportional gain (kP)
-										 0.00000001,     // integral gain (kI)
-										 24,    // derivative gain (kD)
-										 10,    // anti windup
-										 1,     // small error range, in inches
-										 100,   // small error range timeout, in milliseconds
-										 30,    // large error range, in inches
-										 30000, // large error range timeout, in milliseconds
-										 10     // maximum acceleration (slew)
+										 0,     // integral gain (kI)
+										 0,    // derivative gain (kD)
+										 0,    // anti windup
+										 0, //1,     // small error range, in inches
+										 0, //100,   // small error range timeout, in milliseconds
+										 0, //3,    // large error range, in inches
+										 0, //300, // large error range timeout, in milliseconds
+										 0     // maximum acceleration (slew)
 		);
 
 // angular motion controller
 lemlib::ControllerSettings
 		angularController(1.043, // proportional gain (kP)
-											0.0000000001,     // integral gain (kI)
-											6,     // derivative gain (kD)
-											2,     // anti windup
-											1,     // small error range, in degrees
-											500,   // small error range timeout, in milliseconds
-											15,    // large error range, in degrees
-											950,   // large error range timeout, in milliseconds
-											5      // maximum acceleration (slew)
+											0,     // integral gain (kI)
+											0,     // derivative gain (kD)
+											0,     // anti windup
+											0, //1,     // small error range, in degrees
+											0, //100,   // small error range timeout, in milliseconds
+											0, //15,    // large error range, in degrees
+											0, //650,   // large error range timeout, in milliseconds
+											0      // maximum acceleration (slew)
 		);
 
 // Rotation Sensors
@@ -73,7 +73,16 @@ lemlib::OdomSensors sensors(
 
 // create the chassis
 lemlib::Chassis chassis(drivetrain, linearController, angularController,
-												sensors);
+                        sensors);
+
+void drive(int Lspeed, int Rspeed, int timeout) {
+  timeout /= 10;
+  for (int i = 0; i < timeout; i++) {
+    DTLeft.move(Lspeed), DTRight.move(Rspeed);
+    delay(10);
+  }
+  DTLeft.brake(), DTRight.brake();
+}
 
 void tank() {
 	int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

@@ -2,12 +2,12 @@
 
 void initialize() {
   chassis.calibrate();
-  pros::lcd::initialize();
+  //pros::lcd::initialize();
 	Intake.set_brake_mode(pros::MotorBrake::coast);
 	basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
 	basket.set_brake_mode(MotorBrake::brake);
   lift.set_zero_position(0);
-	//pros::Task auton_selector_task(selector);
+	pros::Task auton_selector_task(selector);
 	pros::Task mogo_machine(state_machine_mogo);
 	pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
