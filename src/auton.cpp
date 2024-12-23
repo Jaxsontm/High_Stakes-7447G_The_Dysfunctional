@@ -258,12 +258,26 @@ void redLeftElim() { chassis.setPose(0, 0, 0);
   chassis.swingToHeading(225, lemlib::DriveSide::RIGHT, swingTimeout);
   chassis.waitUntilDone();
 
-  drive(-63, -63, 250);
+  chassis.drive(-65, -60, 200);
+  chassis.waitUntilDone();
+
+  basketMove(StateBasket::SCORE);
+  delay(250);
+
+  while (basketLimit.get_value() == 0) delay(10);
+
+  spinFor(StateIntake::TWO);
+
+  chassis.turnToHeading(100, turnTimeout);
+chassis.waitUntilDone();
+
+  chassis.moveToPose(43.5, 3, 77.5, largeDriveTimeout);
+chassis.waitUntilDone();
+
+  basketMove(StateBasket::TOP);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueRight() { chassis.setPose(-0, 0, -180);
-  
-}
+void blueRight() { chassis.setPose(-0, 0, -180); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void blueLeft() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
