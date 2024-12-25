@@ -11,6 +11,8 @@ void initialize() {
 	pros::Task mogo_machine(state_machine_mogo);
 	pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
+  pros::Task lift_load(liftLoad);
+  pros::Task lift_score(liftScore);
 }
 
 void disabled() {}
@@ -66,6 +68,7 @@ void opcontrol() {
 		doinkerToggle();
 		liftDriver();
 		basketDriver();
+    manualToggle();
     tank();
 
     text();

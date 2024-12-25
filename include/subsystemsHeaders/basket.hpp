@@ -25,3 +25,5 @@ void basketMove(StateBasket requestBasketState);
 void basketControl();
 
 void basketDriver();
+
+pros::Task basket_machine();

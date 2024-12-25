@@ -66,13 +66,15 @@ void basketControl() {
 }
 //driver
 void basketDriver() {
-	if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
-		basketMove(StateBasket::SCORE);
-        }
-        
-	if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) {
-		basketMove(StateBasket::RESET);
-  }
+  if (manual) {
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) basketMove(StateBasket::SCORE);
 
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) basketMove(StateBasket::TOP);
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) basketMove(StateBasket::RESET);
+  } else {
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_L1))
+      basket.move(127);
+    else if (controller.get_digital(E_CONTROLLER_DIGITAL_X))
+      basket.move(-127);
+    else basket.brake();
+  }
 }

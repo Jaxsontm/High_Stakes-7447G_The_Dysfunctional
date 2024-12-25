@@ -4,16 +4,20 @@
 #include "pros/misc.h"
 #include "pros/motors.hpp"
 #include "subsystemsHeaders/drive.hpp"
+#include "subsystemsHeaders/basket.hpp"
 using namespace pros;
 using namespace std;
 
 // Yellow Ziptie
 extern Motor lift;
-
-extern adi::Pneumatics grabber;
 //
 void liftDriver();
 
 void setLiftPos();
 
-void grabberToggle();
+void liftLoad();
+
+void liftScore();
+
+pros::Task lift_load();
+pros::Task lift_score();

@@ -1,4 +1,7 @@
 #include "subsystemsHeaders/drive.hpp"
+#include "subsystemsHeaders/basket.hpp"
+#include "subsystemsHeaders/intake.hpp"
+#include "subsystemsHeaders/mogo.hpp"
 
 // controller
 Controller controller(E_CONTROLLER_MASTER);
@@ -96,4 +99,17 @@ void arcade() {
 	int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
 	chassis.arcade(leftY, rightX);
+}
+
+
+void manualToggle() {
+  if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+    manual = !manual;
+  if (manual) {
+    basket_machine().suspend();
+    intake_machine().suspend();
+    mogo_machine().suspend();
+    lift_score().suspend();
+    lift_load().suspend();
+  }
 }

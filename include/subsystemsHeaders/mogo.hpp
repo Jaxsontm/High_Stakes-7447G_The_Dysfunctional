@@ -30,3 +30,5 @@ void request_new_state_mogo(StateMogo new_state);
 void state_machine_mogo();
 
 void text();
+
+pros::Task mogo_machine();

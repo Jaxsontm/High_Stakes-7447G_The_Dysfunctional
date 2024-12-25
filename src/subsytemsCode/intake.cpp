@@ -1,4 +1,5 @@
 #include "subsystemsHeaders/intake.hpp"
+#include "subsystemsHeaders/drive.hpp"
 
 /////// globals
 Motor Intake(-11, MotorGearset::green);
@@ -73,11 +74,21 @@ void state_machine_intake() {
 
 ////// Driver Control
 void intakeControl() {
-	if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && basketLimit.get_value() == 1){
-		spinFor(StateIntake::FWD);
-	} else if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
-		spinFor(StateIntake::REV);
-	} else {
-		spinFor(StateIntake::BRAKE);
-	}
+  if (manual) {
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && basketLimit.get_value() == 1){
+      spinFor(StateIntake::FWD);
+    } else if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+      spinFor(StateIntake::REV);
+    } else {
+      spinFor(StateIntake::BRAKE);
+    }
+  } else {
+    if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && basketLimit.get_value() == 1){
+      Intake.move(127);
+    } else if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+      Intake.move(-127);
+    } else {
+      Intake.brake();
+    }
+  }
 }

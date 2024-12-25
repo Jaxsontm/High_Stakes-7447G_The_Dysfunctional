@@ -1,6 +1,7 @@
 #include "subsystemsHeaders/mogo.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
+#include "subsystemsHeaders/drive.hpp"
 
 /////// Globals
 Distance DistanceMogo(2);
@@ -49,13 +50,20 @@ void state_machine_mogo() {
 
 ////// Driver Control
 void mogoToggle() {
-	if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
-		if (current_state_mogo == StateMogo::RELEASE) {
-    	current_state_mogo = StateMogo::opGRAB;
-    } else {
-      current_state_mogo = StateMogo::RELEASE;
+  if (manual){
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
+      if (current_state_mogo == StateMogo::RELEASE) {
+        current_state_mogo = StateMogo::opGRAB;
+      } else {
+        current_state_mogo = StateMogo::RELEASE;
+      }
     }
-	}
+  } else {
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
+      mogoActuated = !mogoActuated;
+      Mogo.set_value(mogoActuated);
+	  }
+  }
 }
 
 void doinkerToggle() {

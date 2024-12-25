@@ -4,6 +4,10 @@
 #include "pros/misc.hpp"
 #include "pros/motor_group.hpp"
 #include "pros/rotation.hpp"
+#include "subsystemsHeaders/basket.hpp"
+#include "subsystemsHeaders/intake.hpp"
+#include "subsystemsHeaders/mogo.hpp"
+#include "subsystemsHeaders/lift.hpp"
 #include <cmath>
 using namespace pros;
 
@@ -38,3 +42,6 @@ extern lemlib::Chassis chassis;
 extern void tank();
 
 extern void arcade();
+
+extern bool manual;
+extern void manualToggle();
