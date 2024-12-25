@@ -26,4 +26,4 @@ void basketControl();
 
 void basketDriver();
 
-pros::Task basket_machine();
+inline pros::Task* basket_machine;

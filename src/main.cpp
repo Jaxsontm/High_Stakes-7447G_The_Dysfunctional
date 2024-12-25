@@ -1,4 +1,5 @@
 #include "main.h"
+#include "subsystemsHeaders/lift.hpp"
 
 void initialize() {
   chassis.calibrate();
@@ -9,10 +10,10 @@ void initialize() {
   lift.set_zero_position(0);
 	pros::Task auton_selector_task(selector);
 	pros::Task mogo_machine(state_machine_mogo);
-	pros::Task intake_machine(state_machine_intake);
-  pros::Task basket_machine(basketControl);
-  pros::Task lift_load(liftLoad);
-  pros::Task lift_score(liftScore);
+	intake_machine = new pros::Task(state_machine_intake);
+  basket_machine = new pros::Task(basketControl);
+  lift_load = new pros::Task (liftLoad);
+  lift_score = new pros::Task(liftScore);
 }
 
 void disabled() {}
@@ -58,6 +59,7 @@ void autonomous() {
 			break;
 	}
 }
+
 void opcontrol() {
 	basket.set_brake_mode(MotorBrake::brake);
   Intake.set_brake_mode(pros::MotorBrake::coast);

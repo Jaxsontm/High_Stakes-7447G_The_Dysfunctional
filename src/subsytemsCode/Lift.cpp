@@ -9,45 +9,49 @@ bool grabberActuated = false;
 void setLiftPos(int targetPos) { lift.move_absolute(targetPos, 127); }
 
 void liftLoad() {
-  while (lift.get_position() < 28) {
-    lift.move(100);
-  }
-  lift.brake();
-  delay(5);
-
-  basket.move(38);
-  int timeout = 70;
-  for (int t = 0; t < timeout; t++) {
-    if (basket.get_position() > 195) {
-      t = timeout;
+  while (pros::Task::notify_take(true, 120000)) {
+    while (lift.get_position() < 28) {
+      lift.move(100);
     }
-    delay(10);
-  }
-
-  while (basketLimit.get_value() == 0) {
-    basket.move(-127);
+    lift.brake();
     delay(5);
+
+    basket.move(38);
+    int timeout = 70;
+    for (int t = 0; t < timeout; t++) {
+      if (basket.get_position() > 195) {
+        t = timeout;
+      }
+      delay(10);
+    }
+
+    while (basketLimit.get_value() == 0) {
+      basket.move(-127);
+      delay(5);
+    }
+    basket.brake();
   }
-  basket.brake();
 }
 
 void liftScore() {
-  lift.move(127);
-  int timeout = 100;
-  for (int t = 0; t < timeout; t++) {
-    if (lift.get_position() > 195) {
-      t = timeout;
+  while (pros::Task::notify_take(true, 120000)) {
+    lift.move(127);
+    int timeout = 100;
+    for (int t = 0; t < timeout; t++) {
+      if (lift.get_position() > 195) {
+        t = timeout;
+      }
+      delay(10);
     }
-    delay(10);
-  }
-  lift.brake();
-  delay(250);
-  lift.move(-127);
-  for (int t = 0; t < timeout; t++) {
-    if (lift.get_position() < 2) {
-      t = timeout;
+    lift.brake();
+    delay(250);
+    lift.move(-127);
+    for (int t = 0; t < timeout; t++) {
+      if (lift.get_position() < 2) {
+        t = timeout;
+      }
+      delay(10);
     }
-    delay(10);
   }
 }
 //////// Driver Control

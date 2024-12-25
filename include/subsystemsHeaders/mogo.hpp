@@ -31,4 +31,4 @@ void state_machine_mogo();
 
 void text();
 
-pros::Task mogo_machine();
+inline pros::Task* mogo_machine;

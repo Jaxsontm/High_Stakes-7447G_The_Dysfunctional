@@ -1,5 +1,7 @@
 #include "subsystemsHeaders/basket.hpp"
 #include "pros/misc.h"
+#include "pros/misc.hpp"
+#include "pros/rtos.hpp"
 #include "subsystemsHeaders/drive.hpp"
 #include "subsystemsHeaders/intake.hpp"
 
@@ -19,7 +21,7 @@ void basketMove(StateBasket requestBasketState) {
 void basketControl() {
   int timeNum = 900;
   int timeoutCalc = timeNum / 10;
-  while (true) {
+  while (true && pros::Task::notify_take(true, 120000)) {
     switch (currentBasketState) {
       case StateBasket::SCORE:
         basket.move(127);

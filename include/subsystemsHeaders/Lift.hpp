@@ -19,5 +19,5 @@ void liftLoad();
 
 void liftScore();
 
-pros::Task lift_load();
-pros::Task lift_score();
+inline pros::Task* lift_load;
+inline pros::Task* lift_score;

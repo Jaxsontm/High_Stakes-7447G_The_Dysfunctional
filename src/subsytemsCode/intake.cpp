@@ -16,7 +16,7 @@ void spinFor(StateIntake request_number) {
 }
 
 void state_machine_intake() {
-	while (true) {
+	while (true && pros::Task::notify_take(true, 120000)) {
 		switch (current_number) {
 		case StateIntake::ONE:
 			if (basketCheck.get_distance() >= 220) {

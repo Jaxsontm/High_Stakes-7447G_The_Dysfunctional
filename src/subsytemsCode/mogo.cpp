@@ -24,7 +24,7 @@ void request_new_state_mogo(StateMogo request_new_state_mogo) {
 }
 
 void state_machine_mogo() {
-	while (true) {
+	while (true && pros::Task::notify_take(true, 120000)) {
 		switch (current_state_mogo) {
       case StateMogo::LOCATE:
         while (DistanceMogo.get() > 32) delay(10);
