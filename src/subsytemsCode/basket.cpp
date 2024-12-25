@@ -17,14 +17,14 @@ void basketMove(StateBasket requestBasketState) {
 }
 
 void basketControl() {
-  int timeNum = 1000;
+  int timeNum = 900;
   int timeoutCalc = timeNum / 10;
   while (true) {
     switch (currentBasketState) {
       case StateBasket::SCORE:
         basket.move(127);
         for (int t = 0; t < timeoutCalc; t++) {
-          if (basket.get_position() > 287) {
+          if (basket.get_position() > 267) {
             t = timeoutCalc;
           }
           delay(10);
@@ -44,7 +44,7 @@ void basketControl() {
         } else if (basketCheck.get() < 120) {
           basket.move(127);
           for (int t = 0; t < timeoutCalc; t++) {
-            if (basket.get_position() > 287) {
+            if (basket.get_position() > 177) {
               t = timeoutCalc;
             }
             delay(10);

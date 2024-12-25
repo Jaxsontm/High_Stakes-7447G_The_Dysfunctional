@@ -13,9 +13,9 @@ float normalMinSpeed = 60;
 float normalMaxSpeed = 80;
 float turnTimeout = 650;
 float swingTimeout = 900;
-float smallDriveTimeout = 750;
+float smallDriveTimeout = 600;
 float midDriveTimeout = 1200;
-float largeDriveTimeout = 2200;
+float largeDriveTimeout = 2400;
 float waitUntil = 10;
 
 //!  Goal Rush Specific Params
@@ -310,7 +310,7 @@ chassis.waitUntilDone();
   chassis.swingToHeading(225, lemlib::DriveSide::RIGHT, swingTimeout);
 chassis.waitUntilDone();
 
-  chassis.drive(-65, -60, 200);
+  //chassis.drive(-65, -60, 200);
 chassis.waitUntilDone();
 
   basketMove(StateBasket::SCORE);
