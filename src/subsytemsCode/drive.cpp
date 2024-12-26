@@ -1,4 +1,5 @@
 #include "subsystemsHeaders/drive.hpp"
+#include "lemlib/chassis/chassis.hpp"
 
 // controller
 Controller controller(E_CONTROLLER_MASTER);
@@ -75,11 +76,11 @@ lemlib::OdomSensors sensors(
 lemlib::Chassis chassis(drivetrain, linearController, angularController,
                         sensors);
 
-void drive(int Lspeed, int Rspeed, int timeout) {
+void lemlib::Chassis::drive(int Lspeed, int Rspeed, int timeout) {
   timeout /= 10;
   for (int i = 0; i < timeout; i++) {
     DTLeft.move(Lspeed), DTRight.move(Rspeed);
-    delay(10);
+    delay(9);
   }
   DTLeft.brake(), DTRight.brake();
 }

@@ -310,7 +310,7 @@ chassis.waitUntilDone();
   chassis.swingToHeading(225, lemlib::DriveSide::RIGHT, swingTimeout);
 chassis.waitUntilDone();
 
-  //chassis.drive(-65, -60, 200);
+  chassis.drive(-65, -60, 200);
 chassis.waitUntilDone();
 
   basketMove(StateBasket::SCORE);

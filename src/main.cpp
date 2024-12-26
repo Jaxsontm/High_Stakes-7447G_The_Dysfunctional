@@ -1,5 +1,4 @@
 #include "main.h"
-#include "subsystemsHeaders/lift.hpp"
 
 void initialize() {
   chassis.calibrate();
