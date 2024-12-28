@@ -2,14 +2,13 @@
 
 ///////// global
 Motor lift(7, MotorGearset::green, MotorEncoderUnits::degrees);
-
-bool liftActuated = false;
-bool grabberActuated = false;
 ////////Macro
-void setLiftPos(int targetPos) { lift.move_absolute(targetPos, 127); }
+void setLiftPos(int targetPos) {
+  lift.move_absolute(targetPos, 127);
+}
 
 void liftLoad() {
-  while (pros::Task::notify_take(true, 120000)) {
+  while (true) {
     while (lift.get_position() < 28) {
       lift.move(100);
     }
@@ -34,7 +33,7 @@ void liftLoad() {
 }
 
 void liftScore() {
-  while (pros::Task::notify_take(true, 120000)) {
+  while (true) {
     lift.move(127);
     int timeout = 100;
     for (int t = 0; t < timeout; t++) {

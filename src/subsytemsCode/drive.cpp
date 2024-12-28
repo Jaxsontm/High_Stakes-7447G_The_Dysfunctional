@@ -30,26 +30,26 @@ lemlib::Drivetrain drivetrain(
 lemlib::ControllerSettings
 		linearController(11.95,    // proportional gain (kP)
 										 0,     // integral gain (kI)
-										 0,    // derivative gain (kD)
-										 0,    // anti windup
-										 0, //1,     // small error range, in inches
-										 0, //100,   // small error range timeout, in milliseconds
-										 0, //3,    // large error range, in inches
-										 0, //300, // large error range timeout, in milliseconds
-										 0     // maximum acceleration (slew)
+										 24,    // derivative gain (kD)
+										 10,    // anti windup
+										 1,     // small error range, in inches
+										 100,   // small error range timeout, in milliseconds
+										 3,    // large error range, in inches
+										 300, // large error range timeout, in milliseconds
+										 30     // maximum acceleration (slew)
 		);
 
 // angular motion controller
 lemlib::ControllerSettings
 		angularController(1.043, // proportional gain (kP)
 											0,     // integral gain (kI)
-											0,     // derivative gain (kD)
-											0,     // anti windup
-											0, //1,     // small error range, in degrees
-											0, //100,   // small error range timeout, in milliseconds
-											0, //15,    // large error range, in degrees
-											0, //650,   // large error range timeout, in milliseconds
-											0      // maximum acceleration (slew)
+											6,     // derivative gain (kD)
+											5,     // anti windup
+											1,     // small error range, in degrees
+											100,   // small error range timeout, in milliseconds
+											15,    // large error range, in degrees
+											650,   // large error range timeout, in milliseconds
+											30      // maximum acceleration (slew)
 		);
 
 // Rotation Sensors
