@@ -4,7 +4,6 @@ void initialize() {
   chassis.calibrate();
   //pros::lcd::initialize();
 	Intake.set_brake_mode(pros::MotorBrake::coast);
-	basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
 	basket.set_brake_mode(MotorBrake::brake);
   lift.set_zero_position(0);
   lift.set_brake_mode(MotorBrake::hold);

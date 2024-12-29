@@ -6,7 +6,7 @@
 #include "subsystemsHeaders/intake.hpp"
 
 /// globals
-Motor basket(-6, MotorGearset::red, pros::v5::MotorEncoderUnits::deg);
+Motor basket(-6, MotorGearset::red, MotorEncoderUnits::deg);
 
 adi::Button basketLimit('H');
 ///machine

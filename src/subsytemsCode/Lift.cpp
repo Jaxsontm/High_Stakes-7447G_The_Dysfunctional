@@ -11,8 +11,6 @@ void setLiftPos(liftPos requestedPos) {
   }
 }
 
-//LOAD lift.get_position() > 125; basket.get_position() > 205; while (basketLimit.get_value() == 0) { basket.move(-127); delay(5);}
-//SCORE lift.get_position() > 385
 void liftMachine() {
   int timeout;
   while (true) {

@@ -11,9 +11,7 @@ adi::Pneumatics Mogo('D', false);
 adi::Pneumatics doinker('C', false);
 
 bool doinkerActuated = false;
-
 bool mogoActuated = false;
-
 ////// State Machine
 StateMogo current_state_mogo;
 
