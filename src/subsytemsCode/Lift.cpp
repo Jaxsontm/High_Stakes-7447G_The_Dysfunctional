@@ -31,6 +31,7 @@ void liftMachine() {
           }
           delay(10);
         }
+        basket.brake();
         delay(350);
         while (basketLimit.get_value() == 0) basket.move(-127);
         currentPos = liftPos::STOP;
@@ -44,7 +45,7 @@ void liftMachine() {
         }
         delay(500);
         currentPos = liftPos::RESET;
-        break;
+      break;
       case liftPos::RESET:
         timeout = 70;
         while (lift.get_position() > 0 && timeout > 0) {
@@ -53,22 +54,19 @@ void liftMachine() {
           delay(10);
         }
         currentPos = liftPos::STOP;
-        break;
+      break;
       case liftPos::STOP:
         lift.brake();
         lift.tare_position();
         basket.brake();
         basket.tare_position();
-        break;
+      break;
       }
   }
 }
 //////// Driver Control
 void liftDriver() {
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) {
-    setLiftPos(liftPos::LOAD);
-  }
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
-    setLiftPos(liftPos::SCORE);
-  }
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) setLiftPos(liftPos::LOAD);
+  
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) setLiftPos(liftPos::SCORE);
 }

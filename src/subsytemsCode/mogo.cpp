@@ -28,19 +28,19 @@ void state_machine_mogo() {
         while (DistanceMogo.get() > 32) delay(10);
         delay(50);
         current_state_mogo = StateMogo::GRAB;
-        break;
+      break;
       case StateMogo::GRAB:
         Mogo.set_value(false);
         mogoActuated = true;
-        break;
+      break;
       case StateMogo::RELEASE:
         Mogo.set_value(true);
         mogoActuated = false;
-        break;
+      break;
       case StateMogo::opGRAB:
         Mogo.set_value(false);
         mogoActuated = true;
-        break;
+      break;
     }
 		delay(5);
 	}

@@ -31,7 +31,7 @@ void state_machine_intake() {
           delay(500);
           current_number = StateIntake::BRAKE;
         }
-        break;
+      break;
       case StateIntake::TWO:
         if (basketCheck.get() >= 210) {
           while (basketCheck.get() >= 210 && basketLimit.get_value() == 1) {
@@ -44,7 +44,7 @@ void state_machine_intake() {
           }
           current_number = StateIntake::CHECK;
         }
-        break;
+      break;
       case StateIntake::CHECK:
         if (basketLimit.get_value() == 0) {
           current_number = StateIntake::BRAKE;
@@ -57,16 +57,16 @@ void state_machine_intake() {
             current_number = StateIntake::BRAKE;
           }
         }
-        break;
+      break;
       case StateIntake::REV:
         Intake.move(-127);
-        break;
+      break;
       case StateIntake::BRAKE:
         Intake.brake();
-        break;
+      break;
       case StateIntake::FWD:
         Intake.move(127);
-        break;
+      break;
       }
     delay(10);
 	}
