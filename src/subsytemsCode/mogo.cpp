@@ -42,7 +42,7 @@ void state_machine_mogo() {
         mogoActuated = true;
       break;
     }
-		delay(5);
+		delay(10);
 	}
 }
 
@@ -62,4 +62,9 @@ void doinkerToggle() {
 		doinkerActuated = !doinkerActuated;
 		doinker.set_value(doinkerActuated);
 	}
+}
+
+void text() {
+  const char *status = mogoActuated ? "EXTENDED" : "RETRACTED";
+  controller.print(1, 6, status);
 }

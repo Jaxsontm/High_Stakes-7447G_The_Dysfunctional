@@ -16,28 +16,18 @@ void liftMachine() {
   while (true) {
     switch (currentPos) {
       case liftPos::LOAD:
-        timeout = 30;
+        timeout = 25;
         while (lift.get_position() < 125 && timeout > 0) {
           lift.move(127);
           timeout--;
           delay(10);
         }
         lift.brake();
-        timeout = 90;
-        basket.move(127);
-        for (int t = 0; t < timeout; t++) {
-          if (basket.get_position() > 205) {
-            t = timeout;
-          }
-          delay(10);
-        }
-        basket.brake();
-        delay(350);
-        while (basketLimit.get_value() == 0) basket.move(-127);
-        currentPos = liftPos::STOP;
+        delay(250);
+        basketMove(StateBasket::SCORE);
       break;
       case liftPos::SCORE:
-        timeout = 60;
+        timeout = 100;
         while (lift.get_position() < 385 && timeout > 0) {
           lift.move(127);
           timeout--;
@@ -47,21 +37,21 @@ void liftMachine() {
         currentPos = liftPos::RESET;
       break;
       case liftPos::RESET:
-        timeout = 70;
+        timeout = 100;
         while (lift.get_position() > 0 && timeout > 0) {
           lift.move(-127);
           timeout--;
           delay(10);
         }
+        lift.set_brake_mode(MotorBrake::brake);
         currentPos = liftPos::STOP;
       break;
       case liftPos::STOP:
         lift.brake();
         lift.tare_position();
-        basket.brake();
-        basket.tare_position();
       break;
       }
+    delay(10);
   }
 }
 //////// Driver Control
