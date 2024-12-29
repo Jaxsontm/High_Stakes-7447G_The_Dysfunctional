@@ -6,13 +6,13 @@ void initialize() {
 	Intake.set_brake_mode(pros::MotorBrake::coast);
 	basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
 	basket.set_brake_mode(MotorBrake::brake);
-  //lift.set_zero_position(0);
-  //lift.set_brake_mode(MotorBrake::hold);
+  lift.set_zero_position(0);
+  lift.set_brake_mode(MotorBrake::hold);
 	pros::Task auton_selector_task(selector);
 	pros::Task mogo_machine(state_machine_mogo);
 	pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
-  pros::Task lift_machine(liftLoad);
+  pros::Task lift_machine(liftMachine);
 }
 
 void disabled() {}
@@ -20,7 +20,6 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-  request_new_state_mogo(StateMogo::RELEASE);
 	basketMove(StateBasket::RESET);
 	switch(autonSelection) {
 		case 0:

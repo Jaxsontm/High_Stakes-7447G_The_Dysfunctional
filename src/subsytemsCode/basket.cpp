@@ -32,7 +32,7 @@ void basketControl() {
           delay(10);
         }
         currentBasketState = StateBasket::RESET;
-        break;
+      break;
       case StateBasket::TOP:
         if (basketCheck.get() > 120) {
           basket.move(127);
@@ -53,22 +53,22 @@ void basketControl() {
           }
         currentBasketState = StateBasket::RESET;
         }
-        break;
+      break;
       case StateBasket::RESET:
         while (basketLimit.get_value() == 0) basket.move(-127);
         currentBasketState = StateBasket::STOP;
-        break;
+      break;
       case StateBasket::STOP:
         basket.brake();
         basket.tare_position();
-        break;
+      break;
     }
-     delay(10); 
+    delay(10); 
   }
 }
 //driver
 void basketDriver() {
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) basketMove(StateBasket::SCORE);
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) basketMove(StateBasket::SCORE);
 
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) basketMove(StateBasket::RESET);
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) basketMove(StateBasket::RESET);
 }

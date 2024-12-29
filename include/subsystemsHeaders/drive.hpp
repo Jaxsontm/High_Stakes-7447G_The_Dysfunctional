@@ -42,6 +42,3 @@ extern lemlib::Chassis chassis;
 extern void tank();
 
 extern void arcade();
-
-extern bool manual;
-//extern void manualToggle();

@@ -11,8 +11,15 @@ using namespace std;
 // Yellow Ziptie
 extern Motor lift;
 //
+enum class liftPos {
+  LOAD,
+  SCORE,
+  RESET,
+  STOP
+};
+
+void setLiftPos(liftPos requestedPos);
+
+void liftMachine();
+
 void liftDriver();
-
-void setLiftPos(int targetPos);
-
-void liftLoad();

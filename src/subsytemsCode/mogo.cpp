@@ -51,9 +51,12 @@ void state_machine_mogo() {
 ////// Driver Control
 void mogoToggle() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
-      Mogo.set_value(mogoActuated);
-      mogoActuated = !mogoActuated;
+    if (mogoActuated) {
+      request_new_state_mogo(StateMogo::RELEASE);
+    } else {
+      request_new_state_mogo(StateMogo::GRAB);
     }
+  }
 }
 
 void doinkerToggle() {
