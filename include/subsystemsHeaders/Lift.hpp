@@ -9,15 +9,12 @@ using namespace pros;
 using namespace std;
 
 // Yellow Ziptie
-extern Motor lift;
+//extern Motor lift;
 //
-void liftDriver();
+//void liftDriver();
 
-void setLiftPos();
+//void setLiftPos(int targetPos);
 
-void liftLoad();
+//void liftLoad();
 
-void liftScore();
-
-inline pros::Task* lift_load;
-inline pros::Task* lift_score;
+//inline pros::Task* lift_load;

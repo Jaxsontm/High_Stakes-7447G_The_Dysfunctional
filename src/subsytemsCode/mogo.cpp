@@ -6,9 +6,9 @@
 /////// Globals
 Distance DistanceMogo(2);
 
-adi::Pneumatics Mogo('B', false);
+adi::Pneumatics Mogo('D', false);
 
-adi::Pneumatics doinker('D', false);
+adi::Pneumatics doinker('C', false);
 
 bool doinkerActuated = false;
 
@@ -24,7 +24,7 @@ void request_new_state_mogo(StateMogo request_new_state_mogo) {
 }
 
 void state_machine_mogo() {
-	while (true && pros::Task::notify_take(true, 120000)) {
+	while (true) {
 		switch (current_state_mogo) {
       case StateMogo::LOCATE:
         while (DistanceMogo.get() > 32) delay(10);
@@ -50,20 +50,10 @@ void state_machine_mogo() {
 
 ////// Driver Control
 void mogoToggle() {
-  if (manual){
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
-      if (current_state_mogo == StateMogo::RELEASE) {
-        current_state_mogo = StateMogo::opGRAB;
-      } else {
-        current_state_mogo = StateMogo::RELEASE;
-      }
-    }
-  } else {
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
-      mogoActuated = !mogoActuated;
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
       Mogo.set_value(mogoActuated);
-	  }
-  }
+      mogoActuated = !mogoActuated;
+    }
 }
 
 void doinkerToggle() {
@@ -71,8 +61,4 @@ void doinkerToggle() {
 		doinkerActuated = !doinkerActuated;
 		doinker.set_value(doinkerActuated);
 	}
-}
-
-void text() {
-  controller.print(1, 6, "Extended: %d", mogoActuated);
 }

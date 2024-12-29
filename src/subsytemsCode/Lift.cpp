@@ -1,65 +1,84 @@
 #include "subsystemsHeaders/Lift.hpp"
 
 ///////// global
-Motor lift(7, MotorGearset::green, MotorEncoderUnits::degrees);
+Motor lift(-7, MotorGearset::green, MotorEncoderUnits::degrees);
+
+int liftPosition = 2;
 ////////Macro
 void setLiftPos(int targetPos) {
-  lift.move_absolute(targetPos, 127);
-}
-
-void liftLoad() {
-  while (true) {
-    while (lift.get_position() < 28) {
-      lift.move(100);
-    }
-    lift.brake();
-    delay(5);
-
-    basket.move(38);
-    int timeout = 70;
-    for (int t = 0; t < timeout; t++) {
-      if (basket.get_position() > 195) {
-        t = timeout;
-      }
-      delay(10);
-    }
-
-    while (basketLimit.get_value() == 0) {
-      basket.move(-127);
-      delay(5);
-    }
-    basket.brake();
+  if (targetPos != liftPosition) {
+    liftPosition = targetPos;
   }
 }
 
-void liftScore() {
+/*void liftLoad() {
   while (true) {
-    lift.move(127);
-    int timeout = 100;
-    for (int t = 0; t < timeout; t++) {
-      if (lift.get_position() > 195) {
-        t = timeout;
+    switch (liftPosition) {
+      case 0: {
+        int timeout = 20;
+          lift.move(127);
+          while (lift.get_position() > 125 && timeout != 0) {
+            lift.move(127);
+            timeout--;
+            delay(10);
+          }
+          lift.brake();
+          delay(35);
+
+          basket.move(83);
+          timeout = 150;
+          for (int t = 0; t < timeout; t++) {
+            if (basket.get_position() > 205) {
+              t = timeout;
+            }
+            delay(10);
+          }
+
+          while (basketLimit.get_value() == 0) {
+            basket.move(-127);
+            delay(5);
+          }
+          liftPosition = 2;
+          break;
       }
-      delay(10);
-    }
-    lift.brake();
-    delay(250);
-    lift.move(-127);
-    for (int t = 0; t < timeout; t++) {
-      if (lift.get_position() < 2) {
-        t = timeout;
+      case 1: {
+        lift.move(127);
+        int timeout = 70;
+        for (int t = 0; t < timeout; t++) {
+          if (fabs(lift.get_position()) > 365) {
+            t = timeout;
+          }
+        }
+          delay(10);
+        lift.brake();
+        delay(50);
+        lift.move(-127);
+        for (int t = 0; t < timeout; t++) {
+          if (fabs(lift.get_position()) > 2) {
+            t = timeout;
+          }
+        }
+        delay(10);
+        liftPosition = 2;
+        break;
       }
-      delay(10);
+      case 2: {
+        basket.brake();
+        lift.brake();
+        break;
+      }
     }
   }
-}
+}*/
 //////// Driver Control
-void liftDriver() {
+/*void liftDriver() {
   if (manual) {
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) 
-      liftLoad();
-    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2))
-      liftScore();
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) {
+      setLiftPos(0);
+    }
+    if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
+      setLiftPos(1);
+    }
   } else {
     if (controller.get_digital(E_CONTROLLER_DIGITAL_RIGHT)) 
       lift.move(127);
@@ -67,4 +86,4 @@ void liftDriver() {
       lift.move(127);
     else lift.brake();
   }
-}
+}*/

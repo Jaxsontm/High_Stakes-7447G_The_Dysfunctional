@@ -44,4 +44,4 @@ extern void tank();
 extern void arcade();
 
 extern bool manual;
-extern void manualToggle();
+//extern void manualToggle();

@@ -1,5 +1,6 @@
 #include "auton.h"
 #include "lemlib/chassis/chassis.hpp"
+#include "subsystemsHeaders/basket.hpp"
 #include "subsystemsHeaders/drive.hpp"
 #include "subsystemsHeaders/intake.hpp"
 #include "subsystemsHeaders/mogo.hpp"
@@ -30,7 +31,7 @@ float soloSpeed = 80;
 //! Skills Specific Params
 float skillsSpeed = 80;
 ///////////////////////////////////////////////////////////////////////////////////////////
-void redRight() { chassis.setPose(0, 0, 180);
+/*void redRight() { chassis.setPose(0, 0, 180);
   request_new_state_mogo(StateMogo::LOCATE);
 
   chassis.moveToPose(-7, 41, 330, midDriveTimeout,
@@ -339,10 +340,9 @@ void blueRightElim() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void blueLeftElim() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void Skills() { chassis.setPose(0, 0, 180);
-//!!! chassis.resetLocalPosition(); !!!//
-
-	chassis.moveToPose(0, -6, 180, midDriveTimeout, {.lead = 0});
+void Skills() { chassis.setPose(0, 0, 0);*/
+  //!!! chassis.resetLocalPosition(); !!!//
+	/*chassis.moveToPose(0, -6, 180, midDriveTimeout, {.lead = 0});
 chassis.waitUntilDone();
 
 		
@@ -397,5 +397,5 @@ chassis.waitUntilDone();
 	chassis.moveToPose(-95, -65, -120, largeDriveTimeout);
 chassis.waitUntilDone();
 
-	chassis.moveToPoint(-40, 0, midDriveTimeout, {.forwards = false});
-}
+	chassis.moveToPoint(-40, 0, midDriveTimeout, {.forwards = false});*/
+

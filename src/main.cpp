@@ -6,13 +6,13 @@ void initialize() {
 	Intake.set_brake_mode(pros::MotorBrake::coast);
 	basket.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
 	basket.set_brake_mode(MotorBrake::brake);
-  lift.set_zero_position(0);
+  //lift.set_zero_position(0);
+  //lift.set_brake_mode(MotorBrake::hold);
 	pros::Task auton_selector_task(selector);
-	pros::Task mogo_machine(state_machine_mogo);
-	intake_machine = new pros::Task(state_machine_intake);
-  basket_machine = new pros::Task(basketControl);
-  lift_load = new pros::Task (liftLoad);
-  lift_score = new pros::Task(liftScore);
+	//pros::Task mogo_machine(state_machine_mogo);
+	pros::Task intake_machine(state_machine_intake);
+  pros::Task basket_machine(basketControl);
+  //lift_load = new pros::Task (liftLoad);
 }
 
 void disabled() {}
@@ -22,7 +22,7 @@ void competition_initialize() {}
 void autonomous() {
   request_new_state_mogo(StateMogo::RELEASE);
 	basketMove(StateBasket::RESET);
-	switch(autonSelection) {
+	/*switch(autonSelection) {
 		case 0:
 			redRight();
 			break;
@@ -56,25 +56,22 @@ void autonomous() {
 		default:
 			Skills();
 			break;
-	}
+	}*/
 }
 
 void opcontrol() {
 	basket.set_brake_mode(MotorBrake::brake);
   Intake.set_brake_mode(pros::MotorBrake::coast);
-  pros::Task texts(text);
 	while (true) {
 		intakeControl();
 		mogoToggle();
 		doinkerToggle();
-		liftDriver();
+		//liftDriver();
 		basketDriver();
-    manualToggle();
+    //manualToggle();
     tank();
 
-    text();
-
-    pros::lcd::print(1, "Pos: %f", lift.get_position());
+    //pros::lcd::print(1, "Pos: %f", lift.get_position());
 	
 		// delay to save resources
 		pros::delay(20);

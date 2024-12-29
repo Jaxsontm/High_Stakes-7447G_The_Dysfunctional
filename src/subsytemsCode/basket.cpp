@@ -21,7 +21,7 @@ void basketMove(StateBasket requestBasketState) {
 void basketControl() {
   int timeNum = 900;
   int timeoutCalc = timeNum / 10;
-  while (true && pros::Task::notify_take(true, 120000)) {
+  while (true) {
     switch (currentBasketState) {
       case StateBasket::SCORE:
         basket.move(127);
@@ -68,15 +68,7 @@ void basketControl() {
 }
 //driver
 void basketDriver() {
-  if (manual) {
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) basketMove(StateBasket::SCORE);
 
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) basketMove(StateBasket::RESET);
-  } else {
-    if (controller.get_digital(E_CONTROLLER_DIGITAL_L1))
-      basket.move(127);
-    else if (controller.get_digital(E_CONTROLLER_DIGITAL_X))
-      basket.move(-127);
-    else basket.brake();
-  }
 }

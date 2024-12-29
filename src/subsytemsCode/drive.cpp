@@ -100,7 +100,7 @@ void arcade() {
 }
 
 bool manual = true;
-void manualToggle() {
+/*void manualToggle() {
   if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)){
     manual = !manual;
   }
@@ -108,13 +108,11 @@ void manualToggle() {
       basket_machine -> suspend();
       intake_machine -> suspend();
       mogo_machine -> suspend();
-      lift_score -> suspend();
       lift_load -> suspend();
     } else {
       basket_machine -> resume();
       intake_machine -> resume();
       mogo_machine -> resume();
-      lift_score -> resume();
       lift_load -> resume();
     }
-}
+}*/

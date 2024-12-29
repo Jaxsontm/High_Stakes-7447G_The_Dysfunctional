@@ -29,5 +29,3 @@ void state_machine_intake();
 void intakeControl();
 
 void spinFor(StateIntake request_number);
-
-inline pros::Task* intake_machine;
