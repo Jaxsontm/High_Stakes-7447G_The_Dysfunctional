@@ -11,7 +11,7 @@ void setLiftPos(int targetPos) {
   }
 }
 
-/*void liftLoad() {
+void liftLoad() {
   while (true) {
     switch (liftPosition) {
       case 0: {
@@ -69,9 +69,9 @@ void setLiftPos(int targetPos) {
       }
     }
   }
-}*/
+}
 //////// Driver Control
-/*void liftDriver() {
+void liftDriver() {
   if (manual) {
     if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) {
       setLiftPos(0);
@@ -86,4 +86,4 @@ void setLiftPos(int targetPos) {
       lift.move(127);
     else lift.brake();
   }
-}*/
+}
