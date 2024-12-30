@@ -1,15 +1,56 @@
 #include "auton_selector.hpp"
 
+
 int autonSelection = 0;
 
+lv_obj_t *obj;
 lv_obj_t *tabview;
 lv_obj_t *cover;
 lv_obj_t *tab_btns;
-lv_obj_t *label;
 lv_obj_t *statsTab;
 lv_obj_t *labelRed;
 lv_obj_t *labelBlue;
+lv_obj_t *labelSkills;
 lv_obj_t *labelChange;
+
+
+lv_obj_t *auton = lv_label_create(lv_scr_act());
+
+lv_obj_t *tabviewRed;
+lv_obj_t *qualTabRed = lv_tabview_add_tab(tabviewRed, "Qual");
+lv_obj_t *elimTabRed = lv_tabview_add_tab(tabviewRed, "Elim");
+lv_obj_t *rqgoal = lv_btn_create(qualTabRed);
+lv_obj_t *rqring = lv_btn_create(qualTabRed);
+lv_obj_t *rsolo = lv_btn_create(qualTabRed);
+lv_obj_t *regoal = lv_btn_create(elimTabRed);
+lv_obj_t *rering = lv_btn_create(elimTabRed);
+
+lv_obj_t *tabviewBlue;
+lv_obj_t *qualTabBlue = lv_tabview_add_tab(tabviewBlue, "Qual");
+lv_obj_t *elimTabBlue = lv_tabview_add_tab(tabviewBlue, "Elim");
+lv_obj_t *bqgoal = lv_btn_create(qualTabBlue);
+lv_obj_t *bqring = lv_btn_create(qualTabBlue);
+lv_obj_t *bsolo = lv_btn_create(qualTabBlue);
+lv_obj_t *begoal = lv_btn_create(elimTabBlue);
+lv_obj_t *bering = lv_btn_create(elimTabBlue);
+
+static void selection(lv_event_t * e) {
+  lv_obj_t *btn = lv_event_get_target(e);
+
+  if (btn == rqgoal) lv_label_set_text(auton, "Red Qual Goal");
+  else if (btn == rqring) lv_label_set_text(auton, "Red Qual Ring");
+  else if (btn == rsolo) lv_label_set_text(auton, "Red Qual Solo");
+  else if (btn == regoal) lv_label_set_text(auton, "Red Elim Goal");
+  else if (btn == rering) lv_label_set_text(auton, "Red Elim Ring");
+  else if (btn == bqgoal) lv_label_set_text(auton, "Blue Qual Goal");
+  else if (btn == bqring) lv_label_set_text(auton, "Blue Qual Ring");
+  else if (btn == bsolo) lv_label_set_text(auton, "Blue Qual Solo");
+  else if (btn == begoal) lv_label_set_text(auton, "Blue Elim Goal");
+  else if (btn == bering) lv_label_set_text(auton, "Blue Elim Ring");
+  else lv_label_set_text(auton, "50 PLEASE");
+}
+
+lv_event_cb_t Selection = selection;
 
 static void hide_change_button(lv_event_t *e) {
 	lv_event_code_t code = lv_event_get_code(e);
@@ -23,29 +64,12 @@ static void hide_change_button(lv_event_t *e) {
 		}
 	}
 }
-
-static void selectionChange(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 109, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_obj_t *change = lv_obj_create(auton);
-		lv_obj_center(change);
-		lv_obj_set_height(change, 20);
-		lv_obj_set_style_bg_color(change, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
-		lv_obj_set_style_border_color(change, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
-	}
-}
-
 static void coords(lv_event_t *e) {
 	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
+	obj = lv_event_get_target(e);
 	lv_obj_t *placement_label = lv_label_create(lv_scr_act());
 	lv_obj_align(placement_label, LV_ALIGN_BOTTOM_RIGHT, -20, -10);
 	char posText[150];
-  sprintf(posText, " ");
 
   if (code == LV_EVENT_CLICKED) {
     lemlib::Pose trackerPos = chassis.getPose();
@@ -54,139 +78,8 @@ static void coords(lv_event_t *e) {
   }
 }
 
-static void selection(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "EZPZ");
-		autonSelection = -1;
-	}
-}
-
-static void selectionRedR(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Red Qual Goalside");
-		autonSelection = 0;
-	}
-}
-
-static void selectionRedL(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Red Qual RingStack");
-		autonSelection = 1;
-	}
-}
-
-static void selectionRedS(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Red Solo");
-		autonSelection = 2;
-	}
-}
-
-static void selectionRedRE(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Red Elim Goalside");
-		autonSelection = 3;
-	}
-}
-
-static void selectionRedLE(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Red Elim RingStack");
-		autonSelection = 4;
-	}
-}
-
-static void selectionBlueR(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Blue Qual RingStack");
-		autonSelection = 5;
-	}
-}
-
-static void selectionBlueL(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Blue Qual Goalside");
-		autonSelection = 6;
-	}
-}
-
-static void selectionBlueS(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Blue Solo Qual");
-		autonSelection = 7;
-	}
-}
-
-static void selectionBlueRE(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Blue Elim RingStack");
-		autonSelection = 8;
-	}
-}
-
-static void selectionBlueLE(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	lv_obj_t *obj = lv_event_get_target(e);
-	lv_obj_t *auton = lv_label_create(lv_scr_act());
-	lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
-
-	if (code == LV_EVENT_CLICKED) {
-		lv_label_set_text(auton, "Blue Elim Goalside");
-		autonSelection = 9;
-	}
-}
-
 void selector() {
+  lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
 	// creates tabview and colors the background orange
 	tabview = lv_tabview_create(lv_scr_act(), LV_DIR_LEFT, 100);
 	lv_obj_set_style_bg_color(tabview,
@@ -207,7 +100,7 @@ void selector() {
 
 	// red view///////////////////////////////////
 	labelRed = lv_label_create(redTab);
-	lv_obj_t *tabviewRed;
+	
 	tabviewRed = lv_tabview_create(redTab, LV_DIR_TOP, 50);
 
 	lv_obj_set_style_bg_color(tabviewRed,
@@ -217,58 +110,49 @@ void selector() {
 	lv_obj_set_style_text_letter_space(red_tab_btns, 2, 0);
 	lv_obj_set_style_bg_color(red_tab_btns, lv_color_black(), 0);
 
-	lv_obj_t *qualTabRed = lv_tabview_add_tab(tabviewRed, "Qual");
-	lv_obj_t *elimTabRed = lv_tabview_add_tab(tabviewRed, "Elim");
-
-	lv_obj_t *redright = lv_btn_create(qualTabRed); //creates the button
-	labelRed = lv_label_create(redright); //creates the button's label
-	lv_label_set_text(labelRed, "RED QUAL GOAL"); //sets the button's text
+	labelRed = lv_label_create(rqgoal); //creates the button's label
+	lv_label_set_text(labelRed, "GOAL"); //sets the button's text
 	lv_obj_center(labelRed); //centers the button's text
-	lv_obj_set_style_text_letter_space(redright, 2, 0);
-	lv_obj_set_style_bg_color(redright, lv_color_black(), 0); //sets bg color
-	lv_obj_align(redright, LV_ALIGN_TOP_MID, 0, 0); //aligns the button in the screen
-	lv_obj_add_event_cb(redright,  //sets the callback for the button
-									selectionRedR, LV_EVENT_CLICKED, nullptr);
+	lv_obj_set_style_text_letter_space(rqgoal, 2, 0);
+	lv_obj_set_style_bg_color(rqgoal, lv_color_black(), 0); //sets bg color
+	lv_obj_align(rqgoal, LV_ALIGN_TOP_MID, 0, 0); //aligns the button in the screen
+	lv_obj_add_event_cb(rqgoal,  //sets the callback for the button
+									selection, LV_EVENT_CLICKED, nullptr);
 
-	lv_obj_t *redleft = lv_btn_create(qualTabRed);
-	labelRed = lv_label_create(redleft);
-	lv_label_set_text(labelRed, "RED QUAL RING");
+	labelRed = lv_label_create(rqring);
+	lv_label_set_text(labelRed, "4 RING");
 	lv_obj_center(labelRed);
-	lv_obj_set_style_text_letter_space(redleft, 2, 0);
-	lv_obj_set_style_bg_color(redleft, lv_color_black(), 0);
-	lv_obj_align(redleft, LV_ALIGN_CENTER, 0, 0);
-	lv_obj_add_event_cb(redleft, selectionRedL, LV_EVENT_CLICKED, nullptr);
+	lv_obj_set_style_text_letter_space(rqring, 2, 0);
+	lv_obj_set_style_bg_color(rqring, lv_color_black(), 0);
+	lv_obj_align(rqring, LV_ALIGN_CENTER, 0, 0);
+	lv_obj_add_event_cb(rqring, selection, LV_EVENT_CLICKED, nullptr);
 
-	lv_obj_t *redsolo = lv_btn_create(qualTabRed);
-	labelRed = lv_label_create(redsolo);
-	lv_label_set_text(labelRed, "RED QUAL SOLO");
+	labelRed = lv_label_create(rsolo);
+	lv_label_set_text(labelRed, "SOLO :SOB:");
 	lv_obj_center(labelRed);
-	lv_obj_set_style_text_letter_space(redsolo, 2, 0);
-	lv_obj_set_style_bg_color(redsolo, lv_color_black(), 0);
-	lv_obj_align(redsolo, LV_ALIGN_BOTTOM_MID, 0, 0);
-	lv_obj_add_event_cb(redsolo, selectionRedS, LV_EVENT_CLICKED, nullptr);
+	lv_obj_set_style_text_letter_space(rsolo, 2, 0);
+	lv_obj_set_style_bg_color(rsolo, lv_color_black(), 0);
+	lv_obj_align(rsolo, LV_ALIGN_BOTTOM_MID, 0, 0);
+	lv_obj_add_event_cb(rsolo, selection, LV_EVENT_CLICKED, nullptr);
 
-	lv_obj_t *redrightElim = lv_btn_create(elimTabRed);
-	labelRed = lv_label_create(redrightElim);
-	lv_label_set_text(labelRed, "RED ELIM GOAL");
+	labelRed = lv_label_create(regoal);
+	lv_label_set_text(labelRed, "SPEEED GOALRUSHIE");
 	lv_obj_center(labelRed);
-	lv_obj_set_style_text_letter_space(redrightElim, 2, 0);
-	lv_obj_set_style_bg_color(redrightElim, lv_color_black(), 0);
-	lv_obj_align(redrightElim, LV_ALIGN_TOP_MID, 0, 0);
-	lv_obj_add_event_cb(redrightElim, selectionRedRE, LV_EVENT_CLICKED, nullptr);
+	lv_obj_set_style_text_letter_space(regoal, 2, 0);
+	lv_obj_set_style_bg_color(regoal, lv_color_black(), 0);
+	lv_obj_align(regoal, LV_ALIGN_TOP_MID, 0, 0);
+	lv_obj_add_event_cb(regoal, selection, LV_EVENT_CLICKED, nullptr);
 
-	lv_obj_t *redleftElim = lv_btn_create(elimTabRed);
-	labelRed = lv_label_create(redleftElim);
-	lv_label_set_text(labelRed, "RED ELIM RING");
+	labelRed = lv_label_create(rering);
+	lv_label_set_text(labelRed, "6 RING");
 	lv_obj_center(labelRed);
-	lv_obj_set_style_text_letter_space(redleftElim, 2, 0);
-	lv_obj_set_style_bg_color(redleftElim, lv_color_black(), 0);
-	lv_obj_align(redleftElim, LV_ALIGN_CENTER, 0, 0);
-	lv_obj_add_event_cb(redleftElim, selectionRedLE, LV_EVENT_CLICKED, nullptr);
+	lv_obj_set_style_text_letter_space(rering, 2, 0);
+	lv_obj_set_style_bg_color(rering, lv_color_black(), 0);
+	lv_obj_align(rering, LV_ALIGN_CENTER, 0, 0);
+	lv_obj_add_event_cb(rering, selection, LV_EVENT_CLICKED, nullptr);
 
 	// blue view/////////////////////////////////////
 	labelBlue = lv_label_create(blueTab);
-	lv_obj_t *tabviewBlue;
 	tabviewBlue = lv_tabview_create(blueTab, LV_DIR_TOP, 50);
 
 	lv_obj_set_style_bg_color(tabviewBlue,
@@ -278,80 +162,60 @@ void selector() {
 	lv_obj_set_style_text_letter_space(Blue_tab_btns, 2, 0);
 	lv_obj_set_style_bg_color(Blue_tab_btns, lv_color_black(), 0);
 
-	lv_obj_t *qualTabBlue = lv_tabview_add_tab(tabviewBlue, "Qual");
-	lv_obj_t *elimTabBlue = lv_tabview_add_tab(tabviewBlue, "Elim");
-
-	lv_obj_t *blueright = lv_btn_create(qualTabBlue);
-	labelBlue = lv_label_create(blueright);
-	lv_label_set_text(labelBlue, "BLUE QUAL RING");
+	labelBlue = lv_label_create(bqring);
+	lv_label_set_text(labelBlue, "4 RING");
 	lv_obj_center(labelBlue);
-	lv_obj_set_style_text_letter_space(blueright, 2, 0);
-	lv_obj_set_style_bg_color(blueright, lv_color_black(), 0);
-	lv_obj_align(blueright, LV_ALIGN_TOP_MID, 0, 0);
-	lv_obj_add_event_cb(blueright, selectionBlueR, LV_EVENT_CLICKED, nullptr);
+	lv_obj_set_style_text_letter_space(bqring, 2, 0);
+	lv_obj_set_style_bg_color(bqring, lv_color_black(), 0);
+	lv_obj_align(bqring, LV_ALIGN_TOP_MID, 0, 0);
+	lv_obj_add_event_cb(bqring, selection, LV_EVENT_CLICKED, nullptr);
 
-	lv_obj_t *blueleft = lv_btn_create(qualTabBlue);
-	labelBlue = lv_label_create(blueleft);
-	lv_label_set_text(labelBlue, "BLUE QUAL GOAL");
+	labelBlue = lv_label_create(bqgoal);
+	lv_label_set_text(labelBlue, "GOAL");
 	lv_obj_center(labelBlue);
-	lv_obj_set_style_text_letter_space(blueleft, 2, 0);
-	lv_obj_set_style_bg_color(blueleft, lv_color_black(), 0);
-	lv_obj_align(blueleft, LV_ALIGN_CENTER, 0, 0);
-	lv_obj_add_event_cb(blueleft, selectionBlueL, LV_EVENT_CLICKED, nullptr);
+	lv_obj_set_style_text_letter_space(bqgoal, 2, 0);
+	lv_obj_set_style_bg_color(bqgoal, lv_color_black(), 0);
+	lv_obj_align(bqgoal, LV_ALIGN_CENTER, 0, 0);
+	lv_obj_add_event_cb(bqgoal, selection, LV_EVENT_CLICKED, nullptr);
 
-	lv_obj_t *bluesolo = lv_btn_create(qualTabBlue);
-	labelBlue = lv_label_create(bluesolo);
-	lv_label_set_text(labelBlue, "BLUE QUAL SOLO");
+	labelBlue = lv_label_create(bsolo);
+	lv_label_set_text(labelBlue, "SOLO :SOB:");
 	lv_obj_center(labelBlue);
-	lv_obj_set_style_text_letter_space(bluesolo, 2, 0);
-	lv_obj_set_style_bg_color(bluesolo, lv_color_black(), 0);
-	lv_obj_align(bluesolo, LV_ALIGN_BOTTOM_MID, 0, 0);
-	lv_obj_add_event_cb(bluesolo, selectionBlueS, LV_EVENT_CLICKED, nullptr);
+	lv_obj_set_style_text_letter_space(bsolo, 2, 0);
+	lv_obj_set_style_bg_color(bsolo, lv_color_black(), 0);
+	lv_obj_align(bsolo, LV_ALIGN_BOTTOM_MID, 0, 0);
+	lv_obj_add_event_cb(bsolo, selection, LV_EVENT_CLICKED, nullptr);
 
-	lv_obj_t *bluerightElim = lv_btn_create(elimTabBlue);
-	labelBlue = lv_label_create(bluerightElim);
-	lv_label_set_text(labelBlue, "BLUE ELIM RING");
+	labelBlue = lv_label_create(bering);
+	lv_label_set_text(labelBlue, "6 RING");
 	lv_obj_center(labelBlue);
-	lv_obj_set_style_text_letter_space(bluerightElim, 2, 0);
-	lv_obj_set_style_bg_color(bluerightElim, lv_color_black(), 0);
-	lv_obj_align(bluerightElim, LV_ALIGN_TOP_MID, 0, 0);
-	lv_obj_add_event_cb(bluerightElim, selectionBlueRE, LV_EVENT_CLICKED,
+	lv_obj_set_style_text_letter_space(bering, 2, 0);
+	lv_obj_set_style_bg_color(bering, lv_color_black(), 0);
+	lv_obj_align(bering, LV_ALIGN_TOP_MID, 0, 0);
+	lv_obj_add_event_cb(bering, selection, LV_EVENT_CLICKED,
 											nullptr);
 
-	lv_obj_t *blueleftElim = lv_btn_create(elimTabBlue);
-	labelBlue = lv_label_create(blueleftElim);
-	lv_label_set_text(labelBlue, "BLUE ELIM GOAL");
+	labelBlue = lv_label_create(begoal);
+	lv_label_set_text(labelBlue, "SPEEED GOALRUSHIE");
 	lv_obj_center(labelBlue);
-	lv_obj_set_style_text_letter_space(blueleftElim, 2, 0);
-	lv_obj_set_style_bg_color(blueleftElim, lv_color_black(), 0);
-	lv_obj_align(blueleftElim, LV_ALIGN_CENTER, 0, 0);
-	lv_obj_add_event_cb(blueleftElim, selectionBlueLE, LV_EVENT_CLICKED, nullptr);
+	lv_obj_set_style_text_letter_space(begoal, 2, 0);
+	lv_obj_set_style_bg_color(begoal, lv_color_black(), 0);
+	lv_obj_align(begoal, LV_ALIGN_CENTER, 0, 0);
+	lv_obj_add_event_cb(begoal, selection, LV_EVENT_CLICKED, nullptr);
 
 	// Skills view/////////////////////////////////////////
 	lv_obj_t *skills = lv_btn_create(skillsTab);
-	label = lv_label_create(skills);
+	labelSkills = lv_label_create(skills);
 
 	lv_obj_set_size(skills, 205, 205);
 	lv_obj_center(skills);
 	lv_obj_set_style_bg_color(skills, lv_color_black(), 0);
 	lv_obj_set_style_radius(skills, LV_RADIUS_CIRCLE, 0);
-	lv_label_set_text(label, "EZPZ");
-	lv_obj_set_style_text_font(label, LV_THEME_DEFAULT_FONT_TITLE, 0);
+	lv_label_set_text(labelSkills, "EZPZ");
+	lv_obj_set_style_text_font(labelSkills, LV_THEME_DEFAULT_FONT_TITLE, 0);
 	lv_obj_align(skills, LV_ALIGN_CENTER, 0, -10);
 	lv_obj_add_event_cb(skills, selection, LV_EVENT_CLICKED, nullptr);
-	lv_obj_center(label);
-
-	// auton change button/////////////////////////////////////////
-	lv_obj_t *change = lv_btn_create(lv_scr_act());
-	labelChange = lv_label_create(change);
-	lv_obj_center(change);
-	lv_obj_set_style_bg_color(change, lv_color_black(), 0);
-	lv_obj_set_style_text_font(labelChange, LV_THEME_DEFAULT_FONT_SMALL, 0);
-	lv_label_set_text(labelChange, " You Done\nMessed Up\n   A-Aron");
-	lv_obj_set_size(change, 70, 40);
-	lv_obj_center(labelChange);
-	lv_obj_align(change, LV_ALIGN_LEFT_MID, 120, 30);
-	lv_obj_add_event_cb(change, selectionChange, LV_EVENT_CLICKED, nullptr);
+  lv_obj_center(labelSkills);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

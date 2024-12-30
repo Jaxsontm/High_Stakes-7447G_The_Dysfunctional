@@ -3,10 +3,11 @@
 void initialize() {
   chassis.calibrate();
   pros::lcd::initialize();
-	//pros::Task auton_selector_task(selector);
-	/*Intake.set_brake_mode(pros::MotorBrake::coast);
+	/*pros::Task auton_selector_task(selector);
+	Intake.set_brake_mode(pros::MotorBrake::coast);
 	basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
+  lift.tare_position();
 	pros::Task mogo_machine(state_machine_mogo);
 	pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
@@ -33,34 +34,34 @@ void autonomous() {
 	/*basketMove(StateBasket::RESET);
 	switch(autonSelection) {
 		case 0:
-			redRight();
+			redGoal();
 			break;
 		case 1:
-			redLeft();
+			redRing();
 			break;
 		case 2:
 			redSolo();
 			break;
 		case 3:
-			redRightElim();
+			redGoalElim();
 			break;
 		case 4:
-			redLeftElim();
+			redRingElim();
 			break;
 		case 5:
-			blueRight();
+			blueRing();
 			break;
 		case 6:
-			blueLeft();
+			blueGoal();
 			break;
 		case 7:
 			blueSolo();
 			break;
 		case 8:
-			blueRightElim();
+			blueRingElim();
 			break;
 		case 9:
-			blueLeftElim();
+			blueGoalElim();
 			break;	
 		default:
 			Skills();

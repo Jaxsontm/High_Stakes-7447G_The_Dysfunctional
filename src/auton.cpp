@@ -26,7 +26,7 @@ float soloSpeed = 80;
 //! Skills Specific Params
 float skillsSpeed = 80;
 ///////////////////////////////////////////////////////////////////////////////////////////
-void redRight() { chassis.setPose(0, 0, 180);
+void redGoal() { chassis.setPose(0, 0, 180);
   request_new_state_mogo(StateMogo::LOCATE);
 
   chassis.moveToPose(-7, 41, 330, midDriveTimeout,
@@ -75,7 +75,7 @@ chassis.waitUntilDone();
 chassis.waitUntilDone();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void redLeft() { chassis.setPose(0, 0, 90);
+void redRing() { chassis.setPose(0, 0, 90);
   spinFor(StateIntake::REV);
 
   chassis.moveToPoint(15.5, 0, smallDriveTimeout);
@@ -216,7 +216,7 @@ delay(250);
   chassis.moveToPose(41, 30, 265, largeDriveTimeout, {.maxSpeed = poleMaxSpeed});
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void redRightElim() { chassis.setPose(0, 0, 180); 
+void redGoalElim() { chassis.setPose(0, 0, 180); 
 	request_new_state_mogo(StateMogo::LOCATE);
 
   chassis.moveToPose(-7, 41, 330, midDriveTimeout,
@@ -268,7 +268,7 @@ chassis.waitUntilDone();
 chassis.waitUntilDone();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void redLeftElim() { chassis.setPose(0, 0, 0);
+void redRingElim() { chassis.setPose(0, 0, 0);
   spinFor(StateIntake::ONE);
 
   chassis.moveToPoint(0, 20, midDriveTimeout);
@@ -325,15 +325,15 @@ chassis.waitUntilDone();
   basketMove(StateBasket::TOP);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueRight() { chassis.setPose(-0, 0, -180); }
+void blueRing() { chassis.setPose(-0, 0, -180); }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueLeft() { chassis.setPose(-0, 0, -0); }
+void blueGoal() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void blueSolo() { chassis.setPose(-0, 0, -180); }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueRightElim() { chassis.setPose(-0, 0, -0); }
+void blueRingElim() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
-void blueLeftElim() { chassis.setPose(-0, 0, -0); }
+void blueGoalElim() { chassis.setPose(-0, 0, -0); }
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Skills() { chassis.setPose(0, 0, 0);
   //!!! chassis.resetLocalPosition(); !!!//

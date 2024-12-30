@@ -16,6 +16,7 @@ extern adi::Button basketLimit;
 enum class StateBasket {
   SCORE,
   TOP,
+  LOAD,
 	RESET,
 	STOP
 };

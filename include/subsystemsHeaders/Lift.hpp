@@ -10,6 +10,8 @@ using namespace std;
 
 // Yellow Ziptie
 extern Motor lift;
+
+extern adi::Button liftLimit;
 //
 enum class liftPos {
   LOAD,

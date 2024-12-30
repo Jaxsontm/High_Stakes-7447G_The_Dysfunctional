@@ -10,8 +10,8 @@ namespace lemlib {
  * @brief A namespace representing the size of omniwheels.
  */
 namespace Omniwheel {
-constexpr float NEW_2 = 2.05;
-constexpr float NEW_275 = 2.75;
+constexpr float NEW_2 = 1.980525;
+constexpr float NEW_275 = 2.73722;
 constexpr float OLD_275 = 2.75;
 constexpr float NEW_275_HALF = 2.744;
 constexpr float OLD_275_HALF = 2.74;

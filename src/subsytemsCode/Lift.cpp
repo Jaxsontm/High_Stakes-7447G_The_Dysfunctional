@@ -1,7 +1,10 @@
 #include "subsystemsHeaders/Lift.hpp"
+#include "pros/abstract_motor.hpp"
 
 ///////// global
 Motor lift(-7, MotorGearset::green, MotorEncoderUnits::degrees);
+
+adi::Button liftLimit('G');
 ////////Macro
 liftPos currentPos = liftPos::STOP;
 
@@ -17,32 +20,31 @@ void liftMachine() {
     switch (currentPos) {
       case liftPos::LOAD:
         timeout = 25;
-        while (lift.get_position() < 125 && timeout > 0) {
+        while (lift.get_position() < 138 && timeout > 0) {
           lift.move(127);
           timeout--;
           delay(10);
         }
+        lift.set_brake_mode(MotorBrake::hold);
         lift.brake();
-        delay(250);
-        basketMove(StateBasket::SCORE);
+        delay(450);
+        basketMove(StateBasket::LOAD);
+        currentPos = liftPos::STOP;
       break;
       case liftPos::SCORE:
-        timeout = 100;
-        while (lift.get_position() < 385 && timeout > 0) {
+        timeout = 85;
+        while (lift.get_position() < 400 && timeout > 0) {
           lift.move(127);
           timeout--;
           delay(10);
         }
+        lift.set_brake_mode(MotorBrake::hold);
+        lift.brake();
         delay(500);
-        currentPos = liftPos::RESET;
+        currentPos = liftPos::STOP;
       break;
       case liftPos::RESET:
-        timeout = 100;
-        while (lift.get_position() > 0 && timeout > 0) {
-          lift.move(-127);
-          timeout--;
-          delay(10);
-        }
+        while (liftLimit.get_value() == 0) lift.move(-60);
         lift.set_brake_mode(MotorBrake::brake);
         currentPos = liftPos::STOP;
       break;
@@ -59,4 +61,7 @@ void liftDriver() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) setLiftPos(liftPos::LOAD);
   
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) setLiftPos(liftPos::SCORE);
+
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) setLiftPos(liftPos::RESET);
+
 }

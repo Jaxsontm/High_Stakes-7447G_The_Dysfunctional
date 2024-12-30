@@ -56,9 +56,9 @@ Rotation horizontal_sensor(12);
 Rotation vertical_sensor(1);
 
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
-																								lemlib::Omniwheel::NEW_2, 3.25);
+																								lemlib::Omniwheel::NEW_2, 4.57);
 lemlib::TrackingWheel vertical_tracking_wheel(&vertical_sensor,
-																							lemlib::Omniwheel::NEW_275, 0.5);
+																							lemlib::Omniwheel::NEW_275, 1.42);
 // sensors for odometry
 // note that in this example we use internal motor encoders (IMEs), so we don't
 // pass vertical tracking wheels

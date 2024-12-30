@@ -10,7 +10,7 @@ adi::Pneumatics doinker('C', false);
 bool doinkerActuated = false;
 bool mogoActuated = false;
 ////// State Machine
-StateMogo current_state_mogo;
+StateMogo current_state_mogo = StateMogo::GRAB;
 
 void request_new_state_mogo(StateMogo request_new_state_mogo) {
 	if (request_new_state_mogo != current_state_mogo) {
@@ -51,13 +51,13 @@ void mogoToggle() {
 }
 
 void doinkerToggle() {
-	if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+	if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
 		doinkerActuated = !doinkerActuated;
 		doinker.set_value(doinkerActuated);
 	}
 }
 
 void text() {
-  const char *status = mogoActuated ? "EXTENDED" : "RETRACTED";
+  const char *status = mogoActuated ? "GRAB" : "OPEN";
   controller.print(1, 6, status);
 }

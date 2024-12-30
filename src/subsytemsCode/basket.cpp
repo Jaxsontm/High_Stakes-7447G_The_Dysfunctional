@@ -21,7 +21,7 @@ void basketControl() {
       case StateBasket::SCORE:
         basket.move(127);
         for (int t = 0; t < timeoutCalc; t++) {
-          if (basket.get_position() > 267) {
+          if (basket.get_position() > 272) {
             t = timeoutCalc;
           }
           delay(10);
@@ -48,6 +48,16 @@ void basketControl() {
           }
         currentBasketState = StateBasket::RESET;
         }
+      break;
+      case StateBasket::LOAD:
+        basket.move(110);
+        for (int t = 0; t < timeoutCalc; t++) {
+          if (basket.get_position() > 224) {
+            t = timeoutCalc;
+          }
+          delay(10);
+        }
+        currentBasketState = StateBasket::RESET;
       break;
       case StateBasket::RESET:
         while (basketLimit.get_value() == 0) basket.move(-127);

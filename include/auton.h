@@ -6,16 +6,16 @@
 #include "subsystemsHeaders/intake.hpp"
 #include "lemlib/chassis/chassis.hpp"
 
-void redRight();
-void redLeft();
+void redGoal();
+void redRing();
 void redSolo();
-void redRightElim();
-void redLeftElim();
+void redGoalElim();
+void redRingElim();
 
-void blueRight();
-void blueLeft();
+void blueRing();
+void blueGoal();
 void blueSolo();
-void blueRightElim();
-void blueLeftElim();
+void blueRingElim();
+void blueGoalElim();
 
 void Skills();
