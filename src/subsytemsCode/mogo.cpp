@@ -37,10 +37,6 @@ void state_machine_mogo() {
         Mogo.set_value(true);
         mogoActuated = false;
       break;
-      case StateMogo::opGRAB:
-        Mogo.set_value(false);
-        mogoActuated = true;
-      break;
     }
 		delay(10);
 	}

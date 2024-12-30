@@ -1,26 +1,36 @@
 #include "main.h"
-#include "auton_selector.hpp"
-#include "subsystemsHeaders/mogo.hpp"
 
 void initialize() {
   chassis.calibrate();
-  //pros::lcd::initialize();
-	pros::Task auton_selector_task(selector);
-	Intake.set_brake_mode(pros::MotorBrake::coast);
+  pros::lcd::initialize();
+	//pros::Task auton_selector_task(selector);
+	/*Intake.set_brake_mode(pros::MotorBrake::coast);
 	basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
 	pros::Task mogo_machine(state_machine_mogo);
 	pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
-  pros::Task lift_machine(liftMachine);
+  pros::Task lift_machine(liftMachine);*/
+  Task screenTask([&]() {
+        lemlib::Pose pose(0, 0, 0);
+        while (true) {
+            // print robot location to the brain screen
+            lcd::print(0, "X: %f", chassis.getPose().x); // x
+            lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            lcd::print(2, "Theta: %f", chassis.getPose().theta);//heading
+            
+            // delay to save resources
+            delay(50); 
+        }
+    });
 }
 
 void disabled() {}
 
-void competition_initialize() { selector(); }
+void competition_initialize() { }
 
 void autonomous() {
-	basketMove(StateBasket::RESET);
+	/*basketMove(StateBasket::RESET);
 	switch(autonSelection) {
 		case 0:
 			redRight();
@@ -55,7 +65,7 @@ void autonomous() {
 		default:
 			Skills();
 			break;
-	}
+	}*/
 }
 
 void opcontrol() {
