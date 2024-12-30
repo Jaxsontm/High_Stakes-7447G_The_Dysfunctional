@@ -1,7 +1,4 @@
 #include "subsystemsHeaders/mogo.hpp"
-#include "pros/adi.hpp"
-#include "pros/distance.hpp"
-#include "subsystemsHeaders/drive.hpp"
 
 /////// Globals
 Distance DistanceMogo(2);

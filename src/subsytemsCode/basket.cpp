@@ -1,9 +1,4 @@
 #include "subsystemsHeaders/basket.hpp"
-#include "pros/misc.h"
-#include "pros/misc.hpp"
-#include "pros/rtos.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/intake.hpp"
 
 /// globals
 Motor basket(-6, MotorGearset::red, MotorEncoderUnits::deg);

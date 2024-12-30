@@ -1,5 +1,4 @@
 #include "subsystemsHeaders/drive.hpp"
-#include "lemlib/chassis/chassis.hpp"
 
 // controller
 Controller controller(E_CONTROLLER_MASTER);
