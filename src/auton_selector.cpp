@@ -1,28 +1,27 @@
 #include "auton_selector.hpp"
-#include "liblvgl/core/lv_disp.h"
-#include "liblvgl/core/lv_event.h"
-#include "liblvgl/extra/widgets/tabview/lv_tabview.h"
-#include "liblvgl/widgets/lv_btn.h"
-#include "liblvgl/widgets/lv_label.h"
+#include "subsystemsHeaders/basket.hpp"
 
 bool coord = true;
 int autonSelection = 0;
 lemlib::Pose trackerPos = chassis.getPose();
 
 lv_obj_t *obj;
-lv_obj_t *tabview = lv_tabview_create(lv_scr_act(), LV_DIR_LEFT, 100);
 lv_obj_t *cover;
+lv_obj_t *tabview = lv_tabview_create(lv_scr_act(), LV_DIR_LEFT, 100);
 lv_obj_t *tab_btns;
-lv_obj_t *statsTab;
+lv_obj_t *redTab = lv_tabview_add_tab(tabview, "Red");
+lv_obj_t *blueTab = lv_tabview_add_tab(tabview, "Blue");
+lv_obj_t *skillsTab = lv_tabview_add_tab(tabview, "Skills");
+lv_obj_t *statsTab = lv_tabview_add_tab(tabview, "Stats");
 lv_obj_t *labelRed;
 lv_obj_t *labelBlue;
 lv_obj_t *labelSkills;
 lv_obj_t *labelChange;
 lv_obj_t *placement_label = lv_label_create(lv_scr_act());
+lv_obj_t *stats_label = lv_label_create(statsTab);
 
 lv_obj_t *auton = lv_label_create(lv_scr_act());
 
-lv_obj_t *redTab = lv_tabview_add_tab(tabview, "Red");
 lv_obj_t *tabviewRed = lv_tabview_create(redTab, LV_DIR_TOP, 50);
 lv_obj_t *qualTabRed = lv_tabview_add_tab(tabviewRed, "Qual");
 lv_obj_t *elimTabRed = lv_tabview_add_tab(tabviewRed, "Elim");
@@ -32,7 +31,6 @@ lv_obj_t *rsolo = lv_btn_create(qualTabRed);
 lv_obj_t *regoal = lv_btn_create(elimTabRed);
 lv_obj_t *rering = lv_btn_create(elimTabRed);
 
-lv_obj_t *blueTab = lv_tabview_add_tab(tabview, "Blue");
 lv_obj_t *tabviewBlue = lv_tabview_create(blueTab, LV_DIR_TOP, 50);
 lv_obj_t *qualTabBlue = lv_tabview_add_tab(tabviewBlue, "Qual");
 lv_obj_t *elimTabBlue = lv_tabview_add_tab(tabviewBlue, "Elim");
@@ -87,10 +85,6 @@ void selector() {
 	lv_obj_set_style_bg_color(tab_btns, lv_color_black(), 0);
 	lv_obj_set_style_text_color(tab_btns, lv_color_white(), 0);
 	lv_obj_set_style_text_letter_space(tab_btns, 2, 0);
-
-	// creates the main tabs
-	lv_obj_t *skillsTab = lv_tabview_add_tab(tabview, "Skills");
-	statsTab = lv_tabview_add_tab(tabview, "Stats");
 
 	// red view///////////////////////////////////
 	lv_obj_set_style_bg_color(tabviewRed,
@@ -216,33 +210,27 @@ void selector() {
 	lv_obj_align(Coords, LV_ALIGN_BOTTOM_RIGHT, -10, -35);
 	lv_obj_add_event_cb(Coords, coords, LV_EVENT_CLICKED, nullptr);
 
-	lv_obj_t *stats_label = lv_label_create(statsTab);
 	lv_obj_set_style_bg_color(stats_label,
 														lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
 	lv_obj_align(stats_label, LV_ALIGN_CENTER, 0, -20);
-
-	cover = lv_obj_create(lv_scr_act());
-	lv_obj_set_size(cover, 110, 40);
-	lv_obj_align(cover, LV_ALIGN_LEFT_MID, 100, 30);
-	lv_obj_set_style_bg_color(cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
-	lv_obj_set_style_border_color(cover, lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
-	lv_obj_add_flag(cover, LV_OBJ_FLAG_HIDDEN);
-
+  static lv_style_t stats_style;
+  lv_style_init(&stats_style);
+  lv_style_set_text_align(&stats_style, LV_TEXT_ALIGN_CENTER);
+  lv_obj_add_style(stats_label, &stats_style, 0);
 
 	char statText[150];
 
 	while (true) {
-		lv_label_set_text(stats_label, " ");
+    lv_label_set_text(stats_label, "");
+  
 		// stats tab
-		sprintf(statText,
-						"Switch: %i | Basket Pos: %.2f | Basket Temp: %.0f\n        DT "
-						"Left Temp: %.0f | DT Right Temp: %.0f\n                           "
-						"Intake Temp: %.0f",
-						basketLimit.get_value(), basket.get_position(),
-						basket.get_temperature(), DTLeft.get_temperature(),
-						DTRight.get_temperature(), Intake.get_temperature());
-
-		lv_label_set_text(stats_label, statText);
+    lv_label_set_text_fmt
+            (stats_label, "Basket: %i | Lift: %i | Lift Pos: %.2f\nDT "
+						"Left Temp: %.0f | DT Right Temp: %.0f\nIntake Temp: %.0f | Lift Temp: %.0f | Basket Temp: %.0f",
+						basketLimit.get_value(), liftLimit.get_value(),
+						lift.get_position(), DTLeft.get_temperature(),
+						DTRight.get_temperature(), Intake.get_temperature(), 
+            lift.get_temperature(), basket.get_temperature());
 
 		pros::delay(500);
 	} //while loop
