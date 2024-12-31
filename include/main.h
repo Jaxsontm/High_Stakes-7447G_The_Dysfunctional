@@ -53,6 +53,7 @@
 #include "subsystemsHeaders/drive.hpp"
 #include "subsystemsHeaders/intake.hpp"
 #include "subsystemsHeaders/mogo.hpp"
+#include "test.hpp"
 using namespace pros;
  
 /**

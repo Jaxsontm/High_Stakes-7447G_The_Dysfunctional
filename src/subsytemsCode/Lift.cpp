@@ -1,8 +1,9 @@
 #include "subsystemsHeaders/Lift.hpp"
-#include "pros/abstract_motor.hpp"
 
 ///////// global
 Motor lift(-7, MotorGearset::green, MotorEncoderUnits::degrees);
+
+Rotation rotFinder(8);
 
 adi::Button liftLimit('G');
 ////////Macro
@@ -27,7 +28,7 @@ void liftMachine() {
         }
         lift.set_brake_mode(MotorBrake::hold);
         lift.brake();
-        delay(450);
+        delay(150);
         basketMove(StateBasket::LOAD);
         currentPos = liftPos::STOP;
       break;
@@ -39,13 +40,12 @@ void liftMachine() {
           delay(10);
         }
         lift.set_brake_mode(MotorBrake::hold);
-        lift.brake();
-        delay(500);
         currentPos = liftPos::STOP;
       break;
       case liftPos::RESET:
         while (liftLimit.get_value() == 0) lift.move(-60);
         lift.set_brake_mode(MotorBrake::brake);
+        lift.brake();
         currentPos = liftPos::STOP;
       break;
       case liftPos::STOP:

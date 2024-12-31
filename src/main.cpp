@@ -1,97 +1,92 @@
 #include "main.h"
 
+
 void initialize() {
   chassis.calibrate();
-  //pros::lcd::initialize();
-	pros::Task auton_selector_task(selector);
-	Intake.set_brake_mode(pros::MotorBrake::coast);
-	basket.set_brake_mode(MotorBrake::brake);
+  // pros::lcd::initialize();
+  pros::Task auton_selector_task(selector);
+  Intake.set_brake_mode(pros::MotorBrake::coast);
+  basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
-  lift.tare_position();
-	pros::Task mogo_machine(state_machine_mogo);
-	pros::Task intake_machine(state_machine_intake);
+  rotFinder.reset_position();
+  pros::Task mogo_machine(state_machine_mogo);
+  pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
   pros::Task lift_machine(liftMachine);
-  /*Task screenTask([&]() {
-        lemlib::Pose pose(0, 0, 0);
-        while (true) {
-            // print robot location to the brain screen
-            lcd::print(0, "X: %f", chassis.getPose().x); // x
-            lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            lcd::print(2, "Theta: %f", chassis.getPose().theta);//heading
-            
-            // delay to save resources
-            delay(50); 
-        }
-    });*/
+  Task screenTask([&]() {
+    lemlib::Pose pose(0, 0, 0);
+    while (true) {
+      // print robot location to the brain screen
+      lcd::print(0, "X: %f", chassis.getPose().x);         // x
+      lcd::print(1, "Y: %f", chassis.getPose().y);         // y
+      lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+
+      // delay to save resources
+      delay(50);
+    }
+  });
 }
 
 void disabled() {}
 
-void competition_initialize() { }
+void competition_initialize() {}
 
 void autonomous() {
-  /*basketMove(StateBasket::RESET);
-  switch(autonSelection) {
-          case 0:
-                  redGoal();
-                  break;
-          case 1:
-                  redRing();
-                  break;
-          case 2:
-                  redSolo();
-                  break;
-          case 3:
-                  redGoalElim();
-                  break;
-          case 4:
-                  redRingElim();
-                  break;
-          case 5:
-                  blueRing();
-                  break;
-          case 6:
-                  blueGoal();
-                  break;
-          case 7:
-                  blueSolo();
-                  break;
-          case 8:
-                  blueRingElim();
-                  break;
-          case 9:
-                  blueGoalElim();
-                  break;
-          default:
-                  Skills();
-                  break;
-  }*/
-  chassis.setPose(0,0,0);
+  // basketMove(StateBasket::RESET);
+  switch (autonSelection) {
+  case 0:
+    redGoal();
+    break;
+  case 1:
+    redRing();
+    break;
+  case 2:
+    redSolo();
+    break;
+  case 3:
+    redGoalElim();
+    break;
+  case 4:
+    redRingElim();
+    break;
+  case 5:
+    blueRing();
+    break;
+  case 6:
+    blueGoal();
+    break;
+  case 7:
+    blueSolo();
+    break;
+  case 8:
+    blueRingElim();
+    break;
+  case 9:
+    blueGoalElim();
+    break;
+  default:
+    Skills();
+    break;
+  }
+  chassis.setPose(0, 0, 0);
   chassis.turnToHeading(90, 750);
 }
 
 void opcontrol() {
-	basket.set_brake_mode(MotorBrake::brake);
+  basket.set_brake_mode(MotorBrake::brake);
   Intake.set_brake_mode(pros::MotorBrake::coast);
   pros::Task display(text);
-	while (true) {
-		intakeControl();
-		mogoToggle();
-		doinkerToggle();
-		liftDriver();
-		basketDriver();
+  while (true) {
+    intakeControl();
+    mogoToggle();
+    doinkerToggle();
+    liftDriver();
+    basketDriver();
     tank();
 
     text();
 
-    if (controller.get_digital(DIGITAL_B) && controller.get_digital(DIGITAL_DOWN)) {
-      autonomous();
-    }
-
-    //pros::lcd::print(1, "Pos: %f", lift.get_position());
-	
-		// delay to save resources
-		pros::delay(20);
-	}
+    // delay to save resources
+    pros::delay(20);
+  }
 }

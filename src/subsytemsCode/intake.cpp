@@ -73,7 +73,7 @@ void state_machine_intake() {
 
 ////// Driver Control
 void intakeControl() {
-  if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && basketLimit.get_value() == 1){
+  if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) /*&& basketLimit.get_value() == 1*/){
     spinFor(StateIntake::FWD);
   } else if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
     spinFor(StateIntake::REV);

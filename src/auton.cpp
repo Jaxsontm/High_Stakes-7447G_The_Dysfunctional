@@ -30,15 +30,15 @@ void redGoal() { chassis.setPose(0, 0, 180);
   request_new_state_mogo(StateMogo::LOCATE);
 
   chassis.moveToPose(-7, 41, 330, midDriveTimeout,
-                     {.lead = 0.25, .maxSpeed = goalRushSpeed, .earlyExitRange = 12});
+                     {.forwards = false, .lead = 0.25, .maxSpeed = goalRushSpeed, .earlyExitRange = 12});
 
   chassis.moveToPose(-7, 41, 330, smallDriveTimeout,
-                     {.lead = 0.15, .maxSpeed = goalGrabMaxSpeed});
+                     {.forwards = false, .lead = 0.15, .maxSpeed = goalGrabMaxSpeed});
 chassis.waitUntilDone();
 
   basketMove(StateBasket::SCORE);
 
-  chassis.turnToHeading(0, turnTimeout);
+  chassis.turnToHeading(340, turnTimeout);
 chassis.waitUntilDone();
 
   while (basketLimit.get_value() == 0) delay(10);
@@ -353,8 +353,6 @@ chassis.waitUntilDone();
 chassis.waitUntilDone();
 
 			request_new_state_mogo(StateMogo::LOCATE);
-			
-		
 
 	chassis.moveToPoint(20.5, 3.5, largeDriveTimeout, {.forwards = false, .maxSpeed = goalGrabMaxSpeed - 10});
 chassis.waitUntilDone();
@@ -380,7 +378,6 @@ chassis.waitUntilDone();
 
 	chassis.moveToPoint(58, -7.5, midDriveTimeout);
 	
-		
 chassis.waitUntilDone();
 
 	chassis.turnToHeading(90, turnTimeout);
