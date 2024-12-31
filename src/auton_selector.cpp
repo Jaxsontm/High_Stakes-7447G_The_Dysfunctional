@@ -1,10 +1,16 @@
 #include "auton_selector.hpp"
+#include "liblvgl/core/lv_disp.h"
+#include "liblvgl/core/lv_event.h"
+#include "liblvgl/extra/widgets/tabview/lv_tabview.h"
+#include "liblvgl/widgets/lv_btn.h"
+#include "liblvgl/widgets/lv_label.h"
 
-
+bool coord = true;
 int autonSelection = 0;
+lemlib::Pose trackerPos = chassis.getPose();
 
 lv_obj_t *obj;
-lv_obj_t *tabview;
+lv_obj_t *tabview = lv_tabview_create(lv_scr_act(), LV_DIR_LEFT, 100);
 lv_obj_t *cover;
 lv_obj_t *tab_btns;
 lv_obj_t *statsTab;
@@ -12,11 +18,12 @@ lv_obj_t *labelRed;
 lv_obj_t *labelBlue;
 lv_obj_t *labelSkills;
 lv_obj_t *labelChange;
-
+lv_obj_t *placement_label = lv_label_create(lv_scr_act());
 
 lv_obj_t *auton = lv_label_create(lv_scr_act());
 
-lv_obj_t *tabviewRed;
+lv_obj_t *redTab = lv_tabview_add_tab(tabview, "Red");
+lv_obj_t *tabviewRed = lv_tabview_create(redTab, LV_DIR_TOP, 50);
 lv_obj_t *qualTabRed = lv_tabview_add_tab(tabviewRed, "Qual");
 lv_obj_t *elimTabRed = lv_tabview_add_tab(tabviewRed, "Elim");
 lv_obj_t *rqgoal = lv_btn_create(qualTabRed);
@@ -25,7 +32,8 @@ lv_obj_t *rsolo = lv_btn_create(qualTabRed);
 lv_obj_t *regoal = lv_btn_create(elimTabRed);
 lv_obj_t *rering = lv_btn_create(elimTabRed);
 
-lv_obj_t *tabviewBlue;
+lv_obj_t *blueTab = lv_tabview_add_tab(tabview, "Blue");
+lv_obj_t *tabviewBlue = lv_tabview_create(blueTab, LV_DIR_TOP, 50);
 lv_obj_t *qualTabBlue = lv_tabview_add_tab(tabviewBlue, "Qual");
 lv_obj_t *elimTabBlue = lv_tabview_add_tab(tabviewBlue, "Elim");
 lv_obj_t *bqgoal = lv_btn_create(qualTabBlue);
@@ -50,38 +58,27 @@ static void selection(lv_event_t * e) {
   else lv_label_set_text(auton, "50 PLEASE");
 }
 
-lv_event_cb_t Selection = selection;
-
-static void hide_change_button(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	if (code == LV_EVENT_VALUE_CHANGED) {
-		int selectedTab = lv_tabview_get_tab_act(tabview);
-
-		if (selectedTab == 3) {
-			lv_obj_clear_flag(cover, LV_OBJ_FLAG_HIDDEN);
-		} else {
-			lv_obj_add_flag(cover, LV_OBJ_FLAG_HIDDEN);
-		}
-	}
-}
 static void coords(lv_event_t *e) {
-	lv_event_code_t code = lv_event_get_code(e);
-	obj = lv_event_get_target(e);
-	lv_obj_t *placement_label = lv_label_create(lv_scr_act());
-	lv_obj_align(placement_label, LV_ALIGN_BOTTOM_RIGHT, -20, -10);
-	char posText[150];
+  lv_event_code_t code = lv_event_get_code(e);
 
   if (code == LV_EVENT_CLICKED) {
-    lemlib::Pose trackerPos = chassis.getPose();
-		sprintf(posText, "(x: %.2f, y: %.2f, theta: %.2f)", trackerPos.x, trackerPos.y, trackerPos.theta);
-		lv_label_set_text(placement_label, posText);
+    if (coord) {
+      lv_label_set_text_fmt(placement_label, "(x: %.2f, y: %.2f, theta: %.2f)", trackerPos.x, trackerPos.y, trackerPos.theta);
+      coord = !coord;
+    } else {
+      lv_label_set_text(placement_label, "");
+      coord = !coord;
+    }
   }
 }
 
 void selector() {
   lv_obj_align(auton, LV_ALIGN_BOTTOM_LEFT, 110, -10);
+  lv_label_set_text(auton, "");
+
+  lv_obj_align(placement_label, LV_ALIGN_BOTTOM_RIGHT, -20, -10);
+  lv_label_set_text(placement_label, "");
 	// creates tabview and colors the background orange
-	tabview = lv_tabview_create(lv_scr_act(), LV_DIR_LEFT, 100);
 	lv_obj_set_style_bg_color(tabview,
 														lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
 
@@ -92,17 +89,10 @@ void selector() {
 	lv_obj_set_style_text_letter_space(tab_btns, 2, 0);
 
 	// creates the main tabs
-	lv_obj_t *redTab = lv_tabview_add_tab(tabview, "Red");
-	lv_obj_t *blueTab = lv_tabview_add_tab(tabview, "Blue");
 	lv_obj_t *skillsTab = lv_tabview_add_tab(tabview, "Skills");
 	statsTab = lv_tabview_add_tab(tabview, "Stats");
-	lv_obj_add_event_cb(tabview, hide_change_button, LV_EVENT_VALUE_CHANGED, nullptr);
 
 	// red view///////////////////////////////////
-	labelRed = lv_label_create(redTab);
-	
-	tabviewRed = lv_tabview_create(redTab, LV_DIR_TOP, 50);
-
 	lv_obj_set_style_bg_color(tabviewRed,
 														lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
 
@@ -111,7 +101,7 @@ void selector() {
 	lv_obj_set_style_bg_color(red_tab_btns, lv_color_black(), 0);
 
 	labelRed = lv_label_create(rqgoal); //creates the button's label
-	lv_label_set_text(labelRed, "GOAL"); //sets the button's text
+	lv_label_set_text(labelRed, "SAFE RUSH"); //sets the button's text
 	lv_obj_center(labelRed); //centers the button's text
 	lv_obj_set_style_text_letter_space(rqgoal, 2, 0);
 	lv_obj_set_style_bg_color(rqgoal, lv_color_black(), 0); //sets bg color
@@ -152,9 +142,6 @@ void selector() {
 	lv_obj_add_event_cb(rering, selection, LV_EVENT_CLICKED, nullptr);
 
 	// blue view/////////////////////////////////////
-	labelBlue = lv_label_create(blueTab);
-	tabviewBlue = lv_tabview_create(blueTab, LV_DIR_TOP, 50);
-
 	lv_obj_set_style_bg_color(tabviewBlue,
 														lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
 
@@ -171,7 +158,7 @@ void selector() {
 	lv_obj_add_event_cb(bqring, selection, LV_EVENT_CLICKED, nullptr);
 
 	labelBlue = lv_label_create(bqgoal);
-	lv_label_set_text(labelBlue, "GOAL");
+	lv_label_set_text(labelBlue, "SAFE RUSH");
 	lv_obj_center(labelBlue);
 	lv_obj_set_style_text_letter_space(bqgoal, 2, 0);
 	lv_obj_set_style_bg_color(bqgoal, lv_color_black(), 0);

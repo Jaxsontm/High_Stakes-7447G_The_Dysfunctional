@@ -29,21 +29,21 @@ lemlib::Drivetrain drivetrain(
 lemlib::ControllerSettings
 		linearController(11.95,    // proportional gain (kP)
 										 0,     // integral gain (kI)
-										 24,    // derivative gain (kD)
-										 10,    // anti windup
-										 1,     // small error range, in inches
-										 100,   // small error range timeout, in milliseconds
-										 3,    // large error range, in inches
-										 300, // large error range timeout, in milliseconds
-										 30     // maximum acceleration (slew)
+										 0,    // derivative gain (kD)
+										 0, //10,    // anti windup
+										 0, //1,     // small error range, in inches
+										 0, //100,   // small error range timeout, in milliseconds
+										 0, //3,    // large error range, in inches
+										 0, //300, // large error range timeout, in milliseconds
+										 0 //30     // maximum acceleration (slew)
 		);
 
 // angular motion controller
 lemlib::ControllerSettings
-		angularController(1.043, // proportional gain (kP)
+		angularController(5.2, // proportional gain (kP)
 											0,     // integral gain (kI)
-											6,     // derivative gain (kD)
-											5,     // anti windup
+											60,     // derivative gain (kD)
+											0,     // anti windup
 											1,     // small error range, in degrees
 											100,   // small error range timeout, in milliseconds
 											15,    // large error range, in degrees
@@ -52,13 +52,13 @@ lemlib::ControllerSettings
 		);
 
 // Rotation Sensors
-Rotation horizontal_sensor(12);
+Rotation horizontal_sensor(-12);
 Rotation vertical_sensor(1);
 
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_sensor,
-																								lemlib::Omniwheel::NEW_2, 4.57);
+																								lemlib::Omniwheel::NEW_2, 3.45);
 lemlib::TrackingWheel vertical_tracking_wheel(&vertical_sensor,
-																							lemlib::Omniwheel::NEW_275, 1.42);
+																							lemlib::Omniwheel::NEW_275, 0.8);
 // sensors for odometry
 // note that in this example we use internal motor encoders (IMEs), so we don't
 // pass vertical tracking wheels
