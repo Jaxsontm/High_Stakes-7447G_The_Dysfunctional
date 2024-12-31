@@ -8,7 +8,7 @@ void initialize() {
   Intake.set_brake_mode(pros::MotorBrake::coast);
   basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
-  rotFinder.reset_position();
+  rotFinder.tare();
   pros::Task mogo_machine(state_machine_mogo);
   pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
@@ -32,7 +32,7 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-  // basketMove(StateBasket::RESET);
+  /*basketMove(StateBasket::RESET);
   switch (autonSelection) {
   case 0:
     redGoal();
@@ -67,7 +67,7 @@ void autonomous() {
   default:
     Skills();
     break;
-  }
+  }*/
   chassis.setPose(0, 0, 0);
   chassis.turnToHeading(90, 750);
 }

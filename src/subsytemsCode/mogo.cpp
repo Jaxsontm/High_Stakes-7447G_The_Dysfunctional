@@ -8,8 +8,8 @@ adi::Pneumatics Mogo('D', false);
 adi::Pneumatics doinker('C', false);
 
 bool doinkerActuated = false;
-bool mogoActuated = false;
 ////// State Machine
+bool mogoActuated = false;
 StateMogo current_state_mogo = StateMogo::GRAB;
 
 void request_new_state_mogo(StateMogo request_new_state_mogo) {
@@ -59,5 +59,5 @@ void doinkerToggle() {
 
 void text() {
   const char *status = mogoActuated ? "GRAB" : "OPEN";
-  controller.print(1, 6, status);
+  controller.print(1, 7, status);
 }

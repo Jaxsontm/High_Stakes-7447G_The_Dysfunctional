@@ -1,9 +1,10 @@
 #include "subsystemsHeaders/Lift.hpp"
+#include "pros/imu.hpp"
 
 ///////// global
 Motor lift(-7, MotorGearset::green, MotorEncoderUnits::degrees);
 
-Rotation rotFinder(8);
+IMU rotFinder(8);
 
 adi::Button liftLimit('G');
 ////////Macro
@@ -21,7 +22,7 @@ void liftMachine() {
     switch (currentPos) {
       case liftPos::LOAD:
         timeout = 25;
-        while (lift.get_position() < 138 && timeout > 0) {
+        while (rotFinder.get_yaw() < 138 && timeout > 0) {
           lift.move(127);
           timeout--;
           delay(10);
