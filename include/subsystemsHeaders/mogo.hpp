@@ -1,8 +1,8 @@
 #pragma once
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
-#include "pros/misc.h"
-#include "subsystemsHeaders/drive.hpp"
+#include "pros/misc.h" // IWYU pragma: keep
+#include "subsystemsHeaders/drive.hpp" // IWYU pragma: keep
 using namespace pros;
 
 // controllables

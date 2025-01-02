@@ -41,19 +41,13 @@
  * You should add more #includes here
  */
 // #include "okapi/api.hpp"
-#include "auton.h"
-#include "auton_selector.hpp"
-#include "lemlib/chassis/chassis.hpp"
-#include "liblvgl/llemu.hpp"
-#include "pros/abstract_motor.hpp"
-#include "pros/llemu.hpp"
-#include "pros/rtos.hpp"
-#include "subsystemsHeaders/Lift.hpp"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/intake.hpp"
-#include "subsystemsHeaders/mogo.hpp"
-#include "test.hpp"
+#include "auton.h" // IWYU pragma: keep
+#include "auton_selector.hpp" // IWYU pragma: keep
+#include "lemlib/chassis/chassis.hpp" // IWYU pragma: keep
+#include "liblvgl/llemu.hpp" // IWYU pragma: keep
+#include "pros/abstract_motor.hpp" // IWYU pragma: keep
+#include "pros/llemu.hpp" // IWYU pragma: keep
+#include "pros/rtos.hpp" // IWYU pragma: keep
 using namespace pros;
  
 /**

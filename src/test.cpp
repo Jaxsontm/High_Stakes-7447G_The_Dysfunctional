@@ -1,5 +1,4 @@
 #include "test.hpp"
-#include "auton_selector.hpp"
 
 void goalGrab() {
   request_new_state_mogo(StateMogo::RELEASE);

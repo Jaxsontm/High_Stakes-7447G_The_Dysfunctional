@@ -4,7 +4,7 @@
 ///////// global
 Motor lift(-7, MotorGearset::green, MotorEncoderUnits::degrees);
 
-IMU rotFinder(8);
+IMU rotFinder(4);
 
 adi::Button liftLimit('G');
 ////////Macro
@@ -22,7 +22,7 @@ void liftMachine() {
     switch (currentPos) {
       case liftPos::LOAD:
         timeout = 25;
-        while (rotFinder.get_yaw() < 138 && timeout > 0) {
+        while (rotFinder.get_roll() < 138 && timeout > 0) { 
           lift.move(127);
           timeout--;
           delay(10);
@@ -35,7 +35,7 @@ void liftMachine() {
       break;
       case liftPos::SCORE:
         timeout = 85;
-        while (lift.get_position() < 400 && timeout > 0) {
+        while (rotFinder.get_roll() < 400 && timeout > 0) {
           lift.move(127);
           timeout--;
           delay(10);
@@ -51,7 +51,7 @@ void liftMachine() {
       break;
       case liftPos::STOP:
         lift.brake();
-        lift.tare_position();
+        rotFinder.tare_roll();
       break;
       }
     delay(10);

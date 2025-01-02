@@ -1,11 +1,11 @@
 #pragma once
-#include "pros/abstract_motor.hpp"
-#include "pros/adi.hpp"
+#include "pros/abstract_motor.hpp" // IWYU pragma: keep
+#include "pros/adi.hpp" // IWYU pragma: keep
 #include "pros/distance.hpp"
-#include "pros/misc.h"
+#include "pros/misc.h" // IWYU pragma: keep
 #include "pros/motors.hpp"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
+#include "subsystemsHeaders/basket.hpp" // IWYU pragma: keep
+#include "subsystemsHeaders/drive.hpp" // IWYU pragma: keep
 using namespace pros;
 
 // Blue Ziptie

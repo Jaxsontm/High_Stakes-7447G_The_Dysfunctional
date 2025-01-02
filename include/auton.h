@@ -1,10 +1,10 @@
 #pragma once
 
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/mogo.hpp"
-#include "subsystemsHeaders/intake.hpp"
-#include "lemlib/chassis/chassis.hpp"
+#include "subsystemsHeaders/basket.hpp" // IWYU pragma: keep
+#include "subsystemsHeaders/drive.hpp" // IWYU pragma: keep
+#include "subsystemsHeaders/mogo.hpp" // IWYU pragma: keep
+#include "subsystemsHeaders/intake.hpp" // IWYU pragma: keep
+#include "lemlib/chassis/chassis.hpp" // IWYU pragma: keep
 
 void redGoal();
 void redRing();

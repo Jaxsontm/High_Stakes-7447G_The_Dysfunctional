@@ -33,6 +33,7 @@ void competition_initialize() {}
 
 void autonomous() {
   /*basketMove(StateBasket::RESET);
+  request_new_state_mogo(StateMogo::RELEASE);
   switch (autonSelection) {
   case 0:
     redGoal();

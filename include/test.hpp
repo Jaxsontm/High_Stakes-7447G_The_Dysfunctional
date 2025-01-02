@@ -1,9 +1,6 @@
 #pragma once
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/mogo.hpp"
-#include "subsystemsHeaders/intake.hpp"
-#include "auton_selector.hpp"
+#include "subsystemsHeaders/mogo.hpp" // IWYU pragma: keep
+#include "auton_selector.hpp" // IWYU pragma: keep
 
 void goalGrab();
 void intakeOne();

@@ -1,10 +1,10 @@
 #pragma once
-#include "pros/abstract_motor.hpp"
+#include "pros/abstract_motor.hpp" // IWYU pragma: keep
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
-#include "pros/rtos.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/intake.hpp"
+#include "pros/rtos.hpp" // IWYU pragma: keep
+#include "subsystemsHeaders/drive.hpp" // IWYU pragma: keep
+#include "subsystemsHeaders/intake.hpp" // IWYU pragma: keep
 using namespace pros;
 
 //controllable objects

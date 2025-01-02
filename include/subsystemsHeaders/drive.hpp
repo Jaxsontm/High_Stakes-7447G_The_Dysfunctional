@@ -4,10 +4,10 @@
 #include "pros/misc.hpp"
 #include "pros/motor_group.hpp"
 #include "pros/rotation.hpp"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/intake.hpp"
-#include "subsystemsHeaders/mogo.hpp"
-#include "subsystemsHeaders/lift.hpp"
+#include "subsystemsHeaders/basket.hpp" // IWYU pragma: keep
+#include "subsystemsHeaders/intake.hpp" // IWYU pragma: keep
+#include "subsystemsHeaders/mogo.hpp" // IWYU pragma: keep
+#include "subsystemsHeaders/lift.hpp" // IWYU pragma: keep
 #include <cmath>
 using namespace pros;
 

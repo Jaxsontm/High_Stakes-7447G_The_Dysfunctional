@@ -48,7 +48,7 @@ lemlib::ControllerSettings
 											100,   // small error range timeout, in milliseconds
 											15,    // large error range, in degrees
 											650,   // large error range timeout, in milliseconds
-											30      // maximum acceleration (slew)
+											35      // maximum acceleration (slew)
 		);
 
 // Rotation Sensors
