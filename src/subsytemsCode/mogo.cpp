@@ -22,6 +22,8 @@ void state_machine_mogo() {
 	while (true) {
 		switch (current_state_mogo) {
       case StateMogo::LOCATE:
+        Mogo.set_value(true);
+        delay(250);
         while (DistanceMogo.get() > 32) delay(10);
         delay(50);
         current_state_mogo = StateMogo::GRAB;

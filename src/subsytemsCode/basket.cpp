@@ -1,9 +1,13 @@
 #include "subsystemsHeaders/basket.hpp"
+#include "subsystemsHeaders/intake.hpp"
+#include "pros/optical.hpp"
 
 /// globals
 Motor basket(-6, MotorGearset::red, MotorEncoderUnits::deg);
 
 adi::Button basketLimit('H');
+
+pros::Optical o(17);
 ///machine
 StateBasket currentBasketState = StateBasket::STOP;
 
@@ -19,6 +23,7 @@ void basketControl() {
   while (true) {
     switch (currentBasketState) {
       case StateBasket::SCORE:
+        basketState = 1;
         basket.move(127);
         for (int t = 0; t < timeoutCalc; t++) {
           if (basket.get_position() > 272) {
@@ -29,6 +34,7 @@ void basketControl() {
         currentBasketState = StateBasket::RESET;
       break;
       case StateBasket::TOP:
+        basketState = 2;
         if (basketCheck.get() > 120) {
           basket.move(127);
           for (int t = 0; t < timeoutCalc; t++) {
@@ -50,6 +56,7 @@ void basketControl() {
         }
       break;
       case StateBasket::LOAD:
+        basketState = 3;
         basket.move(110);
         for (int t = 0; t < timeoutCalc; t++) {
           if (basket.get_position() > 224) {
@@ -60,10 +67,12 @@ void basketControl() {
         currentBasketState = StateBasket::RESET;
       break;
       case StateBasket::RESET:
-        while (basketLimit.get_value() == 0) basket.move(-127);
+        basketState = 4;
+        while (o.get_hue() > 10) basket.move(-127);
         currentBasketState = StateBasket::STOP;
       break;
       case StateBasket::STOP:
+        basketState = 0;
         basket.brake();
         basket.tare_position();
       break;

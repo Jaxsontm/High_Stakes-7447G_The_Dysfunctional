@@ -21,6 +21,8 @@ enum class StateBasket {
 	STOP
 };
 
+inline int basketState = 0;
+
 void basketMove(StateBasket requestBasketState);
 
 void basketControl();

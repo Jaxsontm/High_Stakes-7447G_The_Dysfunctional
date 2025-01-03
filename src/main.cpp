@@ -3,7 +3,7 @@
 
 void initialize() {
   chassis.calibrate();
-  // pros::lcd::initialize();
+  //pros::lcd::initialize();
   pros::Task auton_selector_task(selector);
   Intake.set_brake_mode(pros::MotorBrake::coast);
   basket.set_brake_mode(MotorBrake::brake);
@@ -32,8 +32,7 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-  /*basketMove(StateBasket::RESET);
-  request_new_state_mogo(StateMogo::RELEASE);
+  basketMove(StateBasket::RESET);
   switch (autonSelection) {
   case 0:
     redGoal();
@@ -68,9 +67,7 @@ void autonomous() {
   default:
     Skills();
     break;
-  }*/
-  chassis.setPose(0, 0, 0);
-  chassis.turnToHeading(90, 750);
+  }
 }
 
 void opcontrol() {

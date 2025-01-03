@@ -9,6 +9,7 @@ IMU rotFinder(4);
 adi::Button liftLimit('G');
 ////////Macro
 liftPos currentPos = liftPos::STOP;
+int slew;
 
 void setLiftPos(liftPos requestedPos) {
   if (requestedPos != currentPos) {
@@ -22,20 +23,24 @@ void liftMachine() {
     switch (currentPos) {
       case liftPos::LOAD:
         timeout = 25;
-        while (rotFinder.get_roll() < 138 && timeout > 0) { 
-          lift.move(127);
+        slew = 2;
+        while (rotFinder.get_roll() < 17 && lift.get_position() < 138 && timeout > 0) { 
+          lift.move(100 + slew);
           timeout--;
+          slew += 2;
           delay(10);
         }
+        lift.move(100);
         lift.set_brake_mode(MotorBrake::hold);
+        delay(10);
         lift.brake();
-        delay(150);
+        delay(250);
         basketMove(StateBasket::LOAD);
         currentPos = liftPos::STOP;
       break;
       case liftPos::SCORE:
         timeout = 85;
-        while (rotFinder.get_roll() < 400 && timeout > 0) {
+        while (rotFinder.get_roll() < 110 && lift.get_position() < 405 && timeout > 0) {
           lift.move(127);
           timeout--;
           delay(10);
@@ -51,7 +56,7 @@ void liftMachine() {
       break;
       case liftPos::STOP:
         lift.brake();
-        rotFinder.tare_roll();
+        rotFinder.tare();
       break;
       }
     delay(10);

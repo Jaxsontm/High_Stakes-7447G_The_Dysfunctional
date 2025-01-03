@@ -2,7 +2,7 @@
 
 bool coord = true;
 int autonSelection = 0;
-int testSelection = 1;
+int testSelection = -1;
 lemlib::Pose trackerPos = chassis.getPose();
 char testName[10];
 
@@ -62,7 +62,7 @@ static void selection(lv_event_t *e) {
   lv_obj_t *btn = lv_event_get_target(e);
 
   if (btn == rqgoal) {
-    autonSelection = 1;
+    autonSelection = 0;
     lv_label_set_text(auton, "Red Qual Goal");
   } else if (btn == rqring) {
     lv_label_set_text(auton, "Red Qual Ring");
@@ -83,7 +83,7 @@ static void selection(lv_event_t *e) {
   } else if (btn == bering) {
     lv_label_set_text(auton, "Blue Elim Ring");
   } else {
-    autonSelection = 0;
+    autonSelection = -1;
     lv_label_set_text(auton, "50 PLEASE");
   }
 }

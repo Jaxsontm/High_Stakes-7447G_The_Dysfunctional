@@ -1,4 +1,5 @@
 #include "subsystemsHeaders/intake.hpp"
+#include "subsystemsHeaders/basket.hpp"
 
 /////// globals
 Motor Intake(-11, MotorGearset::green);
@@ -19,9 +20,10 @@ void state_machine_intake() {
 		switch (current_number) {
       case StateIntake::ONE:
         if (basketCheck.get_distance() >= 220) {
-          while (basketCheck.get() >= 210 && basketLimit.get_value() == 1) {
+          while (basketCheck.get() >= 210) {
             Intake.move(127);
           }
+          delay(500);
           current_number = StateIntake::BRAKE;
         } else if (basketCheck.get_distance() <= 200 && basketCheck.get() >= 100) {
           while (basketCheck.get() >= 60 && basketLimit.get_value() == 1) {
