@@ -1,6 +1,4 @@
 #include "test.hpp"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/intake.hpp"
 
 void goalGrab() {
   request_new_state_mogo(StateMogo::RELEASE);
@@ -18,14 +16,15 @@ void intakeTwo() {
 
 void basketScore() {
   basketMove(StateBasket::SCORE);
-  delay(250);
-  while (basketState != 0) {
-    delay(10);
-  }
-  spinFor(StateIntake::ONE);
+}
+
+void basketTop() {
+  basketMove(StateBasket::TOP);
 }
 
 void liftLoad() {
+  if (basketCheck.get() > 100) spinFor(StateIntake::ONE);
+  
   setLiftPos(liftPos::LOAD);
 }
 
@@ -44,6 +43,9 @@ void test() {
       basketScore();
       break;
     case 4:
+      basketTop();
+      break;
+    case 5:
       liftLoad();
       break;
     }

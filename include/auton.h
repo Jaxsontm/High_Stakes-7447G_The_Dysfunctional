@@ -18,4 +18,9 @@ void blueSolo();
 void blueRingElim();
 void blueGoalElim();
 
+void rgAWP();
+void rrAWP();
+void bgAWP();
+void brAWP();
+
 void Skills();

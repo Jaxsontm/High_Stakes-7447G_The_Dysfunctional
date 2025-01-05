@@ -323,6 +323,19 @@ struct MoveToPointParams {
         float earlyExitRange = 0;
 };
 
+struct MoveToDistParams {
+        /** whether the robot should move forwards or backwards. True by default */
+        bool forwards = true;
+        /** the maximum speed the robot can travel at. Value between 0-127. 127 by default */
+        float maxSpeed = 127;
+        /** the minimum speed the robot can travel at. If set to a non-zero value, the exit conditions will switch to
+         * less accurate but smoother ones. Value between 0-127. 0 by default */
+        float minSpeed = 0;
+        /** distance between the robot and target point where the movement will exit. Only has an effect if minSpeed is
+         * non-zero.*/
+        float earlyExitRange = 0;
+};
+
 // default drive curve
 extern ExpoDriveCurve defaultDriveCurve;
 
@@ -619,8 +632,7 @@ class Chassis {
         void swingToPoint(float x, float y, DriveSide lockedSide, int timeout,
                           SwingToPointParams params = {}, bool async = true);
         /**
-        * @brief Move the chassis with a specifc speed on each side of the dt
-respectively
+        * @brief Move the chassis with a specifc speed on each side of the dt respectively
         *
         * @param Lspeed speed of the left side of the drivetrain
         * @param Rspeed speed of the right side of the drivetrain
@@ -629,9 +641,21 @@ respectively
         * @b Example
         * @code {.cpp}
         * chassis.setPose(0, 0, 0); // set the pose of the chassis
+        * chassis.moveToTime(63, 63, 1000); // drive the robot with a speed of 63 (1/2 speed) on each side
+        */
+        void moveToTime(int Lspeed, int Rspeed, int timeout);
+        /**
+        * @brief Move the chassis with a specifc speed on each side of the dt respectively
+        *
+        * @param dist distance the robot will move
+        * @param timeout time the robot spends moving
+        *
+        * @b Example
+        * @code {.cpp}
+        * chassis.setPose(0, 0, 0); // set the pose of the chassis
         * chassis.drive(63, 63, 1000); // drive the robot with a speed of 63 (1/2 speed) on each side
         */
-        void drive(int Lspeed, int Rspeed, int timeout);
+        void moveToDist(float dist, int timeout, MoveToDistParams params = {});
         /**
          * @brief Move the chassis towards the target pose
          *

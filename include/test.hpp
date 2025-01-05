@@ -6,6 +6,7 @@ void goalGrab();
 void intakeOne();
 void intakeTwo();
 void basketScore();
+void basketTop();
 void liftLoad();
 
 void test();

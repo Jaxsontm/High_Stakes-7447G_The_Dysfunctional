@@ -1,5 +1,4 @@
 #include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/intake.hpp"
 #include "pros/optical.hpp"
 
 /// globals
@@ -35,25 +34,13 @@ void basketControl() {
       break;
       case StateBasket::TOP:
         basketState = 2;
-        if (basketCheck.get() > 120) {
           basket.move(127);
           for (int t = 0; t < timeoutCalc; t++) {
-            if (basket.get_position() > 227) {
+            if (basket.get_position() > 232) {
               t = timeoutCalc;
             }
             delay(10);
           }
-        currentBasketState = StateBasket::RESET;
-        } else if (basketCheck.get() < 120) {
-          basket.move(127);
-          for (int t = 0; t < timeoutCalc; t++) {
-            if (basket.get_position() > 177) {
-              t = timeoutCalc;
-            }
-            delay(10);
-          }
-        currentBasketState = StateBasket::RESET;
-        }
       break;
       case StateBasket::LOAD:
         basketState = 3;
@@ -68,7 +55,7 @@ void basketControl() {
       break;
       case StateBasket::RESET:
         basketState = 4;
-        while (o.get_hue() > 10) basket.move(-127);
+        while (basketLimit.get_value() == 0) basket.move(-127);
         currentBasketState = StateBasket::STOP;
       break;
       case StateBasket::STOP:

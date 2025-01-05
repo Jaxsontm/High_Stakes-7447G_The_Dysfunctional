@@ -1,4 +1,5 @@
 #include "main.h"
+#include "auton.h"
 
 
 void initialize() {
@@ -63,6 +64,18 @@ void autonomous() {
     break;
   case 9:
     blueGoalElim();
+    break;
+  case 10:
+    rgAWP();
+    break;
+  case 11:
+    rrAWP();
+    break;
+  case 12:
+    brAWP();
+    break;
+  case 13:
+    bgAWP();
     break;
   default:
     Skills();

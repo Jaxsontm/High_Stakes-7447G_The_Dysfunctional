@@ -12,6 +12,8 @@ using namespace pros;
 extern Motor Intake;
 
 extern Distance basketCheck;
+
+inline int intakeState = 0;
 /////
 
 enum class StateIntake {

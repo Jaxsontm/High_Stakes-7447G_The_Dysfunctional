@@ -1,4 +1,7 @@
 #include "subsystemsHeaders/drive.hpp"
+#include "lemlib/chassis/chassis.hpp"
+#include "lemlib/pose.hpp"
+#include <cmath>
 
 // controller
 Controller controller(E_CONTROLLER_MASTER);
@@ -75,13 +78,53 @@ lemlib::OdomSensors sensors(
 lemlib::Chassis chassis(drivetrain, linearController, angularController,
                         sensors);
 
-void lemlib::Chassis::drive(int Lspeed, int Rspeed, int timeout) {
+void lemlib::Chassis::moveToTime(int Lspeed, int Rspeed, int timeout) {
   timeout /= 10;
   for (int i = 0; i < timeout; i++) {
     DTLeft.move(Lspeed), DTRight.move(Rspeed);
     delay(9);
   }
   DTLeft.brake(), DTRight.brake();
+}
+
+/*void lemlib::Chassis::moveToDist(float dist, int timeout, MoveToDistParams
+params) { fabs(dist); lateralPID.reset(); lateralLargeExit.reset();
+  lateralSmallExit.reset();
+  angularPID.reset();
+  float targetDist = dist;
+  float distTraveled = 0;
+  lemlib::Timer timer(timeout);
+  lemlib::Pose lastPose = getPose();
+  float ΔX;
+  float ΔY;
+
+  while (!timer.isDone() && (!lateralLargeExit.getExit() &&
+!lateralSmallExit.getExit())) { lemlib::Pose pose = getPose(false, true);
+
+    ΔX = pose.x - lastPose.x;
+    ΔY = pose.y - lastPose.y;
+    distTraveled += sqrt(pow(ΔX, 2) + pow(ΔY, 2));
+    lastPose = pose;
+
+    if (distTraveled == targetDist || (lateralLargeExit.getExit() &&
+lateralSmallExit.getExit())) timer.set(0);
+
+    delay(10);
+  }
+  drivetrain.leftMotors->brake();
+  drivetrain.rightMotors->brake();
+  distTraveled = -1;
+}*/
+
+void lemlib::Chassis::moveToDist(float distance, int timeout, MoveToDistParams params) {
+  const lemlib::Pose target =
+      chassis.getPose() + lemlib::Pose(sin(chassis.getPose(true).theta), cos(chassis.getPose(true).theta)) * distance;
+      
+  chassis.moveToPoint(target.x, target.y, timeout,
+                      {.forwards = params.forwards,
+                       .maxSpeed = params.maxSpeed,
+                       .minSpeed = params.minSpeed,
+                       .earlyExitRange = params.earlyExitRange});
 }
 
 void tank() {

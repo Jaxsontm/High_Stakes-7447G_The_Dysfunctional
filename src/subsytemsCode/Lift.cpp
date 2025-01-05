@@ -24,7 +24,7 @@ void liftMachine() {
       case liftPos::LOAD:
         timeout = 25;
         slew = 2;
-        while (rotFinder.get_roll() < 17 && lift.get_position() < 138 && timeout > 0) { 
+        while (rotFinder.get_roll() < 17 && lift.get_position() < 144 && timeout > 0) { 
           lift.move(100 + slew);
           timeout--;
           slew += 2;
@@ -40,7 +40,7 @@ void liftMachine() {
       break;
       case liftPos::SCORE:
         timeout = 85;
-        while (rotFinder.get_roll() < 110 && lift.get_position() < 405 && timeout > 0) {
+        while (rotFinder.get_roll() < 112 && lift.get_position() < 485 && timeout > 0) {
           lift.move(127);
           timeout--;
           delay(10);
