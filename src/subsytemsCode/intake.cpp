@@ -20,14 +20,14 @@ void state_machine_intake() {
 		switch (current_number) {
       case StateIntake::ONE:
         intakeState = 1;
-        if (basketCheck.get_distance() >= 220) {
-          while (basketCheck.get() >= 210 && basketLimit.get_value() == 1) {
+        if (basketCheck.get_distance() >= 190 && basketCheck.get_distance() <= 140) {
+          while (basketCheck.get() >= 190 && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           delay(500);
           current_number = StateIntake::BRAKE;
-        } else if (basketCheck.get_distance() <= 200 && basketCheck.get() >= 100) {
-          while (basketCheck.get() >= 60 && basketLimit.get_value() == 1) {
+        } else {
+          while (basketCheck.get() >= 65 && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           delay(500);
@@ -36,8 +36,8 @@ void state_machine_intake() {
       break;
       case StateIntake::TWO:
         intakeState = 2;
-        if (basketCheck.get() >= 210) {
-          while (basketCheck.get() >= 210 && basketLimit.get_value() == 1) {
+        if (basketCheck.get() >= 190) {
+          while (basketCheck.get() >= 190 && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           current_number = StateIntake::CHECK;

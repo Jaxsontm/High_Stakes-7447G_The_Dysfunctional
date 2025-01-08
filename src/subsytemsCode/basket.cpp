@@ -1,12 +1,9 @@
 #include "subsystemsHeaders/basket.hpp"
-#include "pros/optical.hpp"
 
 /// globals
 Motor basket(-6, MotorGearset::red, MotorEncoderUnits::deg);
 
 adi::Button basketLimit('H');
-
-pros::Optical o(17);
 ///machine
 StateBasket currentBasketState = StateBasket::STOP;
 

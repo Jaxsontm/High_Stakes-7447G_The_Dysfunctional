@@ -1,7 +1,5 @@
 #include "subsystemsHeaders/drive.hpp"
-#include "lemlib/chassis/chassis.hpp"
-#include "lemlib/pose.hpp"
-#include <cmath>
+
 
 // controller
 Controller controller(E_CONTROLLER_MASTER);
@@ -43,16 +41,17 @@ lemlib::ControllerSettings
 
 // angular motion controller
 lemlib::ControllerSettings
-		angularController(6.91, // proportional gain (kP)
+		angularController(4, // proportional gain (kP)
 											0,     // integral gain (kI)
-											63.2525,     // derivative gain (kD)
-											2.782,     // anti windup
+											41.2,     // derivative gain (kD)
+											9.615,     // anti windup
 											1,     // small error range, in degrees
-											100,   // small error range timeout, in milliseconds
+											100000000,   // small error range timeout, in milliseconds
 											15,    // large error range, in degrees
-											650,   // large error range timeout, in milliseconds
+											650000000,   // large error range timeout, in milliseconds
 											30     // maximum acceleration (slew)
 		);
+
 
 // Rotation Sensors
 Rotation horizontal_sensor(-12);

@@ -1,5 +1,4 @@
 #include "subsystemsHeaders/Lift.hpp"
-#include "pros/imu.hpp"
 
 ///////// global
 Motor lift(-7, MotorGearset::green, MotorEncoderUnits::degrees);
@@ -22,9 +21,10 @@ void liftMachine() {
   while (true) {
     switch (currentPos) {
       case liftPos::LOAD:
-        timeout = 25;
+        liftPosition = 1;
+        timeout = 30;
         slew = 2;
-        while (rotFinder.get_roll() < 17 && lift.get_position() < 144 && timeout > 0) { 
+        while (rotFinder.get_roll() < 18 && lift.get_position() < 165 && timeout > 0) { 
           lift.move(100 + slew);
           timeout--;
           slew += 2;
@@ -32,13 +32,33 @@ void liftMachine() {
         }
         lift.move(100);
         lift.set_brake_mode(MotorBrake::hold);
-        delay(10);
+        delay(20);
         lift.brake();
         delay(250);
         basketMove(StateBasket::LOAD);
         currentPos = liftPos::STOP;
       break;
+      case liftPos::autoLOAD:
+        liftPosition = 1;
+        timeout = 30;
+        slew = 2;
+        while (rotFinder.get_roll() < 18 && lift.get_position() < 165 && timeout > 0) { 
+          lift.move(100 + slew);
+          timeout--;
+          slew ++;
+          delay(10);
+        }
+        lift.move(100);
+        lift.set_brake_mode(MotorBrake::hold);
+        delay(20);
+        lift.brake();
+        delay(250);
+        basketMove(StateBasket::LOAD);
+        delay(500);
+        setLiftPos(liftPos::SCORE);
+      break;
       case liftPos::SCORE:
+        liftPosition = 2;
         timeout = 85;
         while (rotFinder.get_roll() < 112 && lift.get_position() < 485 && timeout > 0) {
           lift.move(127);
@@ -49,12 +69,14 @@ void liftMachine() {
         currentPos = liftPos::STOP;
       break;
       case liftPos::RESET:
+        liftPosition = 3;
         while (liftLimit.get_value() == 0) lift.move(-60);
         lift.set_brake_mode(MotorBrake::brake);
         lift.brake();
         currentPos = liftPos::STOP;
       break;
       case liftPos::STOP:
+        liftPosition = 0;
         lift.brake();
         rotFinder.tare();
       break;

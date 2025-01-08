@@ -14,9 +14,12 @@ extern Motor lift;
 extern IMU rotFinder;
 
 extern adi::Button liftLimit;
+
+inline int liftPosition = 0;
 //
 enum class liftPos {
   LOAD,
+  autoLOAD,
   SCORE,
   RESET,
   STOP

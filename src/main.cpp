@@ -1,5 +1,6 @@
 #include "main.h"
 #include "auton.h"
+#include "subsystemsHeaders/intake.hpp"
 
 
 void initialize() {
@@ -51,10 +52,10 @@ void autonomous() {
     redRingElim();
     break;
   case 5:
-    blueRing();
+    blueGoal();
     break;
   case 6:
-    blueGoal();
+    blueRing();
     break;
   case 7:
     blueSolo();
@@ -86,6 +87,7 @@ void autonomous() {
 void opcontrol() {
   basket.set_brake_mode(MotorBrake::brake);
   Intake.set_brake_mode(pros::MotorBrake::coast);
+  Intake.brake();
   pros::Task display(text);
   while (true) {
     intakeControl();

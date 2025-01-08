@@ -3,7 +3,7 @@
 #include "liblvgl/widgets/lv_label.h"
 
 bool coord = true;
-int autonSelection = 0;
+int autonSelection = 6;
 int testSelection = -1;
 char testName[10];
 
