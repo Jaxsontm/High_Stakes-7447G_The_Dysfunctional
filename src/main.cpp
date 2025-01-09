@@ -1,15 +1,17 @@
 #include "main.h"
 #include "auton.h"
+#include "pros/llemu.hpp"
 #include "subsystemsHeaders/intake.hpp"
 
 
 void initialize() {
   chassis.calibrate();
-  //pros::lcd::initialize();
-  pros::Task auton_selector_task(selector);
+  pros::lcd::initialize();
+  //pros::Task auton_selector_task(selector);
   Intake.set_brake_mode(pros::MotorBrake::coast);
   basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
+  lift.set_zero_position(0);
   rotFinder.tare();
   pros::Task mogo_machine(state_machine_mogo);
   pros::Task intake_machine(state_machine_intake);
@@ -22,6 +24,7 @@ void initialize() {
       lcd::print(0, "X: %f", chassis.getPose().x);         // x
       lcd::print(1, "Y: %f", chassis.getPose().y);         // y
       lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+      pros::lcd::print(4, "Lift %f", lift.get_position());
 
       // delay to save resources
       delay(50);

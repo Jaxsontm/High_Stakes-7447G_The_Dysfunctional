@@ -1,4 +1,5 @@
 #include "subsystemsHeaders/Lift.hpp"
+#include "pros/rtos.hpp"
 
 ///////// global
 Motor lift(-7, MotorGearset::green, MotorEncoderUnits::degrees);
@@ -16,42 +17,53 @@ void setLiftPos(liftPos requestedPos) {
   }
 }
 
+void liftController(float target, int timeout) {
+  const float kP = 50;
+  const float kI = 0.01;
+  const float kD = 0;
+  float error = target;
+  float prevError = 0;
+  float integral = 0;
+  float prevTime = 0;
+  timeout /= 10;
+  while (fabs(error) > 2 && timeout > 0) {
+    double currTime = pros::millis() / 1000.0;
+    double Δtime = currTime - prevTime;
+    prevTime = currTime;
+
+    error = target - lift.get_position();
+    double pTerm = kP * error;
+
+    integral += error * Δtime;
+    double iTerm = kI * integral;
+
+    double dTerm = kD * (error - prevError) / Δtime;
+    prevError = error;
+
+    float output = pTerm + iTerm + dTerm;
+
+    lift.move_voltage(output);
+
+    timeout --;
+    delay(10);
+  }
+  lift.brake();
+}
+
 void liftMachine() {
   int timeout;
   while (true) {
     switch (currentPos) {
       case liftPos::LOAD:
         liftPosition = 1;
-        timeout = 30;
-        slew = 2;
-        while (rotFinder.get_roll() < 18 && lift.get_position() < 165 && timeout > 0) { 
-          lift.move(100 + slew);
-          timeout--;
-          slew += 2;
-          delay(10);
-        }
-        lift.move(100);
-        lift.set_brake_mode(MotorBrake::hold);
-        delay(20);
-        lift.brake();
+        liftController(165, 350);
         delay(250);
         basketMove(StateBasket::LOAD);
         currentPos = liftPos::STOP;
       break;
       case liftPos::autoLOAD:
         liftPosition = 1;
-        timeout = 30;
-        slew = 2;
-        while (rotFinder.get_roll() < 18 && lift.get_position() < 165 && timeout > 0) { 
-          lift.move(100 + slew);
-          timeout--;
-          slew ++;
-          delay(10);
-        }
-        lift.move(100);
-        lift.set_brake_mode(MotorBrake::hold);
-        delay(20);
-        lift.brake();
+        liftController(165, 350);
         delay(250);
         basketMove(StateBasket::LOAD);
         delay(500);
@@ -59,12 +71,7 @@ void liftMachine() {
       break;
       case liftPos::SCORE:
         liftPosition = 2;
-        timeout = 85;
-        while (rotFinder.get_roll() < 112 && lift.get_position() < 485 && timeout > 0) {
-          lift.move(127);
-          timeout--;
-          delay(10);
-        }
+        liftController(485, 600);
         lift.set_brake_mode(MotorBrake::hold);
         currentPos = liftPos::STOP;
       break;

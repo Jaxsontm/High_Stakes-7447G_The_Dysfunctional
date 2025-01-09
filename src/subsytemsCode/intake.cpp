@@ -21,7 +21,7 @@ void state_machine_intake() {
       case StateIntake::ONE:
         intakeState = 1;
         if (basketCheck.get_distance() >= 190 && basketCheck.get_distance() <= 140) {
-          while (basketCheck.get() >= 190 && basketLimit.get_value() == 1) {
+          while (basketCheck.get() >= 190 && basketCheck.get_distance() <= 100 && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           delay(500);
