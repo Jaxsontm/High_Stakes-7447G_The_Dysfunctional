@@ -120,10 +120,9 @@ void lemlib::Chassis::moveToDist(float distance, int timeout, MoveToDistParams p
       chassis.getPose() + lemlib::Pose(sin(chassis.getPose(true).theta), cos(chassis.getPose(true).theta)) * distance;
       
   chassis.moveToPoint(target.x, target.y, timeout,
-                      {.forwards = params.forwards,
+                      {
                        .maxSpeed = params.maxSpeed,
-                       .minSpeed = params.minSpeed,
-                       .earlyExitRange = params.earlyExitRange});
+                       .minSpeed = params.minSpeed});
 }
 
 void tank() {

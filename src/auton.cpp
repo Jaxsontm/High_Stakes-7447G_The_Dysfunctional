@@ -1,9 +1,4 @@
 #include "auton.h"
-#include "subsystemsHeaders/lift.hpp"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/intake.hpp"
-#include "subsystemsHeaders/mogo.hpp"
 ///////////////////////////////////////////////////////////////////////////////////////////
 //!  General Params
 float earlyExitRange = 4;
