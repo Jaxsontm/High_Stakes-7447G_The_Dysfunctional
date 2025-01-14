@@ -651,7 +651,10 @@ delay(250);
 
   request_new_state_mogo(StateMogo::RELEASE);
 
-  chassis.moveToDist(-50, midDriveTimeout);
+  chassis.moveToDist(-48, midDriveTimeout);
+  chassis.waitUntilDone();
+
+  chassis.moveToDist(20, 800);
 }
 
 void rgAWP() { chassis.setPose(0, -5.5, 0);
