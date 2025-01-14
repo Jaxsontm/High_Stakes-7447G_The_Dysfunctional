@@ -16,7 +16,7 @@ void setLiftPos(liftPos requestedPos) {
 }
 
 void liftController(float target, int timeout) {
-  const float kP = 50;
+  const float kP = 65;
   const float kI = 0.02;
   const float kD = 0;
   float error = target;
@@ -53,24 +53,26 @@ void liftMachine() {
     switch (currentPos) {
       case liftPos::autoLOAD:
         liftPosition = 1;
-        liftController(165, 350);
+        lift.set_brake_mode(MotorBrake::hold);
+        liftController(140, 350);
         delay(250);
         basketMove(StateBasket::LOAD);
         delay(500);
-        liftController(485, 600);
+        liftController(500, 600);
         delay(250);
         currentPos = liftPos::RESET;
       break;
       case liftPos::LOAD:
         liftPosition = 1;
-        liftController(165, 350);
+        lift.set_brake_mode(MotorBrake::hold);
+        liftController(140, 350);
         delay(250);
         basketMove(StateBasket::LOAD);
         currentPos = liftPos::STOP;
       break;
       case liftPos::SCORE:
         liftPosition = 2;
-        liftController(485, 600);
+        liftController(490, 600);
         lift.set_brake_mode(MotorBrake::hold);
         currentPos = liftPos::STOP;
       break;
@@ -85,7 +87,7 @@ void liftMachine() {
       case liftPos::STOP:
         liftPosition = 0;
         lift.brake();
-        rotFinder.tare();
+        lift.tare_position();
       break;
       }
     delay(10);

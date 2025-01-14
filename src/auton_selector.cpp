@@ -1,9 +1,10 @@
 #include "auton_selector.hpp"
 #include "liblvgl/misc/lv_area.h"
 #include "liblvgl/widgets/lv_label.h"
+#include "subsystemsHeaders/drive.hpp"
 
 bool coord = true;
-int autonSelection = 1;
+int autonSelection = -1;
 int testSelection = -1;
 char testName[10];
 
@@ -52,22 +53,6 @@ lv_obj_t *rgoalAWP = lv_btn_create(qualTabAWP);
 lv_obj_t *rringAWP = lv_btn_create(qualTabAWP);
 lv_obj_t *bgoalAWP = lv_btn_create(qualTabAWP);
 lv_obj_t *bringAWP = lv_btn_create(qualTabAWP);
-
-static void coords(lv_event_t *e) {
-  lv_event_code_t code = lv_event_get_code(e);
-  lemlib::Pose trackerPos = chassis.getPose();
-
-  if (code == LV_EVENT_CLICKED) {
-    if (coord) {
-      lv_label_set_text_fmt(placement_label, "(x: %.2f, y: %.2f, theta: %.2f)",
-                            trackerPos.x, trackerPos.y, trackerPos.theta);
-      coord = !coord;
-    } else {
-      lv_label_set_text(placement_label, "");
-      coord = !coord;
-    }
-  }
-}
 
 static void selection(lv_event_t *e) {
   lv_obj_t *btn = lv_event_get_target(e);
@@ -343,16 +328,6 @@ void selector() {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  lv_obj_t *Coords = lv_btn_create(lv_scr_act());
-  lv_obj_t *coordLabel = lv_label_create(Coords);
-  lv_label_set_text(coordLabel, "COORDS");
-  lv_obj_center(coordLabel);
-  lv_obj_set_style_text_letter_space(Coords, 2, 0);
-  lv_obj_set_style_text_font(coordLabel, LV_THEME_DEFAULT_FONT_SMALL, 0);
-  lv_obj_set_style_bg_color(Coords, lv_color_black(), 0);
-  lv_obj_align(Coords, LV_ALIGN_BOTTOM_RIGHT, -10, -35);
-  lv_obj_add_event_cb(Coords, coords, LV_EVENT_CLICKED, nullptr);
-
   lv_obj_set_style_bg_color(stats_label,
                             lv_palette_darken(LV_PALETTE_DEEP_ORANGE, 2), 0);
   lv_obj_align(stats_label, LV_ALIGN_CENTER, 0, -20);
@@ -364,7 +339,9 @@ void selector() {
   char statText[150];
 
   while (true) {
-    lv_label_set_text(stats_label, "");
+
+    lv_label_set_text_fmt(placement_label, "(x: %.2f, y: %.2f, theta: %.2f)",
+                            chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
 
     // stats tab
     lv_label_set_text_fmt(stats_label,
@@ -377,5 +354,7 @@ void selector() {
                           lift.get_temperature(), basket.get_temperature());
 
     pros::delay(500);
+    lv_label_set_text(placement_label, "");
+    lv_label_set_text(stats_label, "");
   } // while loop
 } // void selector

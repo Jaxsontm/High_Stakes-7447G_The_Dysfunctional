@@ -118,9 +118,9 @@ lateralSmallExit.getExit())) timer.set(0);
 void lemlib::Chassis::moveToDist(float distance, int timeout, MoveToDistParams params) {
   const lemlib::Pose target =
       chassis.getPose() + lemlib::Pose(sin(chassis.getPose(true).theta), cos(chassis.getPose(true).theta)) * distance;
-      
+
   chassis.moveToPoint(target.x, target.y, timeout,
-                      {
+                      {.forwards = (distance > 0),
                        .maxSpeed = params.maxSpeed,
                        .minSpeed = params.minSpeed});
 }

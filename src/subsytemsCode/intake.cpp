@@ -6,6 +6,7 @@ Motor Intake(-11, MotorGearset::green);
 
 Distance basketCheck(9);
 
+bool first = true;
 //////// state machine
 StateIntake current_number = StateIntake::BRAKE;
 
@@ -21,13 +22,13 @@ void state_machine_intake() {
       case StateIntake::ONE:
         intakeState = 1;
         if (basketCheck.get_distance() >= 190 && basketCheck.get_distance() <= 140) {
-          while (basketCheck.get() >= 190 && basketCheck.get_distance() <= 100 && basketLimit.get_value() == 1) {
+          while (basketCheck.get() >= 205 && basketCheck.get_distance() <= 100 && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           delay(500);
           current_number = StateIntake::BRAKE;
         } else {
-          while (basketCheck.get() >= 65 && basketLimit.get_value() == 1) {
+          while (basketCheck.get() >= 80 && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           delay(500);
@@ -37,12 +38,12 @@ void state_machine_intake() {
       case StateIntake::TWO:
         intakeState = 2;
         if (basketCheck.get() >= 190) {
-          while (basketCheck.get() >= 190 && basketLimit.get_value() == 1) {
+          while ((basketCheck.get() >= 205 || basketCheck.get() < 100) && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           current_number = StateIntake::CHECK;
         } else {
-          while (basketCheck.get() > 65 && basketLimit.get_value() == 1) {
+          while (basketCheck.get() > 80 && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           current_number = StateIntake::CHECK;
@@ -54,10 +55,12 @@ void state_machine_intake() {
           current_number = StateIntake::BRAKE;
         } else {
           delay(350);
-          if (basketCheck.get() <= 210) {
+          if (first) {
+            first = !first;
             current_number = StateIntake::TWO;
-          } else if (basketCheck.get() < 66) {
+          } else {
             delay(350);
+            first = !first;
             current_number = StateIntake::BRAKE;
           }
         }

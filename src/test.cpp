@@ -23,9 +23,8 @@ void basketTop() {
 }
 
 void liftLoad() {
-  if (basketCheck.get() > 100) spinFor(StateIntake::ONE);
   
-  setLiftPos(liftPos::LOAD);
+  setLiftPos(liftPos::autoLOAD);
 }
 
 void test() {
