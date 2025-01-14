@@ -571,10 +571,6 @@ delay(250);
   chassis.moveToPoint(0, 13, largeDriveTimeout);
   chassis.waitUntilDone();
 
-  chassis.resetLocalPosition();
-
-  chassis.setPose(0, 13, -90);
-
   chassis.turnToHeading(90, turnTimeout);
   chassis.waitUntilDone();
 
