@@ -533,122 +533,122 @@ delay(250);
   while (basketState != 0) delay(10);
 
   chassis.moveToPoint(0, 13, smallDriveTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
   chassis.turnToHeading(270, turnTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
-  request_new_state_mogo(StateMogo::LOCATE);
+      request_new_state_mogo(StateMogo::LOCATE);
 
   chassis.moveToPoint(18, 14, midDriveTimeout, {.forwards = false, .maxSpeed = 50});
-  chassis.waitUntilDone();
-  delay(500);
+chassis.waitUntilDone();
+delay(500);
 
   chassis.turnToHeading(5, 200);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
-  spinFor(StateIntake::ONE);
+    spinFor(StateIntake::ONE);
 
   chassis.moveToPoint(24, 38, midDriveTimeout);
-  chassis.waitUntilDone();
-  delay(750);
+chassis.waitUntilDone();
+delay(750);
 
   chassis.turnToHeading(-45, turnTimeout);
 
   while (intakeState != 0) delay(10);
-  delay(500);
+delay(500);
 
-  basketMove(StateBasket::SCORE);
-  delay(250);
+    basketMove(StateBasket::SCORE);
+delay(250);
 
   while (basketState != 0) delay(10);
 
-  request_new_state_mogo(StateMogo::RELEASE);
+      request_new_state_mogo(StateMogo::RELEASE);
 
   chassis.moveToDist(-48, midDriveTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
   chassis.moveToPoint(0, 13, largeDriveTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
   chassis.turnToHeading(90, turnTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
-  request_new_state_mogo(StateMogo::LOCATE);
+      request_new_state_mogo(StateMogo::LOCATE);
 
   chassis.moveToPoint(-18, 14, midDriveTimeout);
 
-  spinFor(StateIntake::ONE);
+    spinFor(StateIntake::ONE);
 
   chassis.moveToPoint(-24, 38, midDriveTimeout);
-  chassis.waitUntilDone();
-  delay(750);
+chassis.waitUntilDone();
+delay(750);
 
   chassis.turnToHeading(45, turnTimeout);
 
   while (intakeState != 0) delay(10);
-  delay(500);
+delay(500);
 
-  basketMove(StateBasket::SCORE);
-  delay(250);
+    basketMove(StateBasket::SCORE);
+delay(250);
 
   while (basketState != 0) delay(10);
 
-  request_new_state_mogo(StateMogo::RELEASE);
+      request_new_state_mogo(StateMogo::RELEASE);
 
   chassis.moveToDist(-48, midDriveTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
   chassis.turnToHeading(20, turnTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
   chassis.moveToPoint(-15.75, 109, largeDriveTimeout, {.minSpeed = 80});
 
-  spinFor(StateIntake::ONE);
-  delay(250);
+    spinFor(StateIntake::ONE);
+delay(250);
 
   while (intakeState != 0) delay(10);
-  delay(250);
+delay(250);
 
-  spinFor(StateIntake::REV);
-  chassis.waitUntilDone();
+    spinFor(StateIntake::REV);
+chassis.waitUntilDone();
 
   chassis.swingToPoint(-50, 122.75, lemlib::DriveSide::LEFT, swingTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
   chassis.moveToPoint(-50, 122.75, midDriveTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
-  request_new_state_mogo(StateMogo::LOCATE);
+      request_new_state_mogo(StateMogo::LOCATE);
 
   chassis.moveToPoint(-8.25, 110.5, turnTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
-  spinFor(StateIntake::ONE);
+    spinFor(StateIntake::ONE);
 
   chassis.turnToPoint(23.5, 84.75, turnTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
   chassis.moveToPoint(23.5, 84.75, midDriveTimeout, {.forwards = false});
-  chassis.waitUntilDone();
-  delay(1000);
+chassis.waitUntilDone();
+delay(1000);
 
   chassis.turnToHeading(-135, turnTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
   while (intakeState != 0) delay(10);
-  delay(500);
+delay(500);
 
-  basketMove(StateBasket::SCORE);
-  delay(500);
+    basketMove(StateBasket::SCORE);
+delay(500);
 
   while (basketState != 0) delay(10);
-  delay(250);
+delay(250);
 
-  request_new_state_mogo(StateMogo::RELEASE);
+      request_new_state_mogo(StateMogo::RELEASE);
 
   chassis.moveToDist(-48, midDriveTimeout);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
   chassis.moveToDist(20, 800);
 }

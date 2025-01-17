@@ -3,7 +3,7 @@
 ///////// global
 Motor lift(-7, MotorGearset::green, MotorEncoderUnits::degrees);
 
-IMU rotFinder(4);
+Rotation rotFinder(4);
 
 adi::Button liftLimit('G');
 ////////Macro
@@ -19,7 +19,8 @@ void liftController(float target, int timeout) {
   const float kP = 65;
   const float kI = 0.02;
   const float kD = 0;
-  float error = target;
+  float currPos = 0;
+  float error = target / 4;
   float prevError = 0;
   float integral = 0;
   float prevTime = 0;
@@ -29,7 +30,8 @@ void liftController(float target, int timeout) {
     double Δt = currTime - prevTime;
     prevTime = currTime;
 
-    error = target - lift.get_position();
+    currPos = lift.get_position();
+    error = target - (currPos / 100);
     double pTerm = kP * error;
 
     integral += error * Δt;
@@ -43,7 +45,7 @@ void liftController(float target, int timeout) {
     lift.move_voltage(output);
 
     timeout --;
-    delay(10);
+    delay(9);
   }
   lift.brake();
 }
@@ -72,7 +74,7 @@ void liftMachine() {
       break;
       case liftPos::SCORE:
         liftPosition = 2;
-        liftController(490, 600);
+        liftController(49, 600);
         lift.set_brake_mode(MotorBrake::hold);
         currentPos = liftPos::STOP;
       break;
@@ -88,6 +90,7 @@ void liftMachine() {
         liftPosition = 0;
         lift.brake();
         lift.tare_position();
+        rotFinder.reset_position();
       break;
       }
     delay(10);

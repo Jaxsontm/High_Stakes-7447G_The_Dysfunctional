@@ -1,7 +1,4 @@
 #include "main.h"
-#include "auton.h"
-#include "pros/llemu.hpp"
-#include "subsystemsHeaders/intake.hpp"
 
 
 void initialize() {
@@ -12,7 +9,7 @@ void initialize() {
   basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
   lift.set_zero_position(0);
-  rotFinder.tare();
+  rotFinder.reset_position();
   pros::Task mogo_machine(state_machine_mogo);
   pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
@@ -24,7 +21,7 @@ void initialize() {
       lcd::print(0, "X: %f", chassis.getPose().x);         // x
       lcd::print(1, "Y: %f", chassis.getPose().y);         // y
       lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-      pros::lcd::print(4, "Lift %f", lift.get_position());
+      pros::lcd::print(4, "Lift %d", rotFinder.get_angle());
 
       // delay to save resources
       delay(50);
