@@ -1,4 +1,8 @@
 #include "auton.h"
+#include "lemlib/chassis/chassis.hpp"
+#include "subsystemsHeaders/drive.hpp"
+#include "subsystemsHeaders/intake.hpp"
+#include "subsystemsHeaders/mogo.hpp"
 ///////////////////////////////////////////////////////////////////////////////////////////
 //!  General Params
 float earlyExitRange = 4;
@@ -205,17 +209,17 @@ chassis.waitUntilDone();
 
   basketMove(StateBasket::SCORE);
 }
-void redRing() { chassis.setPose(0, 0, 270);
+void redRing() { chassis.setPose(-0, 0, 90);
   spinFor(StateIntake::REV);
   
-  chassis.moveToPoint(-5.8, 0, smallDriveTimeout);
+  chassis.moveToPoint(6, 0, smallDriveTimeout);
   chassis.waitUntilDone();
 
-  chassis.swingToHeading(0, lemlib::DriveSide::RIGHT, 900);
-  chassis.waitUntilDone();
+  chassis.swingToHeading(0, lemlib::DriveSide::LEFT, 700);
+chassis.waitUntilDone();
 
-  chassis.moveToPoint(-16, -3.5, smallDriveTimeout);
-  chassis.waitUntil(2.5);
+  chassis.moveToPoint(16, -6, smallDriveTimeout);
+chassis.waitUntil(2.5);
 
   basketMove(StateBasket::SCORE);
   delay(50);
@@ -224,24 +228,24 @@ void redRing() { chassis.setPose(0, 0, 270);
 
   while(basketState != 0) delay(10);
 
-  chassis.moveToPoint(-16, 2.5, smallDriveTimeout);
+  chassis.moveToPoint(16, 2.5, smallDriveTimeout);
 
-  chassis.turnToHeading(-120, turnTimeout);
+  chassis.turnToHeading(120, turnTimeout);
   chassis.waitUntilDone();
 
   request_new_state_mogo(StateMogo::LOCATE);
 
   spinFor(StateIntake::ONE);
 
-  chassis.moveToPoint(0.55, 26.475, smallDriveTimeout, {.forwards = false, .minSpeed = 100});
+  chassis.moveToPoint(-0.55, 26.475, smallDriveTimeout, {.forwards = false, .minSpeed = 100});
 
-  chassis.moveToPoint(6, 36.75, midDriveTimeout, {.forwards = false, .maxSpeed = goalGrabMaxSpeed});
+  chassis.moveToPoint(-6, 36.75, midDriveTimeout, {.forwards = false, .maxSpeed = goalGrabMaxSpeed});
   chassis.waitUntilDone();
 
-  chassis.turnToHeading(90, 800);
+  chassis.turnToHeading(-90, 800);
   chassis.waitUntilDone();
 
-  chassis.moveToPoint(25, 36.5, midDriveTimeout);
+  chassis.moveToPoint(-25, 36.5, midDriveTimeout);
   delay(50);
 
   while (intakeState != 0) delay(10);
@@ -251,15 +255,15 @@ void redRing() { chassis.setPose(0, 0, 270);
 
   while (basketState != 0) delay(10);
 
-  chassis.turnToPoint(24.5, 48.5, smallDriveTimeout, {}, false);
+  chassis.turnToPoint(-24.5, 48.5, smallDriveTimeout, {}, false);
 
   spinFor(StateIntake::ONE);
 
-  chassis.moveToPoint(25, 48.5, smallDriveTimeout);
+  chassis.moveToPoint(-25, 48.5, smallDriveTimeout);
   chassis.waitUntilDone();
   delay(500);
 
-  chassis.swingToHeading(-60, lemlib::DriveSide::RIGHT, swingTimeout);
+  chassis.swingToHeading(60, lemlib::DriveSide::LEFT, swingTimeout);
   chassis.waitUntilDone();
 
   chassis.moveToDist(18, smallDriveTimeout);
@@ -457,14 +461,14 @@ chassis.waitUntilDone();
 void blueRing() { chassis.setPose(-0, 0, -90);
   spinFor(StateIntake::REV);
   
-  chassis.moveToPoint(-4.8, 0, smallDriveTimeout);
+  chassis.moveToPoint(-6, 0, smallDriveTimeout);
   chassis.waitUntilDone();
 
   chassis.swingToHeading(0, lemlib::DriveSide::RIGHT, 700);
-  chassis.waitUntilDone();
+chassis.waitUntilDone();
 
-  chassis.moveToPoint(-16, -3.5, smallDriveTimeout);
-  chassis.waitUntil(2.5);
+  chassis.moveToPoint(-16, -6, smallDriveTimeout, {.forwards = false});
+chassis.waitUntil(2.5);
 
   basketMove(StateBasket::SCORE);
   delay(50);
@@ -540,7 +544,7 @@ chassis.waitUntilDone();
 
       request_new_state_mogo(StateMogo::LOCATE);
 
-  chassis.moveToPoint(18, 14, midDriveTimeout, {.forwards = false, .maxSpeed = 50});
+  chassis.moveToPoint(20, 14, midDriveTimeout, {.forwards = false, .maxSpeed = 50});
 chassis.waitUntilDone();
 delay(500);
 
@@ -565,10 +569,10 @@ delay(250);
 
       request_new_state_mogo(StateMogo::RELEASE);
 
-  chassis.moveToDist(-48, midDriveTimeout);
+  chassis.moveToDist(-52, midDriveTimeout);
 chassis.waitUntilDone();
 
-  chassis.moveToPoint(0, 13, largeDriveTimeout);
+  chassis.moveToPoint(2, 13, largeDriveTimeout);
 chassis.waitUntilDone();
 
   chassis.turnToHeading(90, turnTimeout);
@@ -576,7 +580,12 @@ chassis.waitUntilDone();
 
       request_new_state_mogo(StateMogo::LOCATE);
 
-  chassis.moveToPoint(-18, 14, midDriveTimeout);
+  chassis.moveToPoint(-20, 12, midDriveTimeout, {.forwards = false, .maxSpeed = goalGrabMaxSpeed});
+chassis.waitUntilDone();
+delay(500);
+
+  chassis.turnToHeading(-5, 200);
+chassis.waitUntilDone();
 
     spinFor(StateIntake::ONE);
 
@@ -596,61 +605,41 @@ delay(250);
 
       request_new_state_mogo(StateMogo::RELEASE);
 
-  chassis.moveToDist(-48, midDriveTimeout);
+  chassis.moveToDist(-52, midDriveTimeout);
 chassis.waitUntilDone();
 
-  chassis.turnToHeading(20, turnTimeout);
+  chassis.moveToDist(8, smallDriveTimeout);
 chassis.waitUntilDone();
 
-  chassis.moveToPoint(-15.75, 109, largeDriveTimeout, {.minSpeed = 80});
-
-    spinFor(StateIntake::ONE);
-delay(250);
-
-  while (intakeState != 0) delay(10);
-delay(250);
-
-    spinFor(StateIntake::REV);
+  chassis.turnToHeading(-20, turnTimeout);
 chassis.waitUntilDone();
 
-  chassis.swingToPoint(-50, 122.75, lemlib::DriveSide::LEFT, swingTimeout);
+  spinFor(StateIntake::ONE);
+  delay(500);
+
+  chassis.moveToPoint(-15.75, 100, largeDriveTimeout, {.minSpeed = 80});
+chassis.waitUntilDone();
+
+  chassis.swingToPoint(-50, 128.75, lemlib::DriveSide::LEFT, swingTimeout);
 chassis.waitUntilDone();
 
   chassis.moveToPoint(-50, 122.75, midDriveTimeout);
 chassis.waitUntilDone();
 
-      request_new_state_mogo(StateMogo::LOCATE);
-
-  chassis.moveToPoint(-8.25, 110.5, turnTimeout);
+  chassis.turnToHeading(-90, turnTimeout);
 chassis.waitUntilDone();
 
-    spinFor(StateIntake::ONE);
+  chassis.moveToDist(-102, largeDriveTimeout);
+  chassis.waitUntilDone();
 
-  chassis.turnToPoint(23.5, 84.75, turnTimeout);
+  chassis.swingToHeading(-160, lemlib::DriveSide::RIGHT,turnTimeout);
 chassis.waitUntilDone();
 
-  chassis.moveToPoint(23.5, 84.75, midDriveTimeout, {.forwards = false});
-chassis.waitUntilDone();
-delay(1000);
-
-  chassis.turnToHeading(-135, turnTimeout);
+  chassis.moveToDist(-22, smallDriveTimeout);
 chassis.waitUntilDone();
 
-  while (intakeState != 0) delay(10);
-delay(500);
-
-    basketMove(StateBasket::SCORE);
-delay(500);
-
-  while (basketState != 0) delay(10);
-delay(250);
-
-      request_new_state_mogo(StateMogo::RELEASE);
-
-  chassis.moveToDist(-48, midDriveTimeout);
+  chassis.moveToDist(20, smallDriveTimeout);
 chassis.waitUntilDone();
-
-  chassis.moveToDist(20, 800);
 }
 
 void rgAWP() { chassis.setPose(0, -5.5, 0);
