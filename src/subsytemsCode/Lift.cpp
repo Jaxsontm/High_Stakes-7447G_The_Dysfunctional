@@ -95,10 +95,10 @@ void liftController(double target, int timeout) {
   double kP = 78;
   double kF = 1;
   double currPos = 0;
-  double error = target - lift.get_position();
+  double error = target - (rotFinder.get_position() / 100.0);
   double prevError = 0;
   while (fabs(error) >= 1 && timeout > 0) {
-    error = target - (lift.get_position());
+    error = target - (rotFinder.get_position() / 100.0);
 
     double υP = kP * error;
 
