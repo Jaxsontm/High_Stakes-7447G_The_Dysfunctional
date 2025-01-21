@@ -1,14 +1,13 @@
 #include "subsystemsHeaders/Lift.hpp"
-#include <cmath>
 
 ///////// global
-Motor lift(-7, MotorGearset::green, MotorEncoderUnits::degrees);
+Motor lift(7, MotorGearset::green, MotorEncoderUnits::degrees);
 
 Rotation rotFinder(4);
 
 adi::Button liftLimit('G');
 
-bool once = true;
+bool score = false;
 ////////Macro
 int sgn(int x) {
   if (x > 0) {
@@ -20,11 +19,31 @@ int sgn(int x) {
   }
 }
 
-int scaleVelo(int velo) {
-  if (velo > 127) {
-    return 127;
-  } else if (velo < -127) {
-    return -127;
+int scaleVelo(int velo, int scale) {
+  if (scale == 1) {
+    if (velo > 12000) {
+      return 12000;
+    } else if (velo < -12000) {
+      return -12000;
+    } else {
+      return velo;
+    }
+  } else if (scale == 2) {
+    if (velo > 100) {
+      return 100;
+    } else if (velo < -100) {
+      return -100;
+    } else {
+      return velo;
+    }
+  } else if (scale == 3) {
+    if (velo > 127) {
+      return 127;
+    } else if (velo < -127) {
+      return -127;
+    } else {
+      return velo;
+    }
   } else {
     return velo;
   }
@@ -38,143 +57,184 @@ void setLiftPos(liftPos requestedPos) {
   }
 }
 
+//* While Loops //Overshoots very easily, but is very fast 
 /*void liftController(double target) {
-  double kP = 50;
-  double kF = 1;
-  double currPos = 0;
   double error = target;
+  while (fabs(error) >= 5) {
+    error = target - (rotFinder.get_angle() / 100.0);
+    lift.move_voltage(12000 * (error > 0 ? 1 : -1));
+    delay(10);
+  }
+  lift.move_voltage(0);
+}*/
+
+//* Bang Bang //Overshoots incredibly easily, will oscillate, slew can be tuned for better speed
+/*void liftController(double target) {
+  double error = target;
+  int antiOver = target/2;
+  double expo = 0.8;
+  int speed = 50;
   while (fabs(error) >= 1) {
-    currPos = rotFinder.get_angle();
-    error = target - (currPos / 100);
+    error = target - (rotFinder.get_angle() / 100.0);
+    if (error > antiOver) {
+      speed = speed * (1 + expo);
+    } else if (error < antiOver) {
+      speed = speed * (1 - expo);
+    }
 
-    double υP = kP * error;
+    scaleVelo(speed, 3);
 
-    double υF = kF * target;
-
-    double υOutput = υP + υF;
-
-    scaleVelo(υOutput);
-
-    lift.move(υOutput);
-
-    delay(9);
+    lift.move(speed);
+    delay(10);
   }
   lift.move(0);
 }*/
 
-/*double triangularMemb(double x, double a, double b, double c) {
+//* PF Loop
+void liftController(double target, int timeout) {
+  double kP = 78;
+  double kF = 1;
+  double currPos = 0;
+  double error = target - lift.get_position();
+  double prevError = 0;
+  while (fabs(error) >= 1 && timeout > 0) {
+    error = target - (lift.get_position());
+
+    double υP = kP * error;
+
+    double υF = kF * ((error - prevError) / 0.01);
+
+    double υOutput = υP + υF;
+
+    scaleVelo(υOutput, 1);
+
+    lift.move_voltage(υOutput);
+
+    prevError = error;
+    timeout -= 10;
+    delay(10);
+  }
+  lift.move_voltage(0);
+}
+
+//* Fuzzy-PID Loop
+/*double triFuzzifier(double x, double a, double b, double c) {
     if (x <= a || x >= c) return 0;
     else if (x <= b) return (x - a) / (b - a);
     else return (c - x) / (c - b);
 }
 
 void fuzzyAdjust(double e, double Δe, double &kP, double &kI, double &kD) {
-  double NL = triangularMemb(e, -400, -200, 0);
-  double NS = triangularMemb(e, -200, -50, 0);
-  double Z = triangularMemb(e, -10, 0, 10);
-  double PS = triangularMemb(e, 0, 50, 200);
-  double PL = triangularMemb(e, 0, 200, 400);
+  double NL = triFuzzifier(e, -400, -200, 0);
+  double NS = triFuzzifier(e, -200, -100, 0);
+  double Z = triFuzzifier(e, -1, 0, 1);
+  double PS = triFuzzifier(e, 0, 100, 200);
+  double PL = triFuzzifier(e, 0, 200, 400);
 
-  double N_Δe = triangularMemb(Δe, -200, -100, 0);
-  double Z_Δe = triangularMemb(Δe, -5, 0, 5);
-  double P_Δe = triangularMemb(Δe, 0, 100, 200);
+  double N_Δe = triFuzzifier(Δe, -200, -100, 0);
+  double Z_Δe = triFuzzifier(Δe, -5, 0, 5);
+  double P_Δe = triFuzzifier(Δe, 0, 100, 200);
 
-  kP = (PL * 2.0 + PS * 1.5 + Z * 1.0 + NS * 0.8 + NL * 1.2)
-       + (P_Δe * 1.2 + Z_Δe * 1.0 + N_Δe * 0.8);
+//! Weighted Average and Weighted Sum hybrid defuzzification
+//! Favors Sum for fast actions in big errors
+//! Favors Average for smooth actions in small errors
+  double K = 20;
+  double α = fabs(e) / fabs(e) + K;
 
-  kI = (PL * 0.1 + PS * 0.08 + Z * 0.05 + NS * 0.03 + NL * 0.02)
-       + (P_Δe * 0.05 + Z_Δe * 0.03 + N_Δe * 0.01);
+  double sumMemb = NL + NS + Z + PS + PL;
+  double sumKP = (PL * 10.0 + PS * 8.5 + Z * 1.0 + NS * 8 + NL * 9.2);
+  double sumKI = (PL * 0.1 + PS * 0.02 + Z * 0.0 + NS * 0.01 + NL * 0.02);
+  double sumKD = (PL * 0.3 + PS * 0.2 + Z * 0.1 + NS * 0.15 + NL * 0.2);
+  double weightAvgKP = sumKP / sumMemb;
+  double weightAvgKI = sumKI / sumMemb;
+  double weightAvgKD = sumKD / sumMemb;
+  double weightSumKP = sumKP + (P_Δe * 1.2 + Z_Δe * 1.0 + N_Δe * 0.8);
+  double weightSumKI = sumKI + (P_Δe * 0.05 + Z_Δe * 0.03 + N_Δe * 0.01);
+  double weightSumKD = sumKD + (P_Δe * 0.25 + Z_Δe * 0.15 + N_Δe * 0.3);
 
-  kD = (PL * 0.3 + PS * 0.2 + Z * 0.1 + NS * 0.15 + NL * 0.2)
-       + (P_Δe * 0.25 + Z_Δe * 0.15 + N_Δe * 0.3);
+  kP = (1 - α) * weightAvgKP + α * weightSumKP;
+
+  kI = (1 - α) * weightAvgKI + α * weightSumKI;
+
+  kD = (1 - α) * weightAvgKD + α * weightSumKD;
 }
 
 void liftController(double target) {
-    double kP = 0, kI = 0, kD = 0;
+  double kP = 0, kI = 0, kD = 0;
 
-    double error = target, prevError = 0.0, integral = 0.0;
+  double error = target, prevError = 0.0, integral = 0.0, derivative = 0.0;
 
-    while (fabs(error) > 2) {
-        double currPos = lift.get_position();
-        error = target - currPos;
-        double Δerror = error - prevError;
+  while (fabs(error) > 2) {
+    double currPos = lift.get_position();
+    error = target - currPos;
+    double Δerror = error - prevError;
 
-        fuzzyAdjust(error, Δerror, kP, kI, kD);
+    fuzzyAdjust(error, Δerror, kP, kI, kD);
 
-        integral += error * 0.01;
-        double Δerivative = Δerror / 0.01;
-        double output = kP * error + kI * integral + kD * Δerivative;
+    integral += error;
+    double derivative = Δerror;
+    double output = kP * error + kI * integral + kD * derivative;
 
-        lift.move_voltage(output * 12000 / 100);
+    scaleVelo(output * 100, 1);
 
-        prevError = error;
-        pros::delay(10);
-    }
-}*/
+    lift.move_voltage(output);
 
-/*void liftController(float target) {
-  float error = target - lift.get_position();
-  while (fabs(error) >= 5) {
-    if (fabs(error) > 2) {
-      lift.move_voltage(12000 * sgn(error));
-    } else {
-      lift.move_voltage(0);
-    }
-    delay(10);
+    prevError = error;
+    pros::delay(10);
   }
+  lift.move_voltage(0);
 }*/
+
+
 
 void liftMachine() {
   while (true) {
     switch (currentPos) {
       case liftPos::autoLOAD:
-        liftPosition = 1;
+        /*liftPosition = 1;
         lift.set_brake_mode(MotorBrake::hold);
         if (once == true) {
-          liftController(95);
+          liftController(95, 1);
           once = !once;
         } else {
-          liftController(95);
+          liftController(95, 1);
         }
         delay(250);
         basketMove(StateBasket::LOAD);
         delay(500);
         liftController(500);
         delay(250);
-        currentPos = liftPos::RESET;
+        currentPos = liftPos::RESET;*/
       break;
       case liftPos::LOAD:
         liftPosition = 1;
         lift.set_brake_mode(MotorBrake::hold);
-        if (once == true) {
-          liftController(90);
-          once = !once;
-        } else {
-          liftController(93);
-        }
-        delay(250);
+        liftController(26, 350);
+        if (score == true) delay(300);
         basketMove(StateBasket::LOAD);
+        score = false;
         currentPos = liftPos::STOP;
       break;
       case liftPos::SCORE:
         liftPosition = 2;
-        liftController(250);
+        liftController(129, 600);
         lift.set_brake_mode(MotorBrake::hold);
+        score = true;
         currentPos = liftPos::STOP;
       break;
       case liftPos::RESET:
         liftPosition = 3;
-        while (liftLimit.get_value() == 0) lift.move(-60);
+        while (liftLimit.get_value() == 0) lift.move(-127);
         lift.set_brake_mode(MotorBrake::brake);
         lift.brake();
         lift.tare_position();
+        rotFinder.reset_position();
+        score = false;
         currentPos = liftPos::STOP;
       break;
       case liftPos::STOP:
         liftPosition = 0;
         lift.brake();
-        lift.tare_position();
-        rotFinder.reset_position();
       break;
       }
     delay(10);
@@ -182,10 +242,13 @@ void liftMachine() {
 }
 //////// Driver Control
 void liftDriver() {
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) setLiftPos(liftPos::LOAD);
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT) && liftPosition != 2) {
+    setLiftPos(liftPos::LOAD);
+  } else if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT) && liftPosition == 2) {
+    setLiftPos(liftPos::RESET);
+  }
   
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) setLiftPos(liftPos::SCORE);
 
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) setLiftPos(liftPos::RESET);
-
 }

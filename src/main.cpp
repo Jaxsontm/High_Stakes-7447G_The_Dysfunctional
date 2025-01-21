@@ -9,6 +9,7 @@ void initialize() {
   basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
   lift.set_zero_position(0);
+  lift.tare_position();
   rotFinder.reset_position();
   pros::Task mogo_machine(state_machine_mogo);
   pros::Task intake_machine(state_machine_intake);

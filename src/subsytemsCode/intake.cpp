@@ -43,7 +43,7 @@ void state_machine_intake() {
           }
           current_number = StateIntake::CHECK;
         } else {
-          while (basketCheck.get() > 80 && basketLimit.get_value() == 1) {
+          while ((basketCheck.get() > 80 || basketCheck.get() < 57) && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           current_number = StateIntake::CHECK;
