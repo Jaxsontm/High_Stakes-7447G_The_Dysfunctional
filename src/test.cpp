@@ -23,7 +23,6 @@ void basketTop() {
 }
 
 void liftLoad() {
-  
   setLiftPos(liftPos::autoLOAD);
 }
 

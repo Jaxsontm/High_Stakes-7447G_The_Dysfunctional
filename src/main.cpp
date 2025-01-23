@@ -8,11 +8,11 @@ void initialize() {
   Intake.set_brake_mode(pros::MotorBrake::coast);
   basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
-  setLiftPos(liftPos::RESET);
   pros::Task mogo_machine(state_machine_mogo);
   pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);
   pros::Task lift_machine(liftMachine);
+  setLiftPos(liftPos::RESET);
   Task screenTask([&]() {
     lemlib::Pose pose(0, 0, 0);
     while (true) {

@@ -206,11 +206,7 @@ void liftMachine() {
 }
 //////// Driver Control
 void liftDriver() {
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT) && liftPosition != 2) {
-    setLiftPos(liftPos::LOAD);
-  } else if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT) && liftPosition == 2) {
-    setLiftPos(liftPos::RESET);
-  }
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT) && liftPosition != 2) setLiftPos(liftPos::LOAD);
   
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) setLiftPos(liftPos::SCORE);
 

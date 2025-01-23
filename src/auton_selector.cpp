@@ -136,7 +136,6 @@ static void testSelect(lv_event_t *e) {
 
 static void testStarter(lv_event_t *e) {
   void (*test)() = (void (*)())lv_event_get_user_data(e);
-  // Call the external testtion
   if (test) {
     test();
   }
