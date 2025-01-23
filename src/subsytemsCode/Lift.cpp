@@ -57,65 +57,31 @@ void setLiftPos(liftPos requestedPos) {
   }
 }
 
-//* While Loops //Overshoots very easily, but is very fast 
-/*void liftController(double target) {
-  double error = target;
-  while (fabs(error) >= 5) {
-    error = target - (rotFinder.get_angle() / 100.0);
-    lift.move_voltage(12000 * (error > 0 ? 1 : -1));
-    delay(10);
-  }
-  lift.move_voltage(0);
-}*/
-
-//* Bang Bang //Overshoots incredibly easily, will oscillate, slew can be tuned for better speed
-/*void liftController(double target) {
-  double error = target;
-  int antiOver = target/2;
-  double expo = 0.8;
-  int speed = 50;
-  while (fabs(error) >= 1) {
-    error = target - (rotFinder.get_angle() / 100.0);
-    if (error > antiOver) {
-      speed = speed * (1 + expo);
-    } else if (error < antiOver) {
-      speed = speed * (1 - expo);
-    }
-
-    scaleVelo(speed, 3);
-
-    lift.move(speed);
-    delay(10);
-  }
-  lift.move(0);
-}*/
-
-//* PF Loop
+//* PD Loop
 void liftController(double target, int timeout) {
-  double kP = 78;
-  double kF = 1;
-  double currPos = 0;
-  double error = target - (rotFinder.get_position() / 100.0);
-  double prevError = 0;
-  while (fabs(error) >= 1 && timeout > 0) {
-    error = target - (rotFinder.get_position() / 100.0);
+  double kP = 2.2, kFF = 0.25;
+  double curPos = rotFinder.get_position() / 100.0; 
+  double error = target - curPos; 
+  double υTotal;
+  while (fabs(error) > 1 && timeout > 0) { 
+    curPos = rotFinder.get_position() / 100.0;
+    error = target - curPos;
 
     double υP = kP * error;
+    double υFF = kFF * target;
 
-    double υF = kF * ((error - prevError) / 0.01);
+    υTotal = (υP + υFF) * 100;
 
-    double υOutput = υP + υF;
+    scaleVelo(υTotal, 1);
 
-    scaleVelo(υOutput, 1);
+    lift.move_voltage(υTotal);
 
-    lift.move_voltage(υOutput);
-
-    prevError = error;
     timeout -= 10;
-    delay(10);
+    pros::delay(10);
   }
   lift.move_voltage(0);
 }
+
 
 //* Fuzzy-PID Loop
 /*double triFuzzifier(double x, double a, double b, double c) {
@@ -209,7 +175,7 @@ void liftMachine() {
       case liftPos::LOAD:
         liftPosition = 1;
         lift.set_brake_mode(MotorBrake::hold);
-        liftController(26, 350);
+        liftController(27.5, 350);
         if (score == true) delay(300);
         basketMove(StateBasket::LOAD);
         score = false;
@@ -217,7 +183,7 @@ void liftMachine() {
       break;
       case liftPos::SCORE:
         liftPosition = 2;
-        liftController(129, 600);
+        liftController(100, 600);
         lift.set_brake_mode(MotorBrake::hold);
         score = true;
         currentPos = liftPos::STOP;
@@ -227,14 +193,13 @@ void liftMachine() {
         while (liftLimit.get_value() == 0) lift.move(-127);
         lift.set_brake_mode(MotorBrake::brake);
         lift.brake();
-        lift.tare_position();
-        rotFinder.reset_position();
         score = false;
         currentPos = liftPos::STOP;
       break;
       case liftPos::STOP:
         liftPosition = 0;
         lift.brake();
+        rotFinder.reset_position();
       break;
       }
     delay(10);

@@ -22,7 +22,7 @@ void initialize() {
       lcd::print(0, "X: %f", chassis.getPose().x);         // x
       lcd::print(1, "Y: %f", chassis.getPose().y);         // y
       lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-      pros::lcd::print(4, "Lift %f", lift.get_position());
+      pros::lcd::print(4, "Lift %f", rotFinder.get_position() / 100.0);
 
       // delay to save resources
       delay(50);

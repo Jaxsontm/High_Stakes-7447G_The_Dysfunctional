@@ -4,7 +4,7 @@
 #include "subsystemsHeaders/drive.hpp"
 
 bool coord = true;
-int autonSelection = 12;
+int autonSelection = -1;
 int testSelection = -1;
 char testName[10];
 

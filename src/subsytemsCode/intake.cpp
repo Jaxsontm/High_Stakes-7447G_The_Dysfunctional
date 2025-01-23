@@ -42,8 +42,8 @@ void state_machine_intake() {
             Intake.move(127);
           }
           current_number = StateIntake::CHECK;
-        } else {
-          while ((basketCheck.get() > 80 || basketCheck.get() < 57) && basketLimit.get_value() == 1) {
+        } else  if (basketCheck.get_distance() <= 160) {
+          while ((basketCheck.get() > 90 || basketCheck.get() < 60) && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           current_number = StateIntake::CHECK;
@@ -54,13 +54,13 @@ void state_machine_intake() {
         if (basketLimit.get_value() == 0) {
           current_number = StateIntake::BRAKE;
         } else {
-          delay(350);
-          if (first) {
-            first = !first;
+          delay(550);
+          if (first == true) {
+            first = false;
             current_number = StateIntake::TWO;
           } else {
             delay(350);
-            first = !first;
+            first = true;
             current_number = StateIntake::BRAKE;
           }
         }
@@ -82,7 +82,7 @@ void state_machine_intake() {
 
 ////// Driver Control
 void intakeControl() {
-  if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) /*&& basketLimit.get_value() == 1*/){
+  if (controller.get_digital(E_CONTROLLER_DIGITAL_R1) && basketLimit.get_value() == 1){
     spinFor(StateIntake::FWD);
   } else if (controller.get_digital(E_CONTROLLER_DIGITAL_R2)) {
     spinFor(StateIntake::REV);

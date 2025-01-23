@@ -33,11 +33,12 @@ void basketControl() {
         basketState = 2;
           basket.move(127);
           for (int t = 0; t < timeoutCalc; t++) {
-            if (basket.get_position() > 232) {
+            if (basket.get_position() > 239) {
               t = timeoutCalc;
             }
             delay(10);
           }
+          currentBasketState = StateBasket::RESET;
       break;
       case StateBasket::LOAD:
         basketState = 3;
@@ -70,4 +71,6 @@ void basketDriver() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) basketMove(StateBasket::SCORE);
 
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) basketMove(StateBasket::RESET);
+
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)) basketMove(StateBasket::TOP);
 }
