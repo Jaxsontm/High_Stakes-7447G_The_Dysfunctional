@@ -3,14 +3,12 @@
 
 void initialize() {
   chassis.calibrate();
-  pros::lcd::initialize();
-  //pros::Task auton_selector_task(selector);
+  //pros::lcd::initialize();
+  pros::Task auton_selector_task(selector);
   Intake.set_brake_mode(pros::MotorBrake::coast);
   basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
-  lift.set_zero_position(0);
-  lift.tare_position();
-  rotFinder.reset_position();
+  setLiftPos(liftPos::RESET);
   pros::Task mogo_machine(state_machine_mogo);
   pros::Task intake_machine(state_machine_intake);
   pros::Task basket_machine(basketControl);

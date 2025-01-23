@@ -199,7 +199,6 @@ void liftMachine() {
       case liftPos::STOP:
         liftPosition = 0;
         lift.brake();
-        rotFinder.reset_position();
       break;
       }
     delay(10);
