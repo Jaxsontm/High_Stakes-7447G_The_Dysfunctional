@@ -57,7 +57,7 @@ void setLiftPos(liftPos requestedPos) {
   }
 }
 
-//* PD Loop
+//* PF Loop
 void liftController(double target, int timeout) {
   double kP = 2.2, kFF = 0.25;
   double curPos = rotFinder.get_position() / 100.0; 
@@ -157,20 +157,15 @@ void liftMachine() {
   while (true) {
     switch (currentPos) {
       case liftPos::autoLOAD:
-        /*liftPosition = 1;
+        liftPosition = 1;
         lift.set_brake_mode(MotorBrake::hold);
-        if (once == true) {
-          liftController(95, 1);
-          once = !once;
-        } else {
-          liftController(95, 1);
-        }
+        liftController(27.5, 350);
         delay(250);
         basketMove(StateBasket::LOAD);
         delay(500);
-        liftController(500);
+        liftController(100, 600);
         delay(250);
-        currentPos = liftPos::RESET;*/
+        currentPos = liftPos::RESET;
       break;
       case liftPos::LOAD:
         liftPosition = 1;
