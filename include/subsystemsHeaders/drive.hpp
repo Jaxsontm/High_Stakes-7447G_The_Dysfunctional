@@ -42,3 +42,5 @@ extern lemlib::Chassis chassis;
 extern void tank();
 
 extern void arcade();
+
+extern void reset();

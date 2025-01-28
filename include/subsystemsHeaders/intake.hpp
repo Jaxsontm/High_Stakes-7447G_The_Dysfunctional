@@ -27,7 +27,12 @@ enum class StateIntake {
 
 void state_machine_intake();
 
+void startIntake();
+void stopIntake();
+void resetIntake();
+
 /////
 void intakeControl();
 
 void spinFor(StateIntake request_number);
+

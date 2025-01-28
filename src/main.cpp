@@ -1,17 +1,23 @@
 #include "main.h"
+#include "auton_selector.hpp"
+#include "pros/misc.h"
+#include "subsystemsHeaders/basket.hpp"
+#include "subsystemsHeaders/drive.hpp"
+#include "subsystemsHeaders/intake.hpp"
+#include "subsystemsHeaders/mogo.hpp"
 
 
 void initialize() {
   chassis.calibrate();
-  //pros::lcd::initialize();
-  pros::Task auton_selector_task(selector);
+  pros::lcd::initialize();
+  //pros::Task auton_selector_task(selector);
   Intake.set_brake_mode(pros::MotorBrake::coast);
   basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
-  pros::Task mogo_machine(state_machine_mogo);
-  pros::Task intake_machine(state_machine_intake);
-  pros::Task basket_machine(basketControl);
-  pros::Task lift_machine(liftMachine);
+  startMogo();
+  startIntake();
+  startBasket();
+  startLift();
   setLiftPos(liftPos::RESET);
   Task screenTask([&]() {
     lemlib::Pose pose(0, 0, 0);
@@ -28,9 +34,10 @@ void initialize() {
   });
 }
 
-void disabled() {}
+void disabled();
 
-void competition_initialize() {}
+
+void competition_initialize();
 
 void autonomous() {
   basketMove(StateBasket::RESET);
@@ -86,17 +93,22 @@ void autonomous() {
 void opcontrol() {
   basket.set_brake_mode(MotorBrake::brake);
   Intake.set_brake_mode(pros::MotorBrake::coast);
-  Intake.brake();
-  pros::Task display(text);
+  bool drive = true;
+  //resetIntake();
   while (true) {
     intakeControl();
     mogoToggle();
     doinkerToggle();
     liftDriver();
     basketDriver();
-    tank();
+    //tank();
 
-    text();
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) drive = !drive;
+
+    if (drive) tank();
+    else arcade();
+
+    reset();
 
     // delay to save resources
     pros::delay(20);

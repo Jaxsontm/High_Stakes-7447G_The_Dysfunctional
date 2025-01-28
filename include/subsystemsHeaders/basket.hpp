@@ -17,7 +17,8 @@ enum class StateBasket {
   SCORE,
   TOP,
   LOAD,
-	RESET,
+  RESET,
+  RESET2,
 	STOP
 };
 
@@ -28,3 +29,9 @@ void basketMove(StateBasket requestBasketState);
 void basketControl();
 
 void basketDriver();
+
+void startBasket();
+
+void stopBasket();
+
+void resetBasket();

@@ -1,5 +1,9 @@
 #include "subsystemsHeaders/intake.hpp"
+#include "pros/misc.h"
+#include "pros/misc.hpp"
+#include "pros/rtos.hpp"
 #include "subsystemsHeaders/basket.hpp"
+#include "subsystemsHeaders/drive.hpp"
 
 /////// globals
 Motor Intake(-11, MotorGearset::green);
@@ -7,6 +11,8 @@ Motor Intake(-11, MotorGearset::green);
 Distance basketCheck(9);
 
 bool first = true;
+
+pros::Task* intake_task = nullptr;
 //////// state machine
 StateIntake current_number = StateIntake::BRAKE;
 
@@ -21,23 +27,23 @@ void state_machine_intake() {
 		switch (current_number) {
       case StateIntake::ONE:
         intakeState = 1;
-        if (basketCheck.get_distance() >= 190 && basketCheck.get_distance() <= 140) {
-          while (basketCheck.get() >= 205 && basketCheck.get_distance() <= 100 && basketLimit.get_value() == 1) {
-            Intake.move(127);
+          if (basketCheck.get_distance() >= 205 && basketCheck.get_distance() <= 140) {
+            while (basketCheck.get() >= 205 && basketCheck.get_distance() <= 100 && basketLimit.get_value() == 1) {
+              Intake.move(127);
+            }
+            delay(500);
+            current_number = StateIntake::BRAKE;
+          } else {
+            while (basketCheck.get() >= 80 && basketLimit.get_value() == 1) {
+              Intake.move(127);
+            }
+            delay(500);
+            current_number = StateIntake::BRAKE;
           }
-          delay(500);
-          current_number = StateIntake::BRAKE;
-        } else {
-          while (basketCheck.get() >= 80 && basketLimit.get_value() == 1) {
-            Intake.move(127);
-          }
-          delay(500);
-          current_number = StateIntake::BRAKE;
-        }
       break;
       case StateIntake::TWO:
         intakeState = 2;
-        if (basketCheck.get() >= 190) {
+        if (basketCheck.get() >= 205  && basketCheck.get_distance() <= 140) {
           while ((basketCheck.get() >= 205 || basketCheck.get() < 100) && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
@@ -54,7 +60,6 @@ void state_machine_intake() {
         if (basketLimit.get_value() == 0) {
           current_number = StateIntake::BRAKE;
         } else {
-          delay(550);
           if (first == true) {
             first = false;
             current_number = StateIntake::TWO;
@@ -78,6 +83,25 @@ void state_machine_intake() {
       }
     delay(10);
 	}
+}
+
+void startIntake() {
+  stopIntake();
+
+  intake_task = new pros::Task(state_machine_intake);
+}
+
+void stopIntake() {
+  if (intake_task != nullptr) {
+    intake_task->remove();
+    delete intake_task;
+    intake_task = nullptr;
+  }
+}
+
+void resetIntake() {
+  startIntake();
+  StateIntake current_number = StateIntake::BRAKE;
 }
 
 ////// Driver Control

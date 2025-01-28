@@ -27,6 +27,12 @@ enum class liftPos {
 
 void setLiftPos(liftPos requestedPos);
 
+void startLift();
+
+void stopLift();
+
+void resetLift();
+
 void liftMachine();
 
 void liftDriver();

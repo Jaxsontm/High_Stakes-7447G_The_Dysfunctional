@@ -4,6 +4,8 @@
 Motor basket(-6, MotorGearset::red, MotorEncoderUnits::deg);
 
 adi::Button basketLimit('H');
+
+pros::Task* basket_task = nullptr;
 ///machine
 StateBasket currentBasketState = StateBasket::STOP;
 
@@ -22,7 +24,7 @@ void basketControl() {
         basketState = 1;
         basket.move(127);
         for (int t = 0; t < timeoutCalc; t++) {
-          if (basket.get_position() > 272) {
+          if (basket.get_position() > 270) {
             t = timeoutCalc;
           }
           delay(10);
@@ -53,7 +55,28 @@ void basketControl() {
       break;
       case StateBasket::RESET:
         basketState = 4;
-        while (basketLimit.get_value() == 0) basket.move(-127);
+        basket.move(-127);
+        for (int t = 0; t < timeoutCalc; t++) {
+          if (basketLimit.get_value() == 1) {
+            t = timeoutCalc;
+          }
+          delay(10);
+        }
+        if (basketLimit.get_value() == 1) {
+          currentBasketState = StateBasket::STOP;
+        } else {
+          currentBasketState = StateBasket::RESET2;
+        }
+      break;
+      case StateBasket::RESET2:
+        basketState = 5;
+        basket.move(127);
+        for (int t = 0; t < timeoutCalc; t++) {
+          if (basket.get_position() > 272) {
+            t = timeoutCalc;
+          }
+          delay(10);
+        }
         currentBasketState = StateBasket::STOP;
       break;
       case StateBasket::STOP:
@@ -64,6 +87,26 @@ void basketControl() {
     }
     delay(10); 
   }
+}
+
+void startBasket() {
+  stopBasket();
+
+  basket_task = new pros::Task(basketControl);
+}
+
+void stopBasket() {
+  if (basket_task != nullptr) {
+    basket_task->remove();
+    delete basket_task;
+    basket_task = nullptr;
+  }
+}
+
+void resetBasket() {
+  startBasket();
+  
+  StateBasket currentBasketState = StateBasket::STOP;
 }
 
 //driver

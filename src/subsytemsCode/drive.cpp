@@ -1,4 +1,8 @@
 #include "subsystemsHeaders/drive.hpp"
+#include "pros/misc.h"
+#include "pros/rtos.hpp"
+#include "subsystemsHeaders/intake.hpp"
+#include "subsystemsHeaders/mogo.hpp"
 
 
 // controller
@@ -14,6 +18,8 @@ Imu inertial_sensor(13);
 MotorGroup DTRight({-20, 18, 7, -3}, MotorGearset::blue);
 
 Imu inertial_sensor(6);*/
+
+bool resetTasks = false;
 //
 
 // drivetrain settings
@@ -122,7 +128,7 @@ void lemlib::Chassis::moveToDist(float distance, int timeout, MoveToDistParams p
   chassis.moveToPoint(target.x, target.y, timeout,
                       {.forwards = (distance > 0),
                        .maxSpeed = params.maxSpeed,
-                       .minSpeed = params.minSpeed});
+                       .minSpeed = params.minSpeed}, false);
 }
 
 void tank() {
@@ -137,4 +143,16 @@ void arcade() {
 	int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
 	chassis.arcade(leftY, rightX);
+}
+
+void reset() {
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) resetTasks = !resetTasks;
+
+  if (resetTasks) {
+    resetIntake();
+    resetBasket();
+    resetLift();
+    resetMogo();
+    resetTasks = !resetTasks;
+  }
 }

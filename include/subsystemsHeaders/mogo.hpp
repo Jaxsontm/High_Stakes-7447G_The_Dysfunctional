@@ -28,4 +28,8 @@ void request_new_state_mogo(StateMogo new_state);
 
 void state_machine_mogo();
 
-void text();
+void startMogo();
+
+void stopMogo();
+
+void resetMogo();

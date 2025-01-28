@@ -8,17 +8,9 @@ Rotation rotFinder(4);
 adi::Button liftLimit('G');
 
 bool score = false;
-////////Macro
-int sgn(int x) {
-  if (x > 0) {
-    return 1;
-  } else if (x < 0) {
-    return -1;
-  } else {
-    return 0;
-  }
-}
 
+pros::Task* lift_task;
+////////Macro
 int scaleVelo(int velo, int scale) {
   if (scale == 1) {
     if (velo > 12000) {
@@ -59,7 +51,7 @@ void setLiftPos(liftPos requestedPos) {
 
 //* PF Loop
 void liftController(double target, int timeout) {
-  double kP = 2.2, kFF = 0.25;
+  double kP = 1, kFF = 0.8;
   double curPos = rotFinder.get_position() / 100.0; 
   double error = target - curPos; 
   double υTotal;
@@ -170,7 +162,7 @@ void liftMachine() {
       case liftPos::LOAD:
         liftPosition = 1;
         lift.set_brake_mode(MotorBrake::hold);
-        liftController(27.5, 350);
+        liftController(29, 400);
         if (score == true) delay(300);
         basketMove(StateBasket::LOAD);
         score = false;
@@ -178,7 +170,7 @@ void liftMachine() {
       break;
       case liftPos::SCORE:
         liftPosition = 2;
-        liftController(100, 600);
+        liftController(129, 700);
         lift.set_brake_mode(MotorBrake::hold);
         score = true;
         currentPos = liftPos::STOP;
@@ -198,6 +190,26 @@ void liftMachine() {
       }
     delay(10);
   }
+}
+
+void startLift() {
+  stopLift();
+
+  lift_task = new pros::Task(liftMachine);
+}
+
+void stopLift() {
+  if (lift_task != nullptr) {
+    lift_task->remove();
+    delete lift_task;
+    lift_task = nullptr;
+  }
+}
+
+void resetLift() {
+  startLift();
+
+  liftPos currentPos = liftPos::STOP;
 }
 //////// Driver Control
 void liftDriver() {

@@ -4,7 +4,7 @@
 #include "subsystemsHeaders/drive.hpp"
 
 bool coord = true;
-int autonSelection = -1;
+int autonSelection = 0;
 int testSelection = -1;
 char testName[10];
 
@@ -338,7 +338,6 @@ void selector() {
   char statText[150];
 
   while (true) {
-
     lv_label_set_text_fmt(placement_label, "(x: %.2f, y: %.2f, theta: %.2f)",
                             chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
 
