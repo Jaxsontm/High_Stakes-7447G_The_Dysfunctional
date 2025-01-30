@@ -1,10 +1,4 @@
 #include "main.h"
-#include "auton_selector.hpp"
-#include "pros/misc.h"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
-#include "subsystemsHeaders/intake.hpp"
-#include "subsystemsHeaders/mogo.hpp"
 
 
 void initialize() {
@@ -93,20 +87,17 @@ void autonomous() {
 void opcontrol() {
   basket.set_brake_mode(MotorBrake::brake);
   Intake.set_brake_mode(pros::MotorBrake::coast);
-  bool drive = true;
-  //resetIntake();
+  resetIntake();
+  resetBasket();
+  resetLift();
+  resetMogo();
   while (true) {
     intakeControl();
     mogoToggle();
     doinkerToggle();
     liftDriver();
     basketDriver();
-    //tank();
-
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) drive = !drive;
-
-    if (drive) tank();
-    else arcade();
+    tank();
 
     reset();
 

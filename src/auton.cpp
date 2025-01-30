@@ -182,13 +182,7 @@ void redGoal() { chassis.setPose(0,0,180);
   basketMove(StateBasket::SCORE);
   delay(200);
 
-  while (basketState != 0) delay(10);
-
-  request_new_state_mogo(StateMogo::RELEASE);
-  delay(200);
-
-  chassis.swingToHeading(195, lemlib::DriveSide::RIGHT, swingTimeout);
-  chassis.waitUntilDone();
+  chassis.moveToPoint(24, 9, midDriveTimeout);
 }
 void redRing() { chassis.setPose(-0, 0, 90);
   spinFor(StateIntake::REV);
@@ -664,7 +658,7 @@ chassis.waitUntilDone();
 
   spinFor(StateIntake::TWO);
 
-  chassis.moveToPoint(0, 61, largeDriveTimeout);
+  chassis.moveToPoint(0, 60, largeDriveTimeout);
 chassis.waitUntilDone();
 
   chassis.turnToHeading(0, turnTimeout);

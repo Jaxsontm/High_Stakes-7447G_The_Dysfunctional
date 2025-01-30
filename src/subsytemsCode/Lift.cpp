@@ -50,25 +50,47 @@ void setLiftPos(liftPos requestedPos) {
 }
 
 //* PF Loop
+double Θ() {
+  double raw = rotFinder.get_position() / 100.0;
+  double start = 90 - 19;
+  return raw - start;
+}
+
 void liftController(double target, int timeout) {
   double kP = 1, kFF = 0.8;
-  double curPos = rotFinder.get_position() / 100.0; 
-  double error = target - curPos; 
+  double error = target - Θ();
+  double MAX_MV = 12000;
+  double MAX_VELO = 100;
+  double MAX_ACC = 1000;
+  double prevVolt = 0;
   double υTotal;
   while (fabs(error) > 1 && timeout > 0) { 
-    curPos = rotFinder.get_position() / 100.0;
-    error = target - curPos;
+    error = target - Θ();
 
     double υP = kP * error;
-    double υFF = kFF * target;
 
-    υTotal = (υP + υFF) * 100;
+    double Θrad = Θ() * (M_PI / 180);
+    double υFF = kFF * sin(Θrad);
 
-    scaleVelo(υTotal, 1);
+    υTotal = (υP + υFF);
+
+    double currVolt = lift.get_actual_velocity();
+
+    if (fabs(υTotal) > MAX_VELO) {
+      υTotal *= (MAX_VELO / fabs(currVolt));
+    }
+
+    υTotal = scaleVelo(υTotal, 1);
+
+    double ΔV = υTotal - prevVolt;
+    if (fabs(ΔV) > MAX_ACC) {
+      υTotal = prevVolt + std::copysign(MAX_ACC, ΔV);
+    }
 
     lift.move_voltage(υTotal);
 
     timeout -= 10;
+    prevVolt = υTotal;
     pros::delay(10);
   }
   lift.move_voltage(0);
