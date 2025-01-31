@@ -66,7 +66,7 @@ void liftController(double target, int timeout, bool async = false) {
   double MAX_ACC = 1000;
   double prevVolt = 0;
   double υTotal;
-  while (fabs(error) > 1 && timeout > 0) { 
+  while (fabs(error) > 0.5 && timeout > 0) { 
     error = target - Θ();
 
     double υP = kP * error;
@@ -243,4 +243,59 @@ void liftDriver() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) setLiftPos(liftPos::SCORE);
 
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) setLiftPos(liftPos::RESET);
+}
+
+
+enum FuzzySet {
+  LARGE,
+  SMALL,
+  ZERO
+};
+
+double error_membership(double error) {
+    if (error < -10) return SMALL;
+    else if (error > 10) return LARGE;
+    else return ZERO;
+}
+
+double change_in_error_membership(double derror) {
+    if (derror < -1) return SMALL;
+    else if (derror > 1) return LARGE;
+    else return ZERO;
+}
+
+int fuzzy_output(double error, double derror) {
+    FuzzySet e = (FuzzySet)error_membership(error);
+    FuzzySet de = (FuzzySet)change_in_error_membership(derror);
+
+    if (e == LARGE && de == LARGE) return 10000;  
+    if (e == LARGE && de == ZERO) return 7500; 
+    if (e == LARGE && de == SMALL) return 5000;
+    
+    if (e == ZERO && de == LARGE) return 5000;
+    if (e == ZERO && de == ZERO) return 2500;  
+    if (e == ZERO && de == SMALL) return 0;
+    
+    if (e == SMALL && de == LARGE) return 2500; 
+    if (e == SMALL && de == ZERO) return 0;  
+    if (e == SMALL && de == SMALL) return -2500; 
+    
+    return 0;
+}
+
+void liftController(double target, double timeout) {
+    double position = rotFinder.get_position() / 100.0;
+    double error = target - position;
+    double previous_error = error;
+    while (fabs(error) > 1 && timeout > 0) {
+      position = rotFinder.get_position() / 100.0;
+      error = target - position;    
+      double derror = error - previous_error;
+      previous_error = error;    
+      int motor_speed = fuzzy_output(error, derror);  
+      lift.move_velocity(motor_speed); 
+      timeout -= 10;
+      pros::delay(10);
+    }
+    lift.move_velocity(0);
 }
