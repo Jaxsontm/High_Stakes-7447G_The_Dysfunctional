@@ -7,9 +7,8 @@ Rotation rotFinder(4);
 
 adi::Button liftLimit('G');
 
-bool score = false;
-
-pros::Task* lift_task;
+pros::Task *lift_task = nullptr;
+pros::Task *lift_PID_task = nullptr;
 ////////Macro
 int scaleVelo(int velo, int scale) {
   if (scale == 1) {
@@ -56,7 +55,10 @@ double Θ() {
   return raw - start;
 }
 
-void liftController(double target, int timeout) {
+void liftController(double target, int timeout, bool async = false) {
+  if (async) {
+    lift_PID_task = new pros::Task(liftController);
+  }
   double kP = 1, kFF = 0.8;
   double error = target - Θ();
   double MAX_MV = 12000;
@@ -94,6 +96,11 @@ void liftController(double target, int timeout) {
     pros::delay(10);
   }
   lift.move_voltage(0);
+  if (async) {
+    lift_PID_task->remove();
+    delete lift_PID_task;
+    lift_PID_task = nullptr;
+  }
 }
 
 
@@ -184,17 +191,14 @@ void liftMachine() {
       case liftPos::LOAD:
         liftPosition = 1;
         lift.set_brake_mode(MotorBrake::hold);
-        liftController(29, 400);
-        if (score == true) delay(300);
+        liftController(29, 400, true);
         basketMove(StateBasket::LOAD);
-        score = false;
         currentPos = liftPos::STOP;
       break;
       case liftPos::SCORE:
         liftPosition = 2;
         liftController(129, 700);
         lift.set_brake_mode(MotorBrake::hold);
-        score = true;
         currentPos = liftPos::STOP;
       break;
       case liftPos::RESET:
@@ -202,7 +206,6 @@ void liftMachine() {
         while (liftLimit.get_value() == 0) lift.move(-127);
         lift.set_brake_mode(MotorBrake::brake);
         lift.brake();
-        score = false;
         currentPos = liftPos::STOP;
       break;
       case liftPos::STOP:
