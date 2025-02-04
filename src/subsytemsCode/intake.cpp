@@ -1,9 +1,4 @@
 #include "subsystemsHeaders/intake.hpp"
-#include "pros/misc.h"
-#include "pros/misc.hpp"
-#include "pros/rtos.hpp"
-#include "subsystemsHeaders/basket.hpp"
-#include "subsystemsHeaders/drive.hpp"
 
 /////// globals
 Motor Intake(-11, MotorGearset::green);
@@ -12,7 +7,19 @@ Distance basketCheck(9);
 
 bool first = true;
 
-pros::Task* intake_task = nullptr;
+bool p = false;
+
+pros::Task *intake_task = nullptr;
+//////// piston
+adi::Pneumatics intakeP('F', false);
+
+void intakePtoggle() {
+  if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+    p = !p;
+    intakeP.set_value(p);
+  }
+}
+
 //////// state machine
 StateIntake current_number = StateIntake::BRAKE;
 
@@ -34,21 +41,20 @@ void state_machine_intake() {
             delay(500);
             current_number = StateIntake::BRAKE;
           } else {
-            while (basketCheck.get() >= 80 && basketLimit.get_value() == 1) {
+            while ((basketCheck.get() > 90 || basketCheck.get() < 60) && basketLimit.get_value() == 1) {
               Intake.move(127);
             }
-            delay(500);
             current_number = StateIntake::BRAKE;
           }
       break;
       case StateIntake::TWO:
         intakeState = 2;
-        if (basketCheck.get() >= 205  && basketCheck.get_distance() <= 140) {
+        if (first) {
           while ((basketCheck.get() >= 205 || basketCheck.get() < 100) && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
           current_number = StateIntake::CHECK;
-        } else  if (basketCheck.get_distance() <= 160) {
+        } else {
           while ((basketCheck.get() > 90 || basketCheck.get() < 60) && basketLimit.get_value() == 1) {
             Intake.move(127);
           }
@@ -62,6 +68,7 @@ void state_machine_intake() {
         } else {
           if (first == true) {
             first = false;
+            delay(750);
             current_number = StateIntake::TWO;
           } else {
             delay(350);

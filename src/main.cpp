@@ -1,10 +1,11 @@
 #include "main.h"
+#include "subsystemsHeaders/intake.hpp"
 
 
 void initialize() {
   chassis.calibrate();
-  pros::lcd::initialize();
-  //pros::Task auton_selector_task(selector);
+  //pros::lcd::initialize();
+  pros::Task auton_selector_task(selector);
   Intake.set_brake_mode(pros::MotorBrake::coast);
   basket.set_brake_mode(MotorBrake::brake);
   lift.set_brake_mode(MotorBrake::hold);
@@ -99,7 +100,8 @@ void opcontrol() {
     basketDriver();
     tank();
 
-    reset();
+    // reset();
+    intakePtoggle();
 
     // delay to save resources
     pros::delay(20);

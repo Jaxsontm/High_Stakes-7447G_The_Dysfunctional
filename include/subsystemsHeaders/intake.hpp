@@ -11,10 +11,14 @@ using namespace pros;
 // Blue Ziptie
 extern Motor Intake;
 
+extern adi::Pneumatics intakeP;
+
 extern Distance basketCheck;
 
 inline int intakeState = 0;
 /////
+
+void intakePtoggle();
 
 enum class StateIntake {
 	ONE,
@@ -27,12 +31,11 @@ enum class StateIntake {
 
 void state_machine_intake();
 
+void spinFor(StateIntake request_number);
+
 void startIntake();
 void stopIntake();
 void resetIntake();
 
 /////
 void intakeControl();
-
-void spinFor(StateIntake request_number);
-

@@ -49,58 +49,28 @@ void setLiftPos(liftPos requestedPos) {
 }
 
 //* PF Loop
-double Θ() {
-  double raw = rotFinder.get_position() / 100.0;
-  double start = 90 - 19;
-  return raw - start;
-}
-
-void liftController(double target, int timeout, bool async = false) {
-  if (async) {
-    lift_PID_task = new pros::Task(liftController);
-  }
-  double kP = 1, kFF = 0.8;
-  double error = target - Θ();
-  double MAX_MV = 12000;
-  double MAX_VELO = 100;
-  double MAX_ACC = 1000;
-  double prevVolt = 0;
+void liftController(double target, int timeout) { 
+  double kP = 1.1, kFF = 0.85;
+  double error = target - rotFinder.get_position() / 100.; 
   double υTotal;
-  while (fabs(error) > 0.5 && timeout > 0) { 
-    error = target - Θ();
+  while (fabs(error) > 1 && timeout > 0) { 
+    error = target - rotFinder.get_position() / 100.;
 
     double υP = kP * error;
 
-    double Θrad = Θ() * (M_PI / 180);
-    double υFF = kFF * sin(Θrad);
+    double υFF = kFF * rotFinder.get_position() / 100.;
 
-    υTotal = (υP + υFF);
-
-    double currVolt = lift.get_actual_velocity();
-
-    if (fabs(υTotal) > MAX_VELO) {
-      υTotal *= (MAX_VELO / fabs(currVolt));
-    }
+    υTotal = (υP + υFF) * 100;
 
     υTotal = scaleVelo(υTotal, 1);
-
-    double ΔV = υTotal - prevVolt;
-    if (fabs(ΔV) > MAX_ACC) {
-      υTotal = prevVolt + std::copysign(MAX_ACC, ΔV);
-    }
 
     lift.move_voltage(υTotal);
 
     timeout -= 10;
-    prevVolt = υTotal;
     pros::delay(10);
   }
   lift.move_voltage(0);
-  if (async) {
-    lift_PID_task->remove();
-    delete lift_PID_task;
-    lift_PID_task = nullptr;
-  }
+  lift.brake();
 }
 
 
@@ -180,18 +150,17 @@ void liftMachine() {
       case liftPos::autoLOAD:
         liftPosition = 1;
         lift.set_brake_mode(MotorBrake::hold);
-        liftController(27.5, 350);
-        delay(250);
+        liftController(30, 400);
         basketMove(StateBasket::LOAD);
-        delay(500);
-        liftController(100, 600);
+        delay(750);
+        liftController(129, 700);
         delay(250);
         currentPos = liftPos::RESET;
       break;
       case liftPos::LOAD:
         liftPosition = 1;
         lift.set_brake_mode(MotorBrake::hold);
-        liftController(29, 400, true);
+        liftController(31.5, 400);
         basketMove(StateBasket::LOAD);
         currentPos = liftPos::STOP;
       break;
@@ -243,59 +212,4 @@ void liftDriver() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) setLiftPos(liftPos::SCORE);
 
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) setLiftPos(liftPos::RESET);
-}
-
-
-enum FuzzySet {
-  LARGE,
-  SMALL,
-  ZERO
-};
-
-double error_membership(double error) {
-    if (error < -10) return SMALL;
-    else if (error > 10) return LARGE;
-    else return ZERO;
-}
-
-double change_in_error_membership(double derror) {
-    if (derror < -1) return SMALL;
-    else if (derror > 1) return LARGE;
-    else return ZERO;
-}
-
-int fuzzy_output(double error, double derror) {
-    FuzzySet e = (FuzzySet)error_membership(error);
-    FuzzySet de = (FuzzySet)change_in_error_membership(derror);
-
-    if (e == LARGE && de == LARGE) return 10000;  
-    if (e == LARGE && de == ZERO) return 7500; 
-    if (e == LARGE && de == SMALL) return 5000;
-    
-    if (e == ZERO && de == LARGE) return 5000;
-    if (e == ZERO && de == ZERO) return 2500;  
-    if (e == ZERO && de == SMALL) return 0;
-    
-    if (e == SMALL && de == LARGE) return 2500; 
-    if (e == SMALL && de == ZERO) return 0;  
-    if (e == SMALL && de == SMALL) return -2500; 
-    
-    return 0;
-}
-
-void liftController(double target, double timeout) {
-    double position = rotFinder.get_position() / 100.0;
-    double error = target - position;
-    double previous_error = error;
-    while (fabs(error) > 1 && timeout > 0) {
-      position = rotFinder.get_position() / 100.0;
-      error = target - position;    
-      double derror = error - previous_error;
-      previous_error = error;    
-      int motor_speed = fuzzy_output(error, derror);  
-      lift.move_velocity(motor_speed); 
-      timeout -= 10;
-      pros::delay(10);
-    }
-    lift.move_velocity(0);
 }

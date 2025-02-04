@@ -113,9 +113,9 @@ void resetBasket() {
 void basketDriver() {
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) basketMove(StateBasket::SCORE);
 
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) basketMove(StateBasket::RESET);
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)) basketMove(StateBasket::RESET);
 
   if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)) basketMove(StateBasket::TOP);
 
-  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)) basketMove(StateBasket::RESET2);
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) basketMove(StateBasket::RESET2);
 }
