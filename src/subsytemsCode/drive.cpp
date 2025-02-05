@@ -20,6 +20,7 @@ MotorGroup DTRight({-20, 18, 7, -3}, MotorGearset::blue);
 Imu inertial_sensor(6);*/
 
 bool resetTasks = false;
+bool drive = false;
 //
 
 // drivetrain settings
@@ -154,5 +155,17 @@ void reset() {
     resetLift();
     resetMogo();
     resetTasks = !resetTasks;
+  }
+}
+
+void change() {
+  if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
+    drive = !drive;
+  }
+
+  if (drive) {
+    arcade();
+  } else {
+    tank();
   }
 }

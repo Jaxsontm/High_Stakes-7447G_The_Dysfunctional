@@ -1,4 +1,5 @@
 #include "main.h"
+#include "subsystemsHeaders/drive.hpp"
 #include "subsystemsHeaders/intake.hpp"
 
 
@@ -99,9 +100,7 @@ void opcontrol() {
     liftDriver();
     basketDriver();
     tank();
-
-    // reset();
-    intakePtoggle();
+    change();
 
     // delay to save resources
     pros::delay(20);

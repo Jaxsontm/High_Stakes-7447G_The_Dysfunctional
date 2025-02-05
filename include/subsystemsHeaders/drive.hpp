@@ -43,4 +43,4 @@ extern void tank();
 
 extern void arcade();
 
-extern void reset();
+extern void change();
